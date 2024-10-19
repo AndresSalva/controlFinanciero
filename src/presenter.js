@@ -1,15 +1,15 @@
-import sumar from "./sumador";
+import Gasto from "./gasto.js";
 
-const first = document.querySelector("#primer-numero");
-const second = document.querySelector("#segundo-numero");
-const form = document.querySelector("#sumar-form");
-const div = document.querySelector("#resultado-div");
+const montoGasto = document.querySelector("#monto-gasto");
+const form = document.querySelector("#gastos-form");
+const div = document.querySelector("#gastos-div");
+const gastito = new Gasto;
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  const firstNumber = Number.parseInt(first.value);
-  const secondNumber = Number.parseInt(second.value);
+  const valor_gasto = Number.parseInt(montoGasto.value);
+  gastito.agregarMonto(valor_gasto);
 
-  div.innerHTML = "<p>" + sumar(firstNumber, secondNumber) + "</p>";
+  div.innerHTML = "<p>" + gastito.mostrarMonto() + "</p>";
 });
