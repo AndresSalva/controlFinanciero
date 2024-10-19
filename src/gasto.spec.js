@@ -1,6 +1,6 @@
 import Gasto from "./gasto.js";
 
-describe("Muestra", () => {
+describe("Gastos", () => {
   it("Deberia registrar monto gasto", () => {
     const gastito = new Gasto
     gastito.agregarMonto(1)
