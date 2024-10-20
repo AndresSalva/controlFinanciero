@@ -6,4 +6,12 @@ describe("Gastos", () => {
     gastito.agregarMonto(1)
     expect(gastito.mostrarMonto()).toEqual('Monto: 1');
   });
+
+  it("Deberia registrar monto gasto con fecha", () => {
+    const gastito = new Gasto
+    gastito.agregarMonto(1)
+    gastito.agregarFecha("2024-10-14")
+    expect(gastito.mostrarMonto()).toEqual('Monto: 1');
+    expect(gastito.mostrarFecha()).toEqual('Fecha: 2024-10-14');
+  });
 });
