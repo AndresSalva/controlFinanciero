@@ -5,4 +5,12 @@ describe("Registrar Gasto", () => {
     cy.get("#aniadir-gasto").click();
     cy.get("#gastos-div").should("contain", "4");
   });
+
+  it("Muestra monto de gasto ingresado y fecha", () => {
+    cy.visit("/");
+    cy.get("#monto-gasto").type(4);
+    cy.get("#fecha-gasto").type("2024-10-19");
+    cy.get("#aniadir-gasto").click();
+    cy.get("#gastos-div").should("contain", "4").and("contain", "2024-10-19");
+  });
 });
