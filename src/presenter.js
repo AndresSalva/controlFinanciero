@@ -23,6 +23,7 @@ const ingresosImage = document.querySelector('img[alt="Ingresos"]');
 
 //Ingreso
 const montoIngreso = document.querySelector("#monto-ingreso")
+const fechaIngreso = document.querySelector("#fecha-ingreso");
 const form_ingreso = document.querySelector("#ingreso-form")
 const div_ingreso = document.querySelector("#ingreso-div")
 const ingreso = new Ingreso;
@@ -66,7 +67,9 @@ form_ingreso.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const valor_ingreso = Number.parseInt(montoIngreso.value);
+  const fecha_ingreso = fechaIngreso.value;
   ingreso.agregarMonto(valor_ingreso);
+  ingreso.agregarFecha(fecha_ingreso);
 
-  div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>";
+  div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>";
 });
