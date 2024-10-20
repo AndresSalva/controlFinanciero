@@ -1,5 +1,6 @@
 import Gasto from "./gasto.js";
 import Presupuesto from "./presupuesto.js";
+import Ingreso from "./ingreso.js";
 
 //Gasto
 const montoGasto = document.querySelector("#monto-gasto");
@@ -12,6 +13,12 @@ const montoPresupuesto = document.querySelector("#monto-presupuesto")
 const form_presupuesto = document.querySelector("#presupuesto-form")
 const div_presupuesto = document.querySelector("#presupuesto-div")
 const presupuestito = new Presupuesto;
+
+//Ingreso
+const montoIngreso = document.querySelector("#monto-ingreso")
+const form_ingreso = document.querySelector("#ingreso-form")
+const div_ingreso = document.querySelector("#ingreso-div")
+const ingreso = new Ingreso;
 
 form_gasto.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -29,4 +36,13 @@ form_presupuesto.addEventListener("submit", (event) => {
   presupuestito.agregarMonto(valor_presupuesto);
 
   div_presupuesto.innerHTML = "<p>" + presupuestito.mostrarMonto() + "</p>";
+});
+
+form_ingreso.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const valor_ingreso = Number.parseInt(montoIngreso.value);
+  ingreso.agregarMonto(valor_ingreso);
+
+  div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>";
 });
