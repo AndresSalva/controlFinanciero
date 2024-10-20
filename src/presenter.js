@@ -15,6 +15,12 @@ const form_presupuesto = document.querySelector("#presupuesto-form")
 const div_presupuesto = document.querySelector("#presupuesto-div")
 const presupuestito = new Presupuesto;
 
+//Categorias
+const cat_gastos = document.querySelector('#gastos-btn');
+const cat_ingresos = document.querySelector('#ingresos-btn');
+const gastosImage = document.querySelector('img[alt="Gastos"]');
+const ingresosImage = document.querySelector('img[alt="Ingresos"]');
+
 //Ingreso
 const montoIngreso = document.querySelector("#monto-ingreso")
 const form_ingreso = document.querySelector("#ingreso-form")
@@ -40,6 +46,20 @@ form_presupuesto.addEventListener("submit", (event) => {
   presupuestito.agregarMonto(valor_presupuesto);
 
   div_presupuesto.innerHTML = "<p>" + presupuestito.mostrarMonto() + "</p>";
+});
+
+
+cat_gastos.addEventListener('click', (event) => {
+  event.preventDefault();
+  gastosImage.style.display = 'block'; // Mostrar la imagen de gastos
+  ingresosImage.style.display = 'none'; // Ocultar la imagen de ingresos
+});
+
+
+cat_ingresos.addEventListener('click', (event) => {
+  event.preventDefault(); 
+  ingresosImage.style.display = 'block'; // Mostrar la imagen de ingresos
+  gastosImage.style.display = 'none'; // Ocultar la imagen de gastos
 });
 
 form_ingreso.addEventListener("submit", (event) => {
