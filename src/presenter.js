@@ -3,6 +3,7 @@ import Presupuesto from "./presupuesto.js";
 import Ingreso from "./ingreso.js";
 
 //Gasto
+const notaGasto = document.querySelector("#nota-gasto");
 const fechaGasto = document.querySelector("#fecha-gasto");
 const montoGasto = document.querySelector("#monto-gasto");
 const form_gasto = document.querySelector("#gastos-form");
@@ -34,11 +35,13 @@ form_gasto.addEventListener("submit", (event) => {
 
   const valor_gasto = Number.parseInt(montoGasto.value);
   const fecha_gasto = fechaGasto.value; 
+  const nota_gasto = notaGasto.value;
 
   gastito.agregarMonto(valor_gasto);
   gastito.agregarFecha(fecha_gasto);
+  gastito.agregarNota(nota_gasto);
 
-  div_gastos.innerHTML = "<p>" + gastito.mostrarMonto() + "<p>" + gastito.mostrarFecha() + "</p>";
+  div_gastos.innerHTML = "<p>" + gastito.mostrarMonto() + "<p>" + gastito.mostrarFecha() + "<p>" + gastito.mostrarNota() + "</p>";
 });
 
 form_presupuesto.addEventListener("submit", (event) => {
