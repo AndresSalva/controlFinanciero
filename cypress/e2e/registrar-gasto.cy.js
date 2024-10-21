@@ -30,4 +30,15 @@ describe("Registrar Gasto", () => {
     cy.get("#aniadir-gasto").click();
     cy.get("#gastos-div").should("contain", "MONTO VACIO!!!");
   });
+
+  it("Muestra la fecha actual en caso de solo ingresar el monto de gasto y nota", () => {
+    const fechaActual = new Date().toLocaleDateString('es-BO');
+
+    cy.visit("/");
+    cy.get("#monto-gasto").type(5);
+    cy.get("#fecha-gasto").clear();
+    cy.get("#nota-gasto").type("Gasto en transporte");
+    cy.get("#aniadir-gasto").click();
+    cy.get("#gastos-div").should("contain", "5").and("contain", fechaActual).and("contain", "Gasto en transporte");
+  });
 });
