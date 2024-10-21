@@ -43,6 +43,11 @@ form_gasto.addEventListener("submit", (event) => {
   const fecha_gasto = fechaGasto.value; 
   const nota_gasto = notaGasto.value;
 
+  if (fecha_gasto && !valor_gasto) {
+    div_gastos.innerHTML = "<p>MONTO VACIO!!!</p>";
+    return;
+  }
+
   gastito.agregarMonto(valor_gasto);
   gastito.agregarFecha(fecha_gasto);
   gastito.agregarNota(nota_gasto);
