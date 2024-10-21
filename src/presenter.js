@@ -1,6 +1,7 @@
 import Gasto from "./gasto.js";
 import Presupuesto from "./presupuesto.js";
 import Ingreso from "./ingreso.js";
+import ListaGastos from "./lista-gastos.js";
 
 //Gasto
 const notaGasto = document.querySelector("#nota-gasto");
@@ -8,7 +9,7 @@ const fechaGasto = document.querySelector("#fecha-gasto");
 const montoGasto = document.querySelector("#monto-gasto");
 const form_gasto = document.querySelector("#gastos-form");
 const div_gastos = document.querySelector("#gastos-div");
-const gastito = new Gasto;
+
 
 //Presupuesto
 const montoPresupuesto = document.querySelector("#monto-presupuesto");
@@ -30,9 +31,14 @@ const form_ingreso = document.querySelector("#ingreso-form")
 const div_ingreso = document.querySelector("#ingreso-div")
 const ingreso = new Ingreso;
 
+//Lista gastos
+const div_lista_gastos = document.querySelector("#lista-gastos-div");
+const lista_gastos = new ListaGastos;
+
 form_gasto.addEventListener("submit", (event) => {
   event.preventDefault();
 
+  const gastito = new Gasto;
   const valor_gasto = Number.parseInt(montoGasto.value);
   const fecha_gasto = fechaGasto.value; 
   const nota_gasto = notaGasto.value;
@@ -40,6 +46,8 @@ form_gasto.addEventListener("submit", (event) => {
   gastito.agregarMonto(valor_gasto);
   gastito.agregarFecha(fecha_gasto);
   gastito.agregarNota(nota_gasto);
+
+  actualizarLista(gastito); ///Esto es nuevooooooooooooooooooooooooooooooooooooooooooooooooooooooo
 
   div_gastos.innerHTML = "<p>" + gastito.mostrarMonto() + "<p>" + gastito.mostrarFecha() + "<p>" + gastito.mostrarNota() + "</p>";
 });
@@ -86,3 +94,20 @@ form_ingreso.addEventListener("submit", (event) => {
   div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>"  + ingreso.mostrarNota() + "</p>";
   //div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>";
 });
+
+function actualizarLista(gastito){
+  lista_gastos.registrarGasto(gastito);
+  const gastos = lista_gastos.obtenerGastos();
+
+  div_lista_gastos.innerHTML = "<ul>";  
+  gastos.forEach((gastoRegistrado) => {
+    div_lista_gastos.innerHTML+= 
+       "<li>"+"Monto: "+ gastoRegistrado.monto+", Fecha: "+gastoRegistrado.fecha+", Nota: "+gastoRegistrado.nota+"</li>";
+    });
+    div_lista_gastos.innerHTML+= "</ul>";
+}
+
+
+
+
+
