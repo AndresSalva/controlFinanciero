@@ -9,7 +9,7 @@ const fechaGasto = document.querySelector("#fecha-gasto");
 const montoGasto = document.querySelector("#monto-gasto");
 const form_gasto = document.querySelector("#gastos-form");
 const div_gastos = document.querySelector("#gastos-div");
-const gastito = new Gasto;
+
 
 //Presupuesto
 const montoPresupuesto = document.querySelector("#monto-presupuesto");
@@ -38,6 +38,7 @@ const lista_gastos = new ListaGastos;
 form_gasto.addEventListener("submit", (event) => {
   event.preventDefault();
 
+  const gastito = new Gasto;
   const valor_gasto = Number.parseInt(montoGasto.value);
   const fecha_gasto = fechaGasto.value; 
   const nota_gasto = notaGasto.value;
