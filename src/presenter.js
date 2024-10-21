@@ -40,7 +40,7 @@ form_gasto.addEventListener("submit", (event) => {
 
   const gastito = new Gasto;
   const valor_gasto = Number.parseInt(montoGasto.value);
-  const fecha_gasto = fechaGasto.value; 
+  const fecha_gasto = fechaGasto.value || new Date().toLocaleDateString('es-BO');
   const nota_gasto = notaGasto.value;
 
   if (fecha_gasto && !valor_gasto) {
@@ -84,7 +84,7 @@ form_ingreso.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const valor_ingreso = Number.parseInt(montoIngreso.value);
-  const fecha_ingreso = fechaIngreso.value;
+  const fecha_ingreso = fechaIngreso.value; 
   const nota_ingreso = notaIngreso.value;
 
   if (fecha_ingreso && !valor_ingreso) {
