@@ -24,4 +24,12 @@ describe("Gastos", () => {
     expect(gastito.mostrarFecha()).toEqual('Fecha: 2024-10-14');
     expect(gastito.mostrarNota()).toEqual('Nota: Gasto en ropa');
   });
+
+  it("Si no ingresa un monto pero si la fecha, Deberia mostrar un mensaje de MONTO VACIO", () => {
+    const gastito = new Gasto
+    gastito.agregarMonto(null)
+    gastito.agregarFecha("2024-10-14")
+    expect(gastito.mostrarMonto()).toEqual('Necesita llenar el monto');
+    expect(gastito.mostrarFecha()).toEqual('Fecha: 2024-10-14');
+  });
 });
