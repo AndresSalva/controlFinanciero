@@ -22,4 +22,12 @@ describe("Registrar Gasto", () => {
     cy.get("#aniadir-gasto").click();
     cy.get("#gastos-div").should("contain", "4").and("contain", "2024-10-19").and("contain", "Gasto en comida");
   });
+
+  it("Muestra mensaje de 'MONTO VACIO!!!' si se ingresa fecha pero no el monto", () => {
+    cy.visit("/");
+    cy.get("#fecha-gasto").type("2024-10-19");
+    cy.get("#monto-gasto").clear();
+    cy.get("#aniadir-gasto").click();
+    cy.get("#gasto-div").should("contain", "MONTO VACIO!!!");
+  });
 });
