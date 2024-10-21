@@ -28,6 +28,6 @@ describe("Registrar Gasto", () => {
     cy.get("#fecha-gasto").type("2024-10-19");
     cy.get("#monto-gasto").clear();
     cy.get("#aniadir-gasto").click();
-    cy.get("#gasto-div").should("contain", "MONTO VACIO!!!");
+    cy.get("#gastos-div").should("contain", "MONTO VACIO!!!");
   });
 });
