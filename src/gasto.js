@@ -8,7 +8,11 @@ class Gasto {
     this.monto = monto;
   }
   agregarFecha(fecha) {
-    this.fecha= fecha;
+    if (!fecha) {
+      this.fecha = new Date().toLocaleDateString('es-BO'); 
+    } else {
+      this.fecha = fecha;
+    }
   }
   agregarNota(nota) {
     this.nota= nota;
