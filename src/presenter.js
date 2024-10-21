@@ -24,6 +24,7 @@ const ingresosImage = document.querySelector('img[alt="Ingresos"]');
 //Ingreso
 const montoIngreso = document.querySelector("#monto-ingreso");
 const fechaIngreso = document.querySelector("#fecha-ingreso");
+const notaIngreso = document.querySelector("#nota-ingreso");
 const form_ingreso = document.querySelector("#ingreso-form")
 const div_ingreso = document.querySelector("#ingreso-div")
 const ingreso = new Ingreso;
@@ -68,6 +69,7 @@ form_ingreso.addEventListener("submit", (event) => {
 
   const valor_ingreso = Number.parseInt(montoIngreso.value);
   const fecha_ingreso = fechaIngreso.value;
+  const nota_ingreso = notaIngreso.value;
 
   if (fecha_ingreso && !valor_ingreso) {
     div_ingreso.innerHTML = "<p>MONTO VACIO!!!</p>";
@@ -76,6 +78,8 @@ form_ingreso.addEventListener("submit", (event) => {
 
   ingreso.agregarMonto(valor_ingreso);
   ingreso.agregarFecha(fecha_ingreso);
+  ingreso.agregarNota(nota_ingreso);
 
-  div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>";
+  div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>"  + ingreso.mostrarNota() + "</p>";
+  //div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>";
 });

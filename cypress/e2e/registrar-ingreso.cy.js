@@ -20,4 +20,16 @@ describe("Registrar Ingreso", () => {
       cy.get("#aniadir-ingreso").click();
       cy.get("#ingreso-div").should("contain", "MONTO VACIO!!!");
     });
+    it("Muestra monto de ingreso ingresado, fecha y nota", () => {
+      cy.visit("/");
+      cy.get("#monto-ingreso").type(4);
+      cy.get("#fecha-ingreso").type("2024-10-19");
+      cy.get("#nota-ingreso").type("comida");
+      cy.get("#aniadir-ingreso").click();
+      cy.get("#ingreso-div")
+        .should("contain", "4")
+        .and("contain", "2024-10-19")
+        .and("contain", "comida");
+    });
+
   });
