@@ -32,4 +32,14 @@ describe("Gastos", () => {
     expect(gastito.mostrarMonto()).toEqual('Necesita llenar el monto');
     expect(gastito.mostrarFecha()).toEqual('Fecha: 2024-10-14');
   });
+
+  it("Si no ingresa un monto y no ingresa fecha, Deberia usar la fecha actual", () => {
+    const gastito = new Gasto();
+    gastito.agregarMonto(23); 
+    gastito.agregarFecha(null); 
+    gastito.agregarNota("Gasto en gustitos")
+    expect(gastito.mostrarMonto()).toEqual('Monto: 23'); 
+    expect(gastito.mostrarFecha()).toMatch(/Fecha: \d{2}\/\d{2}\/\d{4}/); 
+    expect(gastito.mostrarNota()).toEqual('Nota: Gasto en gustitos');
+  });
 });
