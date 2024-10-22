@@ -36,15 +36,20 @@ describe("Registrar Gasto", () => {
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0
     const day = String(today.getDate()).padStart(2, '0');
-    const fechaActual = `${year}-${month}-${day}`; 
-
+    const fechaActual = `${year}-${month}-${day}`;
+  
     cy.visit("/");
     cy.get("#monto-gasto").type(5);
     cy.get("#fecha-gasto").clear();
     cy.get("#nota-gasto").type("Gasto en transporte");
     cy.get("#aniadir-gasto").click();
-    cy.get("#gastos-div").should("contain", "5").and("contain", fechaActual).and("contain", "Gasto en transporte");
+  
+    // Asegurarse que el contenido del div haya cambiado antes de hacer las afirmaciones
+    cy.get("#gastos-div").should("contain", "5")
+      .and("contain", fechaActual)
+      .and("contain", "Gasto en transporte");
   });
+  
   it("Muestra mensaje de 'No hay notas disponibles' caso de solo ingresar el monto de gasto y la fecha", () => {
     cy.visit("/");
     cy.get("#monto-gasto").type(5);
