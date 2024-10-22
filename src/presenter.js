@@ -90,7 +90,11 @@ form_ingreso.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const valor_ingreso = Number.parseInt(montoIngreso.value);
-  const fecha_ingreso = fechaIngreso.value; 
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, '0');
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0
+  const year = today.getFullYear();
+  const fecha_ingreso = fechaIngreso.value || `${year}-${month}-${day}`;; 
   const nota_ingreso = notaIngreso.value;
 
   if (fecha_ingreso && !valor_ingreso) {
@@ -103,7 +107,6 @@ form_ingreso.addEventListener("submit", (event) => {
   ingreso.agregarNota(nota_ingreso);
 
   div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>"  + ingreso.mostrarNota() + "</p>";
-  //div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>";
 });
 
 function actualizarLista(gastito){

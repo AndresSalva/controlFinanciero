@@ -2,7 +2,7 @@ import Ingreso from "./ingreso";
 
 describe("Ingresos", () => {
   it("Deberia registrar monto ingreso", () => {
-    const ingreso = new Ingreso
+    const ingreso = new Ingreso()
     ingreso.agregarMonto(5);
     expect(ingreso.mostrarMonto()).toEqual('Monto: 5');
   });
@@ -29,5 +29,20 @@ describe("Ingresos", () => {
     expect(ingreso.mostrarFecha()).toEqual('Fecha: 2024-10-14');
     expect(ingreso.mostrarNota()).toEqual('Nota: alimento');
   });
+  it("Si no ingresa un monto y no ingresa fecha, Deberia usar la fecha actual", () => {
+    const ingreso = new Ingreso();
+    ingreso.agregarMonto(23);
+    ingreso.agregarFecha(null);
+    ingreso.agregarNota("Pagar pension Universidad");
 
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const fechaActual = `${year}-${month}-${day}`; 
+
+    expect(ingreso.mostrarMonto()).toEqual('Monto: 23');
+    expect(ingreso.mostrarFecha()).toEqual(`Fecha: ${fechaActual}`);
+    expect(ingreso.mostrarNota()).toEqual('Nota: Pagar pension Universidad');
+  });
 });
