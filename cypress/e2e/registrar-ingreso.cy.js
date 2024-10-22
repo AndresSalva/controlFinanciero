@@ -45,4 +45,12 @@ describe("Registrar Ingreso", () => {
       cy.get("#aniadir-ingreso").click();
       cy.get("#ingreso-div").should("contain", "5").and("contain", fechaActual).and("contain", "Salario");
     });
+    it("Muestra mensaje de 'No hay notas disponibles' caso de solo ingresar el monto de gasto y la fecha", () => {
+      cy.visit("/");
+      cy.get("#monto-ingreso").type(5);
+      cy.get("#fecha-ingreso").type("2024-10-14");
+      cy.get("#nota-ingreso").clear();
+      cy.get("#aniadir-ingreso").click();
+      cy.get("#ingreso-div").should("contain", "5").and("contain", "2024-10-14").and("contain", "No hay notas disponibles");
+    });
   });

@@ -95,8 +95,8 @@ form_ingreso.addEventListener("submit", (event) => {
   const month = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0
   const year = today.getFullYear();
   const fecha_ingreso = fechaIngreso.value || `${year}-${month}-${day}`;; 
-  const nota_ingreso = notaIngreso.value;
-
+  const nota_ingreso = notaIngreso.value || "No hay notas disponibles";
+  
   if (fecha_ingreso && !valor_ingreso) {
     div_ingreso.innerHTML = "<p>MONTO VACIO!!!</p>";
     return;
@@ -105,7 +105,7 @@ form_ingreso.addEventListener("submit", (event) => {
   ingreso.agregarMonto(valor_ingreso);
   ingreso.agregarFecha(fecha_ingreso);
   ingreso.agregarNota(nota_ingreso);
-
+  console.log(ingreso.mostrarMonto)
   div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>"  + ingreso.mostrarNota() + "</p>";
 });
 

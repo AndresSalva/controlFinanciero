@@ -13,11 +13,11 @@ describe("Ingresos", () => {
     expect(ingreso.mostrarMonto()).toEqual('Monto: 1');
     expect(ingreso.mostrarFecha()).toEqual('Fecha: 2024-10-14');
   });
-  it("Si no ingresa un monto pero si la fecha, Deberia mostrar un mensaje de MONTO VACIO", () => {
+  it("Si no ingresa un monto pero si la fecha, Deberia mostrar un mensaje de 'MONTO VACIO!!!'", () => {
     const ingreso = new Ingreso
     ingreso.agregarMonto(null)
     ingreso.agregarFecha("2024-10-14")
-    expect(ingreso.mostrarMonto()).toEqual('Necesita llenar el monto');
+    expect(ingreso.mostrarMonto()).toEqual('MONTO VACIO!!!');
     expect(ingreso.mostrarFecha()).toEqual('Fecha: 2024-10-14');
   });
   it("Deberia registrar monto ingreso con fecha y nota", () => {
@@ -33,7 +33,7 @@ describe("Ingresos", () => {
     const ingreso = new Ingreso();
     ingreso.agregarMonto(23);
     ingreso.agregarFecha(null);
-    ingreso.agregarNota("Pagar pension Universidad");
+    ingreso.agregarNota("Premios");
 
     const today = new Date();
     const year = today.getFullYear();
@@ -43,6 +43,15 @@ describe("Ingresos", () => {
 
     expect(ingreso.mostrarMonto()).toEqual('Monto: 23');
     expect(ingreso.mostrarFecha()).toEqual(`Fecha: ${fechaActual}`);
-    expect(ingreso.mostrarNota()).toEqual('Nota: Pagar pension Universidad');
+    expect(ingreso.mostrarNota()).toEqual('Nota: Premios');
+  });
+  it("Si ingresa el monto y la fecha pero no ingresa una nota, Deberia mostrar un mensaje de 'No hay notas disponibles'", () => {
+    const ingreso = new Ingreso
+    ingreso.agregarMonto(14);
+    ingreso.agregarNota(null)
+    ingreso.agregarFecha("2024-10-14")
+    expect(ingreso.mostrarMonto()).toEqual('Monto: 14');
+    expect(ingreso.mostrarNota()).toEqual('No hay notas disponibles');
+    expect(ingreso.mostrarFecha()).toEqual('Fecha: 2024-10-14');
   });
 });
