@@ -8,7 +8,15 @@ class Ingreso {
     this.monto = monto;
   }
   agregarFecha(fecha) {
-    this.fecha= fecha;
+    if (!fecha) {
+      const today = new Date();
+      const day = String(today.getDate()).padStart(2, '0');
+      const month = String(today.getMonth() + 1).padStart(2, '0'); 
+      const year = today.getFullYear();
+      this.fecha = `${year}-${month}-${day}`;
+    } else {
+      this.fecha = fecha;
+    }
   }
   agregarNota(nota) {
     this.nota= nota;
@@ -20,15 +28,23 @@ class Ingreso {
         respuesta =  `Monto: ${this.monto}`;
       }
     else{
-        respuesta =  "Necesita llenar el monto";
+        respuesta =  `MONTO VACIO!!!`;
       }
-      return respuesta;
+    return respuesta;
   }
   mostrarFecha() {
     return `Fecha: ${this.fecha}`;
   }
   mostrarNota() {
-    return `Nota: ${this.nota}`;
+    let respuesta;
+    if(this.nota != null)
+      {
+        respuesta =  `Nota: ${this.nota}`;
+      }
+    else{
+        respuesta =  "No hay notas disponibles";
+      }
+    return respuesta;
   }
 }
 export default Ingreso;
