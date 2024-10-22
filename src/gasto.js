@@ -36,7 +36,15 @@ class Gasto {
     return `Fecha: ${this.fecha}`;
   }
   mostrarNota() {
-    return `Nota: ${this.nota}`;
+    let respuesta;
+    if(this.nota != null)
+      {
+        respuesta =  `Nota: ${this.nota}`;
+      }
+    else{
+        respuesta =  "No hay notas disponibles";
+      }
+    return respuesta;
   }
 }
 export default Gasto;

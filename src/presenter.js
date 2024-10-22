@@ -51,8 +51,8 @@ form_gasto.addEventListener("submit", (event) => {
   const month = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0
   const year = today.getFullYear();
   const fecha_gasto = fechaGasto.value || `${year}-${month}-${day}`;
+  const nota_gasto = notaGasto.value || "No hay notas disponibles";
 
-  const nota_gasto = notaGasto.value;
 
   if (fecha_gasto && !valor_gasto) {
     div_gastos.innerHTML = "<p>MONTO VACIO!!!</p>";

@@ -49,4 +49,13 @@ describe("Gastos", () => {
     expect(gastito.mostrarFecha()).toEqual(`Fecha: ${fechaActual}`);
     expect(gastito.mostrarNota()).toEqual('Nota: Gasto en gustitos');
   });
+  it("Si ingresa el monto y la fecha pero no ingresa una nota, Deberia mostrar un mensaje de 'No hay notas disponibles'", () => {
+    const gastito = new Gasto();
+    gastito.agregarMonto(14);
+    gastito.agregarNota(null)
+    gastito.agregarFecha("2024-10-14")
+    expect(gastito.mostrarMonto()).toEqual('Monto: 14');
+    expect(gastito.mostrarNota()).toEqual('No hay notas disponibles');
+    expect(gastito.mostrarFecha()).toEqual('Fecha: 2024-10-14');
+  });
 });
