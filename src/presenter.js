@@ -40,8 +40,19 @@ form_gasto.addEventListener("submit", (event) => {
 
   const gastito = new Gasto;
   const valor_gasto = Number.parseInt(montoGasto.value);
-  const fecha_gasto = fechaGasto.value; 
+  
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, '0');
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0
+  const year = today.getFullYear();
+  const fecha_gasto = fechaGasto.value || `${year}-${month}-${day}`;
+
   const nota_gasto = notaGasto.value;
+
+  if (fecha_gasto && !valor_gasto) {
+    div_gastos.innerHTML = "<p>MONTO VACIO!!!</p>";
+    return;
+  }
 
   gastito.agregarMonto(valor_gasto);
   gastito.agregarFecha(fecha_gasto);
@@ -79,7 +90,7 @@ form_ingreso.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const valor_ingreso = Number.parseInt(montoIngreso.value);
-  const fecha_ingreso = fechaIngreso.value;
+  const fecha_ingreso = fechaIngreso.value; 
   const nota_ingreso = notaIngreso.value;
 
   if (fecha_ingreso && !valor_ingreso) {
