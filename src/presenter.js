@@ -30,7 +30,7 @@ const fechaIngreso = document.querySelector("#fecha-ingreso");
 const notaIngreso = document.querySelector("#nota-ingreso");
 const form_ingreso = document.querySelector("#ingreso-form")
 const div_ingreso = document.querySelector("#ingreso-div")
-const ingreso = new Ingreso;
+//const ingreso = new Ingreso;
 
 //Lista gastos
 const div_lista_gastos = document.querySelector("#lista-gastos-div");
@@ -94,6 +94,7 @@ cat_ingresos.addEventListener('click', (event) => {
 form_ingreso.addEventListener("submit", (event) => {
   event.preventDefault();
 
+  const ingreso = new Ingreso;
   const valor_ingreso = Number.parseInt(montoIngreso.value);
   const today = new Date();
   const day = String(today.getDate()).padStart(2, '0');
@@ -106,7 +107,7 @@ form_ingreso.addEventListener("submit", (event) => {
     div_ingreso.innerHTML = "<p>MONTO VACIO!!!</p>";
     return;
   }
-
+  
   ingreso.agregarMonto(valor_ingreso);
   ingreso.agregarFecha(fecha_ingreso);
   ingreso.agregarNota(nota_ingreso);
