@@ -40,7 +40,13 @@ form_gasto.addEventListener("submit", (event) => {
 
   const gastito = new Gasto;
   const valor_gasto = Number.parseInt(montoGasto.value);
-  const fecha_gasto = fechaGasto.value || new Date().toLocaleDateString('es-BO');
+  
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, '0');
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0
+  const year = today.getFullYear();
+  const fecha_gasto = fechaGasto.value || `${year}-${month}-${day}`;
+
   const nota_gasto = notaGasto.value;
 
   if (fecha_gasto && !valor_gasto) {

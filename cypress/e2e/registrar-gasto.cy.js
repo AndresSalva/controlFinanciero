@@ -32,7 +32,11 @@ describe("Registrar Gasto", () => {
   });
 
   it("Muestra la fecha actual en caso de solo ingresar el monto de gasto y nota", () => {
-    const fechaActual = new Date().toLocaleDateString('es-BO');
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0
+    const day = String(today.getDate()).padStart(2, '0');
+    const fechaActual = `${year}-${month}-${day}`; 
 
     cy.visit("/");
     cy.get("#monto-gasto").type(5);

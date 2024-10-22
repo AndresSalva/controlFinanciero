@@ -9,7 +9,11 @@ class Gasto {
   }
   agregarFecha(fecha) {
     if (!fecha) {
-      this.fecha = new Date().toLocaleDateString('es-BO'); 
+      const today = new Date();
+      const day = String(today.getDate()).padStart(2, '0');
+      const month = String(today.getMonth() + 1).padStart(2, '0'); 
+      const year = today.getFullYear();
+      this.fecha = `${year}-${month}-${day}`;
     } else {
       this.fecha = fecha;
     }
