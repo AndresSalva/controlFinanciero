@@ -2,6 +2,7 @@ import Gasto from "./gasto.js";
 import Presupuesto from "./presupuesto.js";
 import Ingreso from "./ingreso.js";
 import ListaGastos from "./lista-gastos.js";
+import ListaIngresos from "./lista-ingresos.js";
 
 //Gasto
 const notaGasto = document.querySelector("#nota-gasto");
@@ -34,6 +35,10 @@ const ingreso = new Ingreso;
 //Lista gastos
 const div_lista_gastos = document.querySelector("#lista-gastos-div");
 const lista_gastos = new ListaGastos;
+
+//Lista ingresos
+const div_lista_ingresos = document.querySelector("#lista-ingresos-div");
+const lista_ingresos = new ListaIngresos;
 
 form_gasto.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -105,7 +110,8 @@ form_ingreso.addEventListener("submit", (event) => {
   ingreso.agregarMonto(valor_ingreso);
   ingreso.agregarFecha(fecha_ingreso);
   ingreso.agregarNota(nota_ingreso);
-  console.log(ingreso.mostrarMonto)
+
+  actualizarListaIngreso(ingreso);
   div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>"  + ingreso.mostrarNota() + "</p>";
 });
 
@@ -119,6 +125,18 @@ function actualizarLista(gastito){
        "<li>"+"Monto: "+ gastoRegistrado.monto+", Fecha: "+gastoRegistrado.fecha+", Nota: "+gastoRegistrado.nota+"</li>";
     });
     div_lista_gastos.innerHTML+= "</ul>";
+}
+
+function actualizarListaIngreso(ingreso){
+  lista_ingresos.registrarIngreso(ingreso);
+  const ingresos = lista_ingresos.obtenerIngreso();
+
+  div_lista_ingresos.innerHTML = "<ul>";  
+  ingresos.forEach((ingresoRegistrado) => {
+    div_lista_ingresos.innerHTML+= 
+       "<li>"+"Monto: "+ ingresoRegistrado.monto+", Fecha: " + ingresoRegistrado.fecha + ", Nota: " + ingresoRegistrado.nota+"</li>";
+    });
+    div_lista_ingresos.innerHTML+= "</ul>";
 }
 
 
