@@ -5,7 +5,11 @@ class Ingreso {
     this.nota = null;
   }
   agregarMonto(monto) {
-    this.monto = monto;
+    if (monto === null || isNaN(monto)) {
+      this.monto = null;
+    } else {
+      this.monto = Number(monto); 
+    }
   }
   agregarFecha(fecha) {
     if (!fecha) {
