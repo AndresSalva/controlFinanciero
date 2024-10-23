@@ -5,7 +5,11 @@ class Gasto {
     this.nota= null;
   }
   agregarMonto(monto) {
-    this.monto = monto;
+    if (monto === null || isNaN(monto)) {
+      this.monto = null; // Mantén el valor como nulo si el monto es inválido
+    } else {
+      this.monto = Number(monto); // Solo convertir si el monto es válido
+    }
   }
   agregarFecha(fecha) {
     if (!fecha) {
