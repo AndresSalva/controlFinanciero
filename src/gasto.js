@@ -32,7 +32,7 @@ class Gasto {
         respuesta =  `Monto: ${this.monto}`;
       }
     else{
-        respuesta =  "Necesita llenar el monto";
+        respuesta =  `MONTO VACIO!!!`;
       }
       return respuesta;
   }
