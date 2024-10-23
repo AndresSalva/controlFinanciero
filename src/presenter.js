@@ -42,9 +42,12 @@ const div_lista_ingresos = document.querySelector("#lista-ingresos-div");
 const lista_ingresos = new ListaIngresos;
 
 //Control Financiero
+//Total Gastos
 const div_total_gastos = document.querySelector("#totalGastos-div");
-const controlfinancierito = new ControlFinanciero;
-//const controlfinancierito = new ControlFinanciero;
+const controlfinancierito_gastos = new ControlFinanciero;
+//Total Ingresos
+const div_total_ingresos = document.querySelector("#totalIngresos-div");
+const controlfinancierito_ingresos= new ControlFinanciero;
 
 
 
@@ -126,7 +129,12 @@ form_ingreso.addEventListener("submit", (event) => {
   ingreso.agregarNota(nota_ingreso);
 
   actualizarListaIngreso(ingreso);
+  actualizarLaListaIngresos_ControlFinanciero(ingreso);
   div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>"  + ingreso.mostrarNota() + "</p>";
+
+  montoIngreso.value = '';
+  notaIngreso.value = '';
+  fechaIngreso.value = '';
 });
 
 function actualizarLista(gastito){
@@ -154,11 +162,17 @@ function actualizarListaIngreso(ingreso){
 }
 
 function actualizarLaListaGastos_ControlFinanciero(gasto){
-  const montoGasto = Number(gasto.monto);
-  controlfinancierito.registrarGasto(gasto);
-  const totalGastos = controlfinancierito.verTotalGastitos();
+ // const montoGasto = Number(gasto.monto);
+  controlfinancierito_gastos.registrarGasto(gasto);
+  const totalGastos = controlfinancierito_gastos.verTotalGastitos();
 
 
   div_total_gastos.innerHTML = `<p>Total de gastos: ${Number(totalGastos)}</p>`;
 }
 
+function actualizarLaListaIngresos_ControlFinanciero(ingreso){
+   controlfinancierito_ingresos.registrarIngreso(ingreso);
+   const totalIngresos = controlfinancierito_ingresos.verTotalIngresitos();
+ 
+   div_total_ingresos.innerHTML = `<p>Total de ingresos: ${Number(totalIngresos)}</p>`;
+ }
