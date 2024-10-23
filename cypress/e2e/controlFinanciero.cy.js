@@ -1,4 +1,4 @@
-describe("Gastos - Control", () => {
+describe("Gastos, Ingresos - Control", () => {
     it("Muestra 3 gastos ingresados y muestra el total", () => {
       cy.visit("/");
       
@@ -18,6 +18,29 @@ describe("Gastos - Control", () => {
       cy.get("#aniadir-gasto").click();
 
       cy.get("#totalGastos-div").should('contain', '470');
+    });
+
+    it("Muestra 3 ingresos y muestra el total", () => {
+      cy.visit("/");
+      
+      cy.get("#monto-ingreso").type(10);
+      cy.get("#fecha-ingreso").type("2024-10-30");
+      cy.get("#nota-ingreso").type("1er gasto");
+      cy.get("#aniadir-ingreso").click();
+
+      cy.get("#monto-ingreso").type(30);
+      cy.get("#fecha-ingreso").type("2024-10-30");
+      cy.get("#nota-ingreso").type("1er gasto");
+      cy.get("#aniadir-ingreso").click();
+
+
+      cy.get("#monto-ingreso").type(100);
+      cy.get("#fecha-ingreso").type("2024-10-30");
+      cy.get("#nota-ingreso").type("1er gasto");
+      cy.get("#aniadir-ingreso").click();
+
+
+      cy.get("#totalIngresos-div").should('contain', '140');
     });
   });
   
