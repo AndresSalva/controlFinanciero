@@ -27,7 +27,6 @@ describe("Gastos, Ingresos - Control", () => {
       cy.get("#fecha-ingreso").type("2024-10-30");
       cy.get("#nota-ingreso").type("1er gasto");
       cy.get("#aniadir-ingreso").click();
-      
 
       cy.get("#monto-ingreso").type(30);
       cy.get("#fecha-ingreso").type("2024-10-30");

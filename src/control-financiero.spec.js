@@ -43,4 +43,25 @@ describe("Control financiero", () => {
         expect(totalIngresitos).toEqual(140);
 
     });
+
+    it("Actualiza el saldo en el control financiero", () => {
+
+        const ingresito_saldo=new Ingreso;
+        const gastito_saldo= new Gasto;
+        const controlFinancieroSaldo= new ControlFinanciero;
+        const ingresito_saldo1=new Ingreso;
+        const gastito_saldo1= new Gasto;
+        const ingresito_saldo2=new Ingreso;
+        const gastito_saldo2= new Gasto;
+
+        ingresito_saldo.agregarMonto(600);
+        controlFinancieroSaldo.registrarGasto(gastito_saldo);
+
+        gastito_saldo.agregarMonto(200);
+        controlFinancieroSaldo.registrarIngreso(ingresito_saldo);
+        controlFinancieroSaldo.actualizarSaldo();
+
+        expect(controlFinancieroSaldo.saldo).toBe(400);
+    });
+
 });
