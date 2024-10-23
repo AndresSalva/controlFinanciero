@@ -5,7 +5,7 @@ class Gasto {
     this.nota= null;
   }
   agregarMonto(monto) {
-    this.monto = monto;
+    this.monto = Number(monto);
   }
   agregarFecha(fecha) {
     if (!fecha) {
