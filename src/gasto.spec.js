@@ -29,7 +29,7 @@ describe("Gastos", () => {
     const gastito = new Gasto
     gastito.agregarMonto(null)
     gastito.agregarFecha("2024-10-14")
-    expect(gastito.mostrarMonto()).toEqual('Necesita llenar el monto');
+    expect(gastito.mostrarMonto()).toEqual('MONTO VACIO!!!');
     expect(gastito.mostrarFecha()).toEqual('Fecha: 2024-10-14');
   });
 
