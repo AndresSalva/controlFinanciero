@@ -42,12 +42,15 @@ const div_lista_ingresos = document.querySelector("#lista-ingresos-div");
 const lista_ingresos = new ListaIngresos;
 
 //Control Financiero
+const gestion = new ControlFinanciero;
 //Total Gastos
 const div_total_gastos = document.querySelector("#totalGastos-div");
-const controlfinancierito_gastos = new ControlFinanciero;
 //Total Ingresos
 const div_total_ingresos = document.querySelector("#totalIngresos-div");
-const controlfinancierito_ingresos= new ControlFinanciero;
+//Total Saldo
+
+const div_saldo = document.querySelector("#saldo-div");
+
 
 
 
@@ -76,6 +79,7 @@ form_gasto.addEventListener("submit", (event) => {
 
   actualizarLista(gastito); ///Esto es nuevooooooooooooooooooooooooooooooooooooooooooooooooooooooo
   actualizarLaListaGastos_ControlFinanciero(gastito);
+  actualizarSaldo();
 
   div_gastos.innerHTML = "<p>" + gastito.mostrarMonto() + "<p>" + gastito.mostrarFecha() + "<p>" + gastito.mostrarNota() + "</p>";
 
@@ -130,6 +134,7 @@ form_ingreso.addEventListener("submit", (event) => {
 
   actualizarListaIngreso(ingreso);
   actualizarLaListaIngresos_ControlFinanciero(ingreso);
+  actualizarSaldo();
   div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>"  + ingreso.mostrarNota() + "</p>";
 
   montoIngreso.value = '';
@@ -163,16 +168,21 @@ function actualizarListaIngreso(ingreso){
 
 function actualizarLaListaGastos_ControlFinanciero(gasto){
  // const montoGasto = Number(gasto.monto);
-  controlfinancierito_gastos.registrarGasto(gasto);
-  const totalGastos = controlfinancierito_gastos.verTotalGastitos();
+  gestion.registrarGasto(gasto);
+  const totalGastos = gestion.verTotalGastitos();
 
 
   div_total_gastos.innerHTML = `<p>Total de gastos: ${Number(totalGastos)}</p>`;
 }
 
 function actualizarLaListaIngresos_ControlFinanciero(ingreso){
-   controlfinancierito_ingresos.registrarIngreso(ingreso);
-   const totalIngresos = controlfinancierito_ingresos.verTotalIngresitos();
+   gestion.registrarIngreso(ingreso);
+   const totalIngresos = gestion.verTotalIngresitos();
  
    div_total_ingresos.innerHTML = `<p>Total de ingresos: ${Number(totalIngresos)}</p>`;
+ }
+
+ function actualizarSaldo(){
+  gestion.actualizarSaldo();
+  div_saldo.innerHTML = "<p>" + gestion.verTotalSaldo() + "</p>";
  }
