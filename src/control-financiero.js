@@ -5,7 +5,7 @@ class ControlFinanciero{
     constructor() {
         this.ListaGastos=new ListaGastos;
         this.ListaIngresos=new ListaIngresos;
-        this.saldo=0;
+        this.saldo = 0;
     }
 
     registrarGasto(gasto){
@@ -39,7 +39,9 @@ class ControlFinanciero{
         const totalIngresos= this.verTotalIngresitos();
         this.saldo=totalIngresos-totalGastos;
     }
-    
+    verTotalSaldo(){
+        return `Total: ${this.saldo}`;
+    }
     
 }
 
