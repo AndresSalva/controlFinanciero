@@ -96,15 +96,26 @@ form_presupuesto.addEventListener("submit", (event) => {
 
 cat_gastos.addEventListener('click', (event) => {
   event.preventDefault();
-  gastosImage.style.display = 'block'; // Mostrar la imagen de gastos
-  ingresosImage.style.display = 'none'; // Ocultar la imagen de ingresos
+  if(gastosImage.style.display === 'none'){
+    ingresosImage.style.display = 'none'; // Ocultar la imagen de ingresos
+    gastosImage.style.display = 'block'; // Mostrar la imagen de gastos
+  }
+  else{
+    gastosImage.style.display = 'none'; // Ocultar la imagen de gastos
+  }
 });
 
 
 cat_ingresos.addEventListener('click', (event) => {
-  event.preventDefault(); 
-  ingresosImage.style.display = 'block'; // Mostrar la imagen de ingresos
-  gastosImage.style.display = 'none'; // Ocultar la imagen de gastos
+  event.preventDefault();
+  if(ingresosImage.style.display === 'none'){
+    gastosImage.style.display = 'none'; // Ocultar la imagen de gastos
+    ingresosImage.style.display = 'block'; // Mostrar la imagen de ingresos
+  }
+  else{
+    ingresosImage.style.display = 'none'; // Ocultar la imagen de ingresos
+  }
+  
 });
 
 form_ingreso.addEventListener("submit", (event) => {
@@ -176,3 +187,14 @@ function actualizarLaListaIngresos_ControlFinanciero(ingreso){
  
    div_total_ingresos.innerHTML = `<p>Total de ingresos: ${Number(totalIngresos)}</p>`;
  }
+
+
+ // JavaScript para mostrar/ocultar los botones de categorías
+ document.getElementById('ver-categorias-btn').addEventListener('click', () => {
+  const categoriasDiv = document.getElementById('categorias');
+  if (categoriasDiv.style.display === 'none') {
+    categoriasDiv.style.display = 'block';
+  } else {
+    categoriasDiv.style.display = 'none';
+  }
+});
