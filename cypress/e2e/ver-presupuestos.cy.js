@@ -5,4 +5,9 @@ describe("Ver presupuestos", () => {
       cy.get("#aniadir-presupuesto").click();
       cy.get("#totalPresupuesto-div").should("contain", "100");
     });
+
+    it("Si no hay presupuesto se muestra un mensaje de 'No hay presupuestos'", () => {
+        cy.visit("/");
+        cy.get("#totalPresupuesto-div").should("contain", "No hay presupuestos");
+      });
   });
