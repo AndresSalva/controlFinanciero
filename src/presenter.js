@@ -95,7 +95,10 @@ form_presupuesto.addEventListener("submit", (event) => {
   const valor_presupuesto = Number.parseInt(montoPresupuesto.value);
   presupuestito.agregarMonto(valor_presupuesto);
   actualizarPresupuestoTotal(presupuestito);
-
+  if (!valor_presupuesto) {
+    div_presupuesto.innerHTML = "<p>MONTO VACIO!!!</p>";
+    return;
+  }
   div_presupuesto.innerHTML = "<p>" + presupuestito.mostrarMonto() + "</p>";
 });
 
