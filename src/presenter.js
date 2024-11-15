@@ -17,6 +17,7 @@ const div_gastos = document.querySelector("#gastos-div");
 const montoPresupuesto = document.querySelector("#monto-presupuesto");
 const form_presupuesto = document.querySelector("#presupuesto-form");
 const div_presupuesto = document.querySelector("#presupuesto-div");
+const div_totales_presupuestos = document.querySelector("#totalPresupuesto-div")
 const presupuestito = new Presupuesto;
 
 //Categorias
@@ -93,6 +94,7 @@ form_presupuesto.addEventListener("submit", (event) => {
 
   const valor_presupuesto = Number.parseInt(montoPresupuesto.value);
   presupuestito.agregarMonto(valor_presupuesto);
+  actualizarPresupuestoTotal(presupuestito);
 
   div_presupuesto.innerHTML = "<p>" + presupuestito.mostrarMonto() + "</p>";
 });
@@ -208,5 +210,9 @@ function actualizarLaListaIngresos_ControlFinanciero(ingreso){
  function actualizarSaldo(){
   gestion.actualizarSaldo();
   div_saldo.innerHTML = "<p>" + gestion.verTotalSaldo() + "</p>";
+ }
+
+ function actualizarPresupuestoTotal(presupuestito){
+  div_totales_presupuestos.innerHTML = `<p>Total de presupuesto: ${Number(presupuestito.monto)}</p>`;
  }
 
