@@ -58,4 +58,16 @@ describe("Registrar Gasto", () => {
     cy.get("#aniadir-gasto").click();
     cy.get("#gastos-div").should("contain", "5").and("contain", "2024-10-14").and("contain", "No hay notas disponibles");
   });
+
+  it("Si registra un gasto pero hace click en cancelar, vacia los valores y sube al primer punto", () => {
+    cy.visit("/");
+    cy.get("#monto-gasto").type(200);
+    cy.get("#fecha-gasto").type("2024-11-16");
+    cy.get("#nota-gasto").type("Prueba de cancelar");
+    cy.get("#cancelar").click();
+    cy.get("#monto-gasto").clear();
+    cy.get("#fecha-gasto").clear();
+    cy.get("#nota-gasto").clear();
+    cy.get("h2").should("contain", "Saldo").and("be.visible");
+  });
 });
