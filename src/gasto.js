@@ -50,5 +50,10 @@ class Gasto {
       }
     return respuesta;
   }
+  reset() {
+    this.monto = null;
+    this.fecha = null;
+    this.nota = null;
+  }
 }
 export default Gasto;
