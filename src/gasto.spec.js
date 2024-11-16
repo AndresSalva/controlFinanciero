@@ -58,4 +58,16 @@ describe("Gastos", () => {
     expect(gastito.mostrarNota()).toEqual('No hay notas disponibles');
     expect(gastito.mostrarFecha()).toEqual('Fecha: 2024-10-14');
   });
+  it("Debería limpiar los valores del formulario de ingreso al cancelar", () => {
+    const gastito = new Gasto();
+    gastito.agregarMonto(60);
+    gastito.agregarFecha("2024-11-16");
+    gastito.agregarNota("Nota de cancelar");
+  
+    gastito.reset();
+  
+    expect(gastito.monto).toBeNull();
+    expect(gastito.fecha).toBeNull();
+    expect(gastito.nota).toBeNull();
+  });
 });

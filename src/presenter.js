@@ -11,7 +11,7 @@ const fechaGasto = document.querySelector("#fecha-gasto");
 const montoGasto = document.querySelector("#monto-gasto");
 const form_gasto = document.querySelector("#gastos-form");
 const div_gastos = document.querySelector("#gastos-div");
-
+const cancelarGastoBtn = document.querySelector("#cancelar-gasto");
 
 //Presupuesto
 const montoPresupuesto = document.querySelector("#monto-presupuesto");
@@ -85,6 +85,13 @@ form_gasto.addEventListener("submit", (event) => {
   montoGasto.value = '';
   notaGasto.value = '';
   fechaGasto.value = '';
+});
+
+cancelarGastoBtn.addEventListener("click", (event) => {
+  event.preventDefault(); 
+  form_gasto.reset();
+  const saldoHeader = document.querySelector("h2"); 
+  saldoHeader.scrollIntoView({ behavior: "smooth", block: "start"});
 });
 
 form_presupuesto.addEventListener("submit", (event) => {

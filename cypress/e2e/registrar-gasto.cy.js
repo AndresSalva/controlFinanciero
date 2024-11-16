@@ -64,7 +64,7 @@ describe("Registrar Gasto", () => {
     cy.get("#monto-gasto").type(200);
     cy.get("#fecha-gasto").type("2024-11-16");
     cy.get("#nota-gasto").type("Prueba de cancelar");
-    cy.get("#cancelar").click();
+    cy.get("#cancelar-gasto").click();
     cy.get("#monto-gasto").clear();
     cy.get("#fecha-gasto").clear();
     cy.get("#nota-gasto").clear();
