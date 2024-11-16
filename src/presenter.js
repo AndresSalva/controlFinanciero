@@ -31,6 +31,7 @@ const fechaIngreso = document.querySelector("#fecha-ingreso");
 const notaIngreso = document.querySelector("#nota-ingreso");
 const form_ingreso = document.querySelector("#ingreso-form")
 const div_ingreso = document.querySelector("#ingreso-div")
+const cancelarIngresoBtn = document.querySelector("#cancelar");
 //const ingreso = new Ingreso;
 
 //Lista gastos
@@ -50,9 +51,6 @@ const div_total_ingresos = document.querySelector("#totalIngresos-div");
 //Total Saldo
 
 const div_saldo = document.querySelector("#saldo-div");
-
-
-
 
 form_gasto.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -135,11 +133,20 @@ form_ingreso.addEventListener("submit", (event) => {
   actualizarListaIngreso(ingreso);
   actualizarLaListaIngresos_ControlFinanciero(ingreso);
   actualizarSaldo();
+
   div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>"  + ingreso.mostrarNota() + "</p>";
 
   montoIngreso.value = '';
   notaIngreso.value = '';
   fechaIngreso.value = '';
+
+});
+
+cancelarIngresoBtn.addEventListener("click", (event) => {
+  event.preventDefault(); 
+  form_ingreso.reset();
+  const saldoHeader = document.querySelector("h2"); 
+  saldoHeader.scrollIntoView({ behavior: "smooth", block: "start" }); 
 });
 
 function actualizarLista(gastito){

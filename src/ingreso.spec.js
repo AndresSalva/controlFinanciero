@@ -54,4 +54,17 @@ describe("Ingresos", () => {
     expect(ingreso.mostrarNota()).toEqual('No hay notas disponibles');
     expect(ingreso.mostrarFecha()).toEqual('Fecha: 2024-10-14');
   });
+  it("Debería limpiar los valores del formulario de ingreso al cancelar", () => {
+    const ingreso = new Ingreso();
+    ingreso.agregarMonto(100);
+    ingreso.agregarFecha("2024-11-16");
+    ingreso.agregarNota("Nota de prueba");
+  
+    ingreso.reset();
+  
+    expect(ingreso.monto).toBeNull();
+    expect(ingreso.fecha).toBeNull();
+    expect(ingreso.nota).toBeNull();
+  });
+  
 });
