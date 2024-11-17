@@ -43,4 +43,8 @@ describe("Lista ingreso", () => {
     expect(lista.obtenerIngreso()).toEqual(resultado);
   });
 
+  it("Debería indicar que no hay ingresos registrados cuando la lista está vacía", () => {
+    const lista = new ListaIngresos;
+    expect(lista.obtenerIngreso()).toEqual([]); // La lista debería estar vacía
+  });
 });

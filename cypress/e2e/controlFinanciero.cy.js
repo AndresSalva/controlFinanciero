@@ -68,5 +68,22 @@ describe("Gastos, Ingresos - Control", () => {
 
       cy.get("#saldo-div").should('contain', '230');
     });
+
+    it("Muestra el mensaje 'Ojo te estas endeudando' cuando el saldo es negativo", () => {
+      cy.visit("/");
+      
+      cy.get("#monto-ingreso").type(100);
+      cy.get("#fecha-ingreso").type("2024-10-30");
+      cy.get("#nota-ingreso").type("Ingreso test");
+      cy.get("#aniadir-ingreso").click();
+
+      cy.get("#monto-gasto").type(300);
+      cy.get("#fecha-gasto").type("2024-10-30");
+      cy.get("#nota-gasto").type("Gasto test");
+      cy.get("#aniadir-gasto").click();
+
+      cy.get("#saldo-div").should('contain', 'Total: -200 Ojo te estas endeudando');
+    });
+
   });
   
