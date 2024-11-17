@@ -40,7 +40,15 @@ class ControlFinanciero{
         this.saldo=totalIngresos-totalGastos;
     }
     verTotalSaldo(){
-        return `Total: ${this.saldo}`;
+        //return `Total: ${this.saldo}`;
+        let respuesta;
+        if(this.saldo <0){
+            respuesta=`Total: ${this.saldo} Ojo te estas endeudando`;
+        }
+        else{
+            respuesta=`Total: ${this.saldo}`;
+        }
+        return respuesta;
     }
     
 }

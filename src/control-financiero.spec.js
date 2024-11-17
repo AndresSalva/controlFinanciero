@@ -80,4 +80,19 @@ describe("Control financiero", () => {
         expect(controlFinancieroSaldo.verTotalSaldo()).toBe('Total: 750');
     });
 
+    it("Muestra el mensaje 'Ojo te estas endeudando' cuando el saldo es negativo", () => {
+        const ingresito_saldo = new Ingreso;
+        const gastito_saldo = new Gasto;
+        const controlFinancieroSaldo = new ControlFinanciero;
+
+        ingresito_saldo.agregarMonto(100);
+        gastito_saldo.agregarMonto(250);
+        
+        controlFinancieroSaldo.registrarIngreso(ingresito_saldo);
+        controlFinancieroSaldo.registrarGasto(gastito_saldo);
+        controlFinancieroSaldo.actualizarSaldo();
+
+        expect(controlFinancieroSaldo.verTotalSaldo()).toBe('Total: -150 Ojo te estas endeudando');
+    });
+
 });
