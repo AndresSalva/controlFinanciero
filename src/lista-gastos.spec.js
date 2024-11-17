@@ -42,4 +42,10 @@ describe("Lista gastos", () => {
     expect(lista.obtenerGastos()).toEqual(resultado);
   });
 
+  it("Debería indicar que no hay gastos registrados cuando la lista está vacía", () => {
+    const lista = new ListaGastos;
+    expect(lista.obtenerGastos()).toEqual([]); // La lista debería estar vacía
+  });
+
+
 });
