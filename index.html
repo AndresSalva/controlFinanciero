@@ -23,8 +23,10 @@
       <input type="submit" value="registrar-gasto" id="aniadir-presupuesto" />
     </form>
     <div id="presupuesto-div"></div>
-    <h1>Registro gasto</h1>
-    <form id="gastos-form">
+    
+    <button id="mostrar-form-btn">Registrar gasto</button>
+    <form id="gastos-form" style="display: none;">
+      <h1>Registro gasto</h1>
       <label for="monto-gasto">Monto gasto:</label>
       <input type="number" id="monto-gasto" />
       <label for="fecha-gasto">fecha:</label>
@@ -34,7 +36,7 @@
       <input type="submit" value="registrar-gasto" id="aniadir-gasto" />
       <input type="submit" value="cancelar" id="cancelar-gasto" />
     </form>
-    <div id="gastos-div"></div>
+    <div id="gastos-div" style="display: none;"></div>
     <h1>Registro ingreso</h1>
       <form id="ingreso-form">
         <label for="monto-ingreso">Monto ingreso:</label>

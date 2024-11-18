@@ -1,7 +1,7 @@
 describe("Gastos, Ingresos - Control", () => {
     it("Muestra 3 gastos ingresados y muestra el total", () => {
       cy.visit("/");
-      
+      cy.get("#mostrar-form-btn").click(); 
       cy.get("#monto-gasto").type(100);
       cy.get("#fecha-gasto").type("2024-10-30");
       cy.get("#nota-gasto").type("1er gasto");
@@ -54,7 +54,7 @@ describe("Gastos, Ingresos - Control", () => {
       cy.get("#fecha-ingreso").type("2024-10-30");
       cy.get("#nota-ingreso").type("2do ingreso");
       cy.get("#aniadir-ingreso").click();
-
+      cy.get("#mostrar-form-btn").click(); 
       cy.get("#monto-gasto").type(150);
       cy.get("#fecha-gasto").type("2024-10-30");
       cy.get("#nota-gasto").type("1er gasto");
@@ -76,7 +76,7 @@ describe("Gastos, Ingresos - Control", () => {
       cy.get("#fecha-ingreso").type("2024-10-30");
       cy.get("#nota-ingreso").type("Ingreso test");
       cy.get("#aniadir-ingreso").click();
-
+      cy.get("#mostrar-form-btn").click(); 
       cy.get("#monto-gasto").type(300);
       cy.get("#fecha-gasto").type("2024-10-30");
       cy.get("#nota-gasto").type("Gasto test");

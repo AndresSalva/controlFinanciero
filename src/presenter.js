@@ -12,6 +12,7 @@ const montoGasto = document.querySelector("#monto-gasto");
 const form_gasto = document.querySelector("#gastos-form");
 const div_gastos = document.querySelector("#gastos-div");
 const cancelarGastoBtn = document.querySelector("#cancelar-gasto");
+const mostrarFormBtn = document.querySelector("#mostrar-form-btn"); 
 
 //Presupuesto
 const montoPresupuesto = document.querySelector("#monto-presupuesto");
@@ -53,6 +54,18 @@ const div_total_ingresos = document.querySelector("#totalIngresos-div");
 
 const div_saldo = document.querySelector("#saldo-div");
 
+mostrarFormBtn.addEventListener("click", () => { 
+  if (form_gasto.style.display === "none" || form_gasto.style.display === "") {
+    form_gasto.style.display = "block"; 
+    div_gastos.style.display = "block"; 
+  } else {
+    form_gasto.reset(); 
+    div_gastos.innerHTML = ""; 
+    form_gasto.style.display = "none"; 
+    div_gastos.style.display = "none";
+  }
+});
+
 form_gasto.addEventListener("submit", (event) => {
   event.preventDefault();
 
@@ -90,8 +103,11 @@ form_gasto.addEventListener("submit", (event) => {
 cancelarGastoBtn.addEventListener("click", (event) => {
   event.preventDefault(); 
   form_gasto.reset();
+  div_gastos.innerHTML = ""; 
   const saldoHeader = document.querySelector("h2"); 
   saldoHeader.scrollIntoView({ behavior: "smooth", block: "start"});
+  form_gasto.style.display = "none"; 
+  div_gastos.style.display = "none";
 });
 
 form_presupuesto.addEventListener("submit", (event) => {

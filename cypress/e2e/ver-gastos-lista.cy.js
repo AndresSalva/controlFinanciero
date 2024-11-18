@@ -1,6 +1,7 @@
 describe("Ver Gastos", () => {
     it("Muestra un gasto ingresado en la lista", () => {
       cy.visit("/");
+      cy.get("#mostrar-form-btn").click(); 
       cy.get("#monto-gasto").type(200);
       cy.get("#fecha-gasto").type("2024-10-30");
       cy.get("#nota-gasto").type("Gasto en comida");
@@ -9,6 +10,7 @@ describe("Ver Gastos", () => {
     });
     it("Muestra dos o mas gastos ingresados en la lista", () => {
       cy.visit("/");
+      cy.get("#mostrar-form-btn").click(); 
       cy.get("#monto-gasto").type(200);
       cy.get("#fecha-gasto").type("2024-10-30");
       cy.get("#nota-gasto").type("Gasto en comida");
