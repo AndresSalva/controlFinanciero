@@ -1,6 +1,7 @@
 describe("Registrar Gasto", () => {
   it("Muestra monto de gasto ingresado", () => {
     cy.visit("/");
+    cy.get("#mostrar-form-btn").click();
     cy.get("#monto-gasto").type(4);
     cy.get("#aniadir-gasto").click();
     cy.get("#gastos-div").should("contain", "4");
@@ -8,6 +9,7 @@ describe("Registrar Gasto", () => {
 
   it("Muestra monto de gasto ingresado y fecha", () => {
     cy.visit("/");
+    cy.get("#mostrar-form-btn").click();
     cy.get("#monto-gasto").type(4);
     cy.get("#fecha-gasto").type("2024-10-19");
     cy.get("#aniadir-gasto").click();
@@ -16,6 +18,7 @@ describe("Registrar Gasto", () => {
 
   it("Muestra monto de gasto ingresado,fecha y nota", () => {
     cy.visit("/");
+    cy.get("#mostrar-form-btn").click();
     cy.get("#monto-gasto").type(4);
     cy.get("#fecha-gasto").type("2024-10-19");
     cy.get("#nota-gasto").type("Gasto en comida");
@@ -25,6 +28,7 @@ describe("Registrar Gasto", () => {
 
   it("Muestra mensaje de 'MONTO VACIO!!!' si se ingresa fecha pero no el monto", () => {
     cy.visit("/");
+    cy.get("#mostrar-form-btn").click();
     cy.get("#fecha-gasto").type("2024-10-19");
     cy.get("#monto-gasto").clear();
     cy.get("#aniadir-gasto").click();
@@ -39,6 +43,7 @@ describe("Registrar Gasto", () => {
     const fechaActual = `${year}-${month}-${day}`;
   
     cy.visit("/");
+    cy.get("#mostrar-form-btn").click();
     cy.get("#monto-gasto").type(5);
     cy.get("#fecha-gasto").clear();
     cy.get("#nota-gasto").type("Gasto en transporte");
@@ -52,6 +57,7 @@ describe("Registrar Gasto", () => {
   
   it("Muestra mensaje de 'No hay notas disponibles' caso de solo ingresar el monto de gasto y la fecha", () => {
     cy.visit("/");
+    cy.get("#mostrar-form-btn").click();
     cy.get("#monto-gasto").type(5);
     cy.get("#fecha-gasto").type("2024-10-14");
     cy.get("#nota-gasto").clear();
@@ -59,15 +65,16 @@ describe("Registrar Gasto", () => {
     cy.get("#gastos-div").should("contain", "5").and("contain", "2024-10-14").and("contain", "No hay notas disponibles");
   });
 
-  it("Si registra un gasto pero hace click en cancelar, vacia los valores y sube al primer punto", () => {
-    cy.visit("/");
-    cy.get("#monto-gasto").type(200);
-    cy.get("#fecha-gasto").type("2024-11-16");
-    cy.get("#nota-gasto").type("Prueba de cancelar");
-    cy.get("#cancelar-gasto").click();
-    cy.get("#monto-gasto").clear();
-    cy.get("#fecha-gasto").clear();
-    cy.get("#nota-gasto").clear();
+  it("Si registra un gasto pero hace click en cancelar, cierra el formulario y sube al primer punto", () => {
+    cy.visit("/"); 
+    cy.get("#mostrar-form-btn").click(); 
+    cy.get("#monto-gasto").type(200); 
+    cy.get("#fecha-gasto").type("2024-11-16"); 
+    cy.get("#nota-gasto").type("Prueba de cancelar"); 
+    cy.get("#cancelar-gasto").click(); 
+
+    cy.get("#gastos-form").should("not.be.visible"); 
+    cy.get("#gastos-div").should("not.be.visible"); 
     cy.get("h2").should("contain", "Saldo").and("be.visible");
   });
 });

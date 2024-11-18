@@ -103,8 +103,11 @@ form_gasto.addEventListener("submit", (event) => {
 cancelarGastoBtn.addEventListener("click", (event) => {
   event.preventDefault(); 
   form_gasto.reset();
+  div_gastos.innerHTML = ""; 
   const saldoHeader = document.querySelector("h2"); 
   saldoHeader.scrollIntoView({ behavior: "smooth", block: "start"});
+  form_gasto.style.display = "none"; 
+  div_gastos.style.display = "none";
 });
 
 form_presupuesto.addEventListener("submit", (event) => {
