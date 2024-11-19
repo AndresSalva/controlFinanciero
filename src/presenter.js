@@ -71,18 +71,6 @@ function visibilidadDeFormulario(formElement, divElement) {
 mostrarFormBtn.addEventListener("click", () => { 
   visibilidadDeFormulario(form_gasto, div_gastos);
 });
-/*
-mostrarFormBtn.addEventListener("click", () => { 
-  if (form_gasto.style.display === "none" || form_gasto.style.display === "") {
-    form_gasto.style.display = "block"; 
-    div_gastos.style.display = "block"; 
-  } else {
-    form_gasto.reset(); 
-    div_gastos.innerHTML = ""; 
-    form_gasto.style.display = "none"; 
-    div_gastos.style.display = "none";
-  }
-});*/
 
 form_gasto.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -90,11 +78,12 @@ form_gasto.addEventListener("submit", (event) => {
   const gastito = new Gasto;
   const valor_gasto = Number.parseInt(montoGasto.value);
   
-  const today = new Date();
+  /*const today = new Date();
   const day = String(today.getDate()).padStart(2, '0');
   const month = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0
   const year = today.getFullYear();
-  const fecha_gasto = fechaGasto.value || `${year}-${month}-${day}`;
+  const fecha_gasto = fechaGasto.value || `${year}-${month}-${day}`;*/
+  const fecha_gasto = fechaGasto.value || obtenerFechaActual();
   const nota_gasto = notaGasto.value || "No hay notas disponibles";
 
 
@@ -171,11 +160,12 @@ form_ingreso.addEventListener("submit", (event) => {
 
   const ingreso = new Ingreso;
   const valor_ingreso = Number.parseInt(montoIngreso.value);
-  const today = new Date();
+  /*const today = new Date();
   const day = String(today.getDate()).padStart(2, '0');
   const month = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0
   const year = today.getFullYear();
-  const fecha_ingreso = fechaIngreso.value || `${year}-${month}-${day}`;; 
+  //const fecha_ingreso = fechaIngreso.value || `${year}-${month}-${day}`;*/
+  const fecha_ingreso = fechaIngreso.value || obtenerFechaActual(); 
   const nota_ingreso = notaIngreso.value || "No hay notas disponibles";
   
   if (fecha_ingreso && !valor_ingreso) {
@@ -212,19 +202,6 @@ cancelarIngresoBtn.addEventListener("click", (event) => {
 mostrarFormBtnIngreso.addEventListener("click", () => { 
   visibilidadDeFormulario(form_ingreso, div_ingreso);
 });
-/*
-mostrarFormBtnIngreso.addEventListener("click", () => { 
-  if (form_ingreso.style.display === "none" || form_ingreso.style.display === "") {
-    form_ingreso.style.display = "block"; 
-    div_ingreso.style.display = "block"; 
-  } else {
-    form_ingreso.reset(); 
-    div_ingreso.innerHTML = ""; 
-    form_ingreso.style.display = "none"; 
-    div_ingreso.style.display = "none";
-  }
-});*/
-
 
 function actualizarLista(gastito){
   lista_gastos.registrarGasto(gastito);
@@ -287,3 +264,10 @@ function actualizarLaListaIngresos_ControlFinanciero(ingreso){
   div_totales_presupuestos.innerHTML = `<p>Total de presupuesto: ${Number(presupuestito.monto)}</p>`;
  }
 
+ function obtenerFechaActual() {
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, '0');
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const year = today.getFullYear();
+  return `${year}-${month}-${day}`;
+}
