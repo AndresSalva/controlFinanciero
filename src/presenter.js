@@ -55,6 +55,23 @@ const div_total_ingresos = document.querySelector("#totalIngresos-div");
 
 const div_saldo = document.querySelector("#saldo-div");
 
+function visibilidadDeFormulario(formElement, divElement) {
+  if (formElement.style.display === "none" || formElement.style.display === "") {
+    // Si el formulario está oculto, lo mostramos
+    formElement.style.display = "block";
+    divElement.style.display = "block";
+  } else {
+    // Si el formulario está visible, lo ocultamos y reseteamos
+    formElement.reset(); // Restablece los valores del formulario
+    divElement.innerHTML = ""; // Limpia el contenido del contenedor asociado
+    formElement.style.display = "none"; // Oculta el formulario
+    divElement.style.display = "none"; // Oculta el contenedor
+  }
+}
+mostrarFormBtn.addEventListener("click", () => { 
+  visibilidadDeFormulario(form_gasto, div_gastos);
+});
+/*
 mostrarFormBtn.addEventListener("click", () => { 
   if (form_gasto.style.display === "none" || form_gasto.style.display === "") {
     form_gasto.style.display = "block"; 
@@ -65,7 +82,7 @@ mostrarFormBtn.addEventListener("click", () => {
     form_gasto.style.display = "none"; 
     div_gastos.style.display = "none";
   }
-});
+});*/
 
 form_gasto.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -193,6 +210,10 @@ cancelarIngresoBtn.addEventListener("click", (event) => {
 });
 
 mostrarFormBtnIngreso.addEventListener("click", () => { 
+  visibilidadDeFormulario(form_ingreso, div_ingreso);
+});
+/*
+mostrarFormBtnIngreso.addEventListener("click", () => { 
   if (form_ingreso.style.display === "none" || form_ingreso.style.display === "") {
     form_ingreso.style.display = "block"; 
     div_ingreso.style.display = "block"; 
@@ -202,7 +223,8 @@ mostrarFormBtnIngreso.addEventListener("click", () => {
     form_ingreso.style.display = "none"; 
     div_ingreso.style.display = "none";
   }
-});
+});*/
+
 
 function actualizarLista(gastito){
   lista_gastos.registrarGasto(gastito);
