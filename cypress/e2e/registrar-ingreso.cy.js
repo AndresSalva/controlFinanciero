@@ -1,12 +1,14 @@
 describe("Registrar Ingreso", () => {
     it("Muestra monto de ingreso ingresado", () => {
       cy.visit("/");
+      cy.get("#mostrar-form-ingreso").click();
       cy.get("#monto-ingreso").type(8);
       cy.get("#aniadir-ingreso").click();
       cy.get("#ingreso-div").should("contain", "Monto: 8");
     });
     it("Muestra monto de ingreso ingresado y fecha", () => {
       cy.visit("/");
+      cy.get("#mostrar-form-ingreso").click();
       cy.get("#monto-ingreso").type(4);
       cy.get("#fecha-ingreso").type("2024-10-19");
       cy.get("#aniadir-ingreso").click();
@@ -14,7 +16,7 @@ describe("Registrar Ingreso", () => {
     });
     it("Muestra mensaje de 'MONTO VACIO!!!' si se ingresa fecha pero no el monto", () => {
       cy.visit("/");
-
+      cy.get("#mostrar-form-ingreso").click();
       cy.get("#fecha-ingreso").type("2024-10-19");
       cy.get("#monto-ingreso").clear();
       cy.get("#aniadir-ingreso").click();
@@ -22,6 +24,7 @@ describe("Registrar Ingreso", () => {
     });
     it("Muestra monto de ingreso ingresado, fecha y nota", () => {
       cy.visit("/");
+      cy.get("#mostrar-form-ingreso").click();
       cy.get("#monto-ingreso").type(4);
       cy.get("#fecha-ingreso").type("2024-10-19");
       cy.get("#nota-ingreso").type("comida");
@@ -39,6 +42,7 @@ describe("Registrar Ingreso", () => {
       const fechaActual = `${year}-${month}-${day}`; 
   
       cy.visit("/");
+      cy.get("#mostrar-form-ingreso").click();
       cy.get("#monto-ingreso").type(5);
       cy.get("#fecha-ingreso").clear();
       cy.get("#nota-ingreso").type("Salario");
@@ -47,14 +51,28 @@ describe("Registrar Ingreso", () => {
     });
     it("Muestra mensaje de 'No hay notas disponibles' caso de solo ingresar el monto de gasto y la fecha", () => {
       cy.visit("/");
+      cy.get("#mostrar-form-ingreso").click();
       cy.get("#monto-ingreso").type(5);
       cy.get("#fecha-ingreso").type("2024-10-14");
       cy.get("#nota-ingreso").clear();
       cy.get("#aniadir-ingreso").click();
       cy.get("#ingreso-div").should("contain", "5").and("contain", "2024-10-14").and("contain", "No hay notas disponibles");
     });
+    it("Si registra un ingreso pero hace click en cancelar, cierra el formulario y sube al primer punto", () => {
+      cy.visit("/");
+      cy.get("#mostrar-form-ingreso").click();
+      cy.get("#monto-ingreso").type(500);
+      cy.get("#fecha-ingreso").type("2024-11-16");
+      cy.get("#nota-ingreso").type("Prueba de cancelar");
+      cy.get("#cancelar").click();
+      cy.get("#ingreso-form").should("not.be.visible"); 
+      cy.get("#ingreso-div").should("not.be.visible"); 
+      cy.get("h2").should("contain", "Saldo").and("be.visible");
+    });
+    /*
     it("Si registra un ingreso pero hace click en cancelar Restablece los valores del formulario y desplaza la vista hacia el saldo", () => {
       cy.visit("/");
+      cy.get("#mostrar-form-ingreso").click();
       cy.get("#monto-ingreso").type(500);
       cy.get("#fecha-ingreso").type("2024-11-16");
       cy.get("#nota-ingreso").type("Prueba de cancelar");
@@ -63,5 +81,5 @@ describe("Registrar Ingreso", () => {
       cy.get("#fecha-ingreso").clear();
       cy.get("#nota-ingreso").clear();
       cy.get("h2").should("contain", "Saldo").and("be.visible");
-    });
+    });*/
   });
