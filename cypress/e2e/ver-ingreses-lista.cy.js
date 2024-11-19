@@ -1,6 +1,7 @@
 describe("Ver Ingresos", () => {
     it("Muestra un ingreso ingresado en la lista", () => {
       cy.visit("/");
+      cy.get("#mostrar-form-ingreso").click();
       cy.get("#monto-ingreso").type(200);
       cy.get("#fecha-ingreso").type("2024-10-30");
       cy.get("#nota-ingreso").type("Regalos");
@@ -10,6 +11,7 @@ describe("Ver Ingresos", () => {
     //nuevo
     it("Muestra dos o mas ingreso aniadidos en la lista", () => {
       cy.visit("/");
+      cy.get("#mostrar-form-ingreso").click();
       cy.get("#monto-ingreso").type(200);
       cy.get("#fecha-ingreso").type("2024-10-30");
       cy.get("#nota-ingreso").type("Inversiones");

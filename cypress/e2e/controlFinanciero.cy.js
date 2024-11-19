@@ -22,7 +22,7 @@ describe("Gastos, Ingresos - Control", () => {
 
     it("Muestra 3 ingresos y muestra el total", () => {
       cy.visit("/");
-      
+      cy.get("#mostrar-form-ingreso").click();
       cy.get("#monto-ingreso").type(10);
       cy.get("#fecha-ingreso").type("2024-10-30");
       cy.get("#nota-ingreso").type("1er gasto");
@@ -44,7 +44,7 @@ describe("Gastos, Ingresos - Control", () => {
     });
     it("Muestra el saldo actualizandoce", () => {
       cy.visit("/");
-      
+      cy.get("#mostrar-form-ingreso").click();
       cy.get("#monto-ingreso").type(100);
       cy.get("#fecha-ingreso").type("2024-10-30");
       cy.get("#nota-ingreso").type("1er ingreso");
@@ -71,7 +71,7 @@ describe("Gastos, Ingresos - Control", () => {
 
     it("Muestra el mensaje 'Ojo te estas endeudando' cuando el saldo es negativo", () => {
       cy.visit("/");
-      
+      cy.get("#mostrar-form-ingreso").click();
       cy.get("#monto-ingreso").type(100);
       cy.get("#fecha-ingreso").type("2024-10-30");
       cy.get("#nota-ingreso").type("Ingreso test");
