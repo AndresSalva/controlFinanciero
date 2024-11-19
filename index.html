@@ -37,19 +37,20 @@
       <input type="submit" value="cancelar" id="cancelar-gasto" />
     </form>
     <div id="gastos-div" style="display: none;"></div>
-    <h1>Registro ingreso</h1>
-      <form id="ingreso-form">
-        <label for="monto-ingreso">Monto ingreso:</label>
-        <input type="number" id="monto-ingreso" />
-        <label for="fecha-ingreso">Fecha:</label>
-        <input type="date" id="fecha-ingreso" />
-        <label for="nota-ingreso">Nota:</label>
-        <input type="text" id="nota-ingreso" />
-        <input type="submit" value="registrar-ingreso" id="aniadir-ingreso" />
-        <input type="submit" value="cancelar" id="cancelar" />
-      </form>
-    </div>
-    <div id="ingreso-div"></div>
+    <br>
+    <button id="mostrar-form-ingreso">Registrar ingreso</button>
+    <form id="ingreso-form" style="display: none;">
+      <h1>Registro ingreso</h1>
+      <label for="monto-ingreso">Monto ingreso:</label>
+      <input type="number" id="monto-ingreso" />
+      <label for="fecha-ingreso">Fecha:</label>
+      <input type="date" id="fecha-ingreso" />
+      <label for="nota-ingreso">Nota:</label>
+      <input type="text" id="nota-ingreso" />
+      <input type="submit" value="registrar-ingreso" id="aniadir-ingreso" />
+      <input type="submit" value="cancelar" id="cancelar" />
+    </form>
+    <div id="ingreso-div" style="display: none;"></div>
     <h1>Lista gastos</h1>
     <div id="lista-gastos-div">No hay gastos</div>
     <h1>Lista ingresos</h1>

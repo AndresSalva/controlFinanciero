@@ -34,6 +34,7 @@ const notaIngreso = document.querySelector("#nota-ingreso");
 const form_ingreso = document.querySelector("#ingreso-form")
 const div_ingreso = document.querySelector("#ingreso-div")
 const cancelarIngresoBtn = document.querySelector("#cancelar");
+const mostrarFormBtnIngreso = document.querySelector("#mostrar-form-ingreso"); 
 //const ingreso = new Ingreso;
 
 //Lista gastos
@@ -184,8 +185,23 @@ form_ingreso.addEventListener("submit", (event) => {
 cancelarIngresoBtn.addEventListener("click", (event) => {
   event.preventDefault(); 
   form_ingreso.reset();
+  div_ingreso.innerHTML = ""; 
   const saldoHeader = document.querySelector("h2"); 
   saldoHeader.scrollIntoView({ behavior: "smooth", block: "start" }); 
+  form_ingreso.style.display = "none"; 
+  div_ingreso.style.display = "none";
+});
+
+mostrarFormBtnIngreso.addEventListener("click", () => { 
+  if (form_ingreso.style.display === "none" || form_ingreso.style.display === "") {
+    form_ingreso.style.display = "block"; 
+    div_ingreso.style.display = "block"; 
+  } else {
+    form_ingreso.reset(); 
+    div_ingreso.innerHTML = ""; 
+    form_ingreso.style.display = "none"; 
+    div_ingreso.style.display = "none";
+  }
 });
 
 function actualizarLista(gastito){
