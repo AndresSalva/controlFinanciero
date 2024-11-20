@@ -93,6 +93,7 @@ form_gasto.addEventListener("submit", (event) => {
   div_gastos.innerHTML = "<p>" + gastito.mostrarMonto() + "<p>" + gastito.mostrarFecha() + "<p>" + gastito.mostrarNota() + "</p>";
 
   limpiarCampos([montoGasto, notaGasto, fechaGasto]);
+  form_gasto.style.display = "none";
 });
 
 cancelarGastoBtn.addEventListener("click", (event) => {
