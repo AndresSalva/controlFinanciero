@@ -6,12 +6,12 @@ describe("Gastos, Ingresos - Control", () => {
       cy.get("#fecha-gasto").type("2024-10-30");
       cy.get("#nota-gasto").type("1er gasto");
       cy.get("#aniadir-gasto").click();
-
+      cy.get("#mostrar-form-btn").click();
       cy.get("#monto-gasto").type(20);
       cy.get("#fecha-gasto").type("2024-10-30");
       cy.get("#nota-gasto").type("2do gasto");
       cy.get("#aniadir-gasto").click();
-
+      cy.get("#mostrar-form-btn").click();
       cy.get("#monto-gasto").type(350);
       cy.get("#fecha-gasto").type("2024-10-30");
       cy.get("#nota-gasto").type("3er gasto");
@@ -59,7 +59,7 @@ describe("Gastos, Ingresos - Control", () => {
       cy.get("#fecha-gasto").type("2024-10-30");
       cy.get("#nota-gasto").type("1er gasto");
       cy.get("#aniadir-gasto").click();
-
+      cy.get("#mostrar-form-btn").click();
       cy.get("#monto-gasto").type(20);
       cy.get("#fecha-gasto").type("2024-10-30");
       cy.get("#nota-gasto").type("2do gasto");
@@ -88,7 +88,6 @@ describe("Gastos, Ingresos - Control", () => {
     it("Selecciona un gasto y actualiza correctamente el saldo", () => {
       cy.visit("/");
   
-      // Registrar ingresos para configurar el saldo inicial
       cy.get("#mostrar-form-ingreso").click();
       cy.get("#monto-ingreso").type(1000);
       cy.get("#fecha-ingreso").type("2024-11-01");
@@ -101,19 +100,13 @@ describe("Gastos, Ingresos - Control", () => {
       cy.get("#fecha-gasto").type("2024-11-02");
       cy.get("#nota-gasto").type("Compra de oficina");
       cy.get("#aniadir-gasto").click();
-  
-      cy.get("#monto-gasto").clear();
-      cy.get("#fecha-gasto").clear();
-      cy.get("#nota-gasto").clear();
-  
+      cy.get("#mostrar-form-btn").click();
       cy.get("#monto-gasto").type(300);
       cy.get("#fecha-gasto").type("2024-11-03");
       cy.get("#nota-gasto").type("Mantenimiento");
       cy.get("#aniadir-gasto").click();
-  
       // Verificar saldo inicial
       cy.get("#saldo-div").should("contain", "500");
-  
       // Seleccionar el primer gasto y verificar detalles (si hay funcionalidad de selección)
       cy.get("#lista-gastos-div button[data-index='0']").click();
       cy.get("#gastos-div").should("contain", "200")
