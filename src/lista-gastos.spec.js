@@ -46,6 +46,32 @@ describe("Lista gastos", () => {
     const lista = new ListaGastos;
     expect(lista.obtenerGastos()).toEqual([]); // La lista debería estar vacía
   });
+  //
+  it("Debería seleccionar un gasto correctamente según el índice", () => {
+    const gastito1 = new Gasto();
+    gastito1.agregarMonto(50);
+    gastito1.agregarFecha("2024-10-12");
+    gastito1.agregarNota("Compra de útiles escolares");
 
+    const gastito2 = new Gasto();
+    gastito2.agregarMonto(100);
+    gastito2.agregarFecha("2024-11-01");
+    gastito2.agregarNota("Cena familiar");
 
+    const lista = new ListaGastos();
+    lista.registrarGasto(gastito1);
+    lista.registrarGasto(gastito2);
+
+    const seleccionado = lista.seleccionarGasto(1);
+    expect(seleccionado).toEqual({
+      monto: 100,
+      fecha: "2024-11-01",
+      nota: "Cena familiar",
+    });
+  });
+  it("Deberia lanzar un error si el indice está fuera de rango (negativo)", () => {
+    const lista = new ListaGastos();
+    const resultado = lista.seleccionarGasto(-1); 
+    expect(resultado).toBe("El gasto no se pudo eliminar, intentelo de nuevo");
+  });
 });

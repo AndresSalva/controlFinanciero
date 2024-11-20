@@ -16,9 +16,7 @@ describe("Ver Ingresos", () => {
       cy.get("#fecha-ingreso").type("2024-10-30");
       cy.get("#nota-ingreso").type("Inversiones");
       cy.get("#aniadir-ingreso").click();
-      cy.get("#monto-ingreso").clear();
-      cy.get("#fecha-ingreso").clear();
-      cy.get("#nota-ingreso").clear();
+      cy.get("#mostrar-form-ingreso").click();
       cy.get("#monto-ingreso").type(20);
       cy.get("#fecha-ingreso").type("2024-10-27");
       cy.get("#nota-ingreso").type("Premio");

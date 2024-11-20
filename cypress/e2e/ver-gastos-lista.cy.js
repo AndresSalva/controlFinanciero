@@ -15,9 +15,10 @@ describe("Ver Gastos", () => {
       cy.get("#fecha-gasto").type("2024-10-30");
       cy.get("#nota-gasto").type("Gasto en comida");
       cy.get("#aniadir-gasto").click();
-      cy.get("#monto-gasto").clear();
-      cy.get("#fecha-gasto").clear();
-      cy.get("#nota-gasto").clear();
+      cy.get("#mostrar-form-btn").click();
+      //cy.get("#monto-gasto").clear();
+      //cy.get("#fecha-gasto").clear();
+      //cy.get("#nota-gasto").clear();
       cy.get("#monto-gasto").type(20);
       cy.get("#fecha-gasto").type("2024-10-27");
       cy.get("#nota-gasto").type("Salud");

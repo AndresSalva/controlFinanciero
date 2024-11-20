@@ -11,6 +11,10 @@ class ControlFinanciero{
     registrarGasto(gasto){
         this.ListaGastos.registrarGasto(gasto);
     }
+    //
+    seleccionarGasto(index) {
+        return this.ListaGastos.seleccionarGasto(index);
+    }
 
     verTotalGastitos(){
         const gastos = this.ListaGastos.obtenerGastos();

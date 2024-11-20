@@ -93,6 +93,7 @@ form_gasto.addEventListener("submit", (event) => {
   div_gastos.innerHTML = "<p>" + gastito.mostrarMonto() + "<p>" + gastito.mostrarFecha() + "<p>" + gastito.mostrarNota() + "</p>";
 
   limpiarCampos([montoGasto, notaGasto, fechaGasto]);
+  form_gasto.style.display = "none";
 });
 
 cancelarGastoBtn.addEventListener("click", (event) => {
@@ -156,6 +157,7 @@ form_ingreso.addEventListener("submit", (event) => {
   div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>"  + ingreso.mostrarNota() + "</p>";
 
   limpiarCampos([montoIngreso, notaIngreso, fechaIngreso]);
+  form_ingreso.style.display = "none";
 });
 
 cancelarIngresoBtn.addEventListener("click", (event) => {
@@ -172,12 +174,49 @@ function actualizarLista(gastito){
   const gastos = lista_gastos.obtenerGastos();
 
   div_lista_gastos.innerHTML = "<ul>";  
-  gastos.forEach((gastoRegistrado) => {
+  gastos.forEach((gastoRegistrado,index) => {
     div_lista_gastos.innerHTML+= 
-       "<li>"+"Monto: "+ gastoRegistrado.monto+", Fecha: "+gastoRegistrado.fecha+", Nota: "+gastoRegistrado.nota+"</li>";
+      `<li>
+        Monto: ${gastoRegistrado.monto}, Fecha: ${gastoRegistrado.fecha}, Nota: ${gastoRegistrado.nota}
+        <button class="select-gasto-btn" data-index="${index}">:</button>
+      </li>`;
+      //"<li>"+"Monto: "+ gastoRegistrado.monto+", Fecha: "+gastoRegistrado.fecha+", Nota: "+gastoRegistrado.nota+"</li>";
     });
+
     div_lista_gastos.innerHTML+= "</ul>";
+    //
+    const selectButtons = div_lista_gastos.querySelectorAll(".select-gasto-btn");
+    selectButtons.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        seleccionarGasto(index);
+      });
+    });    
 }
+//
+function seleccionarGasto(index) {
+  try {
+    const gastoSeleccionado = lista_gastos.seleccionarGasto(index);
+    console.log("Gasto seleccionado:", gastoSeleccionado);
+
+    // Mostrar los detalles del gasto en el formulario (puedes personalizar esto)
+    montoGasto.value = gastoSeleccionado.monto;
+    fechaGasto.value = gastoSeleccionado.fecha;
+    notaGasto.value = gastoSeleccionado.nota;
+
+    // Enfocar el formulario para edición
+    form_gasto.style.display = "block";
+    div_gastos.innerHTML = `
+      <p>Gasto seleccionado:</p>
+      <p>Monto: ${gastoSeleccionado.monto}</p>
+      <p>Fecha: ${gastoSeleccionado.fecha}</p>
+      <p>Nota: ${gastoSeleccionado.nota}</p>
+    `;
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
 
 function actualizarListaIngreso(ingreso){
   lista_ingresos.registrarIngreso(ingreso);
