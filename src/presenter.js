@@ -35,7 +35,6 @@ const form_ingreso = document.querySelector("#ingreso-form")
 const div_ingreso = document.querySelector("#ingreso-div")
 const cancelarIngresoBtn = document.querySelector("#cancelar");
 const mostrarFormBtnIngreso = document.querySelector("#mostrar-form-ingreso"); 
-//const ingreso = new Ingreso;
 
 //Lista gastos
 const div_lista_gastos = document.querySelector("#lista-gastos-div");
@@ -52,19 +51,22 @@ const div_total_gastos = document.querySelector("#totalGastos-div");
 //Total Ingresos
 const div_total_ingresos = document.querySelector("#totalIngresos-div");
 //Total Saldo
-
 const div_saldo = document.querySelector("#saldo-div");
 
-mostrarFormBtn.addEventListener("click", () => { 
-  if (form_gasto.style.display === "none" || form_gasto.style.display === "") {
-    form_gasto.style.display = "block"; 
-    div_gastos.style.display = "block"; 
+function visibilidadDeFormulario(formElement, divElement) {
+  if (formElement.style.display === "none" || formElement.style.display === "") {
+    formElement.style.display = "block";
+    divElement.style.display = "block";
   } else {
-    form_gasto.reset(); 
-    div_gastos.innerHTML = ""; 
-    form_gasto.style.display = "none"; 
-    div_gastos.style.display = "none";
+    formElement.reset(); 
+    divElement.innerHTML = ""; 
+    formElement.style.display = "none"; 
+    divElement.style.display = "none"; 
   }
+}
+
+mostrarFormBtn.addEventListener("click", () => { 
+  visibilidadDeFormulario(form_gasto, div_gastos);
 });
 
 form_gasto.addEventListener("submit", (event) => {
@@ -72,14 +74,8 @@ form_gasto.addEventListener("submit", (event) => {
 
   const gastito = new Gasto;
   const valor_gasto = Number.parseInt(montoGasto.value);
-  
-  const today = new Date();
-  const day = String(today.getDate()).padStart(2, '0');
-  const month = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0
-  const year = today.getFullYear();
-  const fecha_gasto = fechaGasto.value || `${year}-${month}-${day}`;
+  const fecha_gasto = fechaGasto.value || obtenerFechaActual();
   const nota_gasto = notaGasto.value || "No hay notas disponibles";
-
 
   if (fecha_gasto && !valor_gasto) {
     div_gastos.innerHTML = "<p>MONTO VACIO!!!</p>";
@@ -96,19 +92,12 @@ form_gasto.addEventListener("submit", (event) => {
 
   div_gastos.innerHTML = "<p>" + gastito.mostrarMonto() + "<p>" + gastito.mostrarFecha() + "<p>" + gastito.mostrarNota() + "</p>";
 
-  montoGasto.value = '';
-  notaGasto.value = '';
-  fechaGasto.value = '';
+  limpiarCampos([montoGasto, notaGasto, fechaGasto]);
 });
 
 cancelarGastoBtn.addEventListener("click", (event) => {
   event.preventDefault(); 
-  form_gasto.reset();
-  div_gastos.innerHTML = ""; 
-  const saldoHeader = document.querySelector("h2"); 
-  saldoHeader.scrollIntoView({ behavior: "smooth", block: "start"});
-  form_gasto.style.display = "none"; 
-  div_gastos.style.display = "none";
+  botonCancelar(form_gasto, div_gastos);
 });
 
 form_presupuesto.addEventListener("submit", (event) => {
@@ -124,29 +113,23 @@ form_presupuesto.addEventListener("submit", (event) => {
   div_presupuesto.innerHTML = "<p>" + presupuestito.mostrarMonto() + "</p>";
 });
 
+function VisibilidadDeImagen(imagenAMostrar, imagenAOcultar) {
+  if (imagenAMostrar.style.display === 'none') {
+    imagenAOcultar.style.display = 'none';
+    imagenAMostrar.style.display = 'block';
+  } else {
+    imagenAMostrar.style.display = 'none';
+  }
+}
 
 cat_gastos.addEventListener('click', (event) => {
   event.preventDefault();
-  if(gastosImage.style.display === 'none'){
-    ingresosImage.style.display = 'none'; // Ocultar la imagen de ingresos
-    gastosImage.style.display = 'block'; // Mostrar la imagen de gastos
-  }
-  else{
-    gastosImage.style.display = 'none'; // Ocultar la imagen de gastos
-  }
+  VisibilidadDeImagen(gastosImage, ingresosImage);
 });
-
 
 cat_ingresos.addEventListener('click', (event) => {
   event.preventDefault();
-  if(ingresosImage.style.display === 'none'){
-    gastosImage.style.display = 'none'; // Ocultar la imagen de gastos
-    ingresosImage.style.display = 'block'; // Mostrar la imagen de ingresos
-  }
-  else{
-    ingresosImage.style.display = 'none'; // Ocultar la imagen de ingresos
-  }
-  
+  VisibilidadDeImagen(ingresosImage, gastosImage);
 });
 
 form_ingreso.addEventListener("submit", (event) => {
@@ -154,11 +137,7 @@ form_ingreso.addEventListener("submit", (event) => {
 
   const ingreso = new Ingreso;
   const valor_ingreso = Number.parseInt(montoIngreso.value);
-  const today = new Date();
-  const day = String(today.getDate()).padStart(2, '0');
-  const month = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0
-  const year = today.getFullYear();
-  const fecha_ingreso = fechaIngreso.value || `${year}-${month}-${day}`;; 
+  const fecha_ingreso = fechaIngreso.value || obtenerFechaActual(); 
   const nota_ingreso = notaIngreso.value || "No hay notas disponibles";
   
   if (fecha_ingreso && !valor_ingreso) {
@@ -176,32 +155,16 @@ form_ingreso.addEventListener("submit", (event) => {
 
   div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>"  + ingreso.mostrarNota() + "</p>";
 
-  montoIngreso.value = '';
-  notaIngreso.value = '';
-  fechaIngreso.value = '';
-
+  limpiarCampos([montoIngreso, notaIngreso, fechaIngreso]);
 });
 
 cancelarIngresoBtn.addEventListener("click", (event) => {
   event.preventDefault(); 
-  form_ingreso.reset();
-  div_ingreso.innerHTML = ""; 
-  const saldoHeader = document.querySelector("h2"); 
-  saldoHeader.scrollIntoView({ behavior: "smooth", block: "start" }); 
-  form_ingreso.style.display = "none"; 
-  div_ingreso.style.display = "none";
+  botonCancelar(form_ingreso, div_ingreso);
 });
 
 mostrarFormBtnIngreso.addEventListener("click", () => { 
-  if (form_ingreso.style.display === "none" || form_ingreso.style.display === "") {
-    form_ingreso.style.display = "block"; 
-    div_ingreso.style.display = "block"; 
-  } else {
-    form_ingreso.reset(); 
-    div_ingreso.innerHTML = ""; 
-    form_ingreso.style.display = "none"; 
-    div_ingreso.style.display = "none";
-  }
+  visibilidadDeFormulario(form_ingreso, div_ingreso);
 });
 
 function actualizarLista(gastito){
@@ -233,7 +196,6 @@ function actualizarLaListaGastos_ControlFinanciero(gasto){
   gestion.registrarGasto(gasto);
   const totalGastos = gestion.verTotalGastitos();
 
-
   div_total_gastos.innerHTML = `<p>Total de gastos: ${Number(totalGastos)}</p>`;
 }
 
@@ -243,9 +205,6 @@ function actualizarLaListaIngresos_ControlFinanciero(ingreso){
  
    div_total_ingresos.innerHTML = `<p>Total de ingresos: ${Number(totalIngresos)}</p>`;
  }
-
-
-
  // JavaScript para mostrar/ocultar los botones de categorías
  document.getElementById('ver-categorias-btn').addEventListener('click', () => {
   const categoriasDiv = document.getElementById('categorias');
@@ -265,3 +224,23 @@ function actualizarLaListaIngresos_ControlFinanciero(ingreso){
   div_totales_presupuestos.innerHTML = `<p>Total de presupuesto: ${Number(presupuestito.monto)}</p>`;
  }
 
+ function obtenerFechaActual() {
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, '0');
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const year = today.getFullYear();
+  return `${year}-${month}-${day}`;
+}
+// Función genérica para limpiar campos de entrada
+function limpiarCampos(campos) {
+  campos.forEach(campo => campo.value = '');
+}
+
+function botonCancelar(formElement, divElement){
+  formElement.reset();
+  divElement.innerHTML = ""; 
+  const saldoHeader = document.querySelector("h2"); 
+  saldoHeader.scrollIntoView({ behavior: "smooth", block: "start" }); 
+  formElement.style.display = "none"; 
+  divElement.style.display = "none";
+}
