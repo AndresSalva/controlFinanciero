@@ -69,4 +69,9 @@ describe("Lista gastos", () => {
       nota: "Cena familiar",
     });
   });
+  it("Deberia lanzar un error si el indice está fuera de rango (negativo)", () => {
+    const lista = new ListaGastos();
+    const resultado = lista.seleccionarGasto(-1); 
+    expect(resultado).toBe("El gasto no se pudo eliminar, intentelo de nuevo");
+  });
 });

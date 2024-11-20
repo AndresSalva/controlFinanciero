@@ -10,7 +10,12 @@ class ListaGastos {
     }
     //
     seleccionarGasto(index) {
-      return this.gastos[index];
+      if (index >= 0 && index < this.gastos.length) {
+        return this.gastos[index];
+      } 
+      else {
+        return "El gasto no se pudo eliminar, intentelo de nuevo";
+      }
     }
   }
   export default ListaGastos;
