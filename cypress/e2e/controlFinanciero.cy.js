@@ -27,18 +27,16 @@ describe("Gastos, Ingresos - Control", () => {
       cy.get("#fecha-ingreso").type("2024-10-30");
       cy.get("#nota-ingreso").type("1er gasto");
       cy.get("#aniadir-ingreso").click();
-
+      cy.get("#mostrar-form-ingreso").click();
       cy.get("#monto-ingreso").type(30);
       cy.get("#fecha-ingreso").type("2024-10-30");
       cy.get("#nota-ingreso").type("1er gasto");
       cy.get("#aniadir-ingreso").click();
-
-
+      cy.get("#mostrar-form-ingreso").click();
       cy.get("#monto-ingreso").type(100);
       cy.get("#fecha-ingreso").type("2024-10-30");
       cy.get("#nota-ingreso").type("1er gasto");
       cy.get("#aniadir-ingreso").click();
-
 
       cy.get("#totalIngresos-div").should('contain', '140');
     });
@@ -49,7 +47,7 @@ describe("Gastos, Ingresos - Control", () => {
       cy.get("#fecha-ingreso").type("2024-10-30");
       cy.get("#nota-ingreso").type("1er ingreso");
       cy.get("#aniadir-ingreso").click();
-
+      cy.get("#mostrar-form-ingreso").click();
       cy.get("#monto-ingreso").type(300);
       cy.get("#fecha-ingreso").type("2024-10-30");
       cy.get("#nota-ingreso").type("2do ingreso");
@@ -64,7 +62,6 @@ describe("Gastos, Ingresos - Control", () => {
       cy.get("#fecha-gasto").type("2024-10-30");
       cy.get("#nota-gasto").type("2do gasto");
       cy.get("#aniadir-gasto").click();
-
 
       cy.get("#saldo-div").should('contain', '230');
     });
