@@ -157,6 +157,7 @@ form_ingreso.addEventListener("submit", (event) => {
   div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>"  + ingreso.mostrarNota() + "</p>";
 
   limpiarCampos([montoIngreso, notaIngreso, fechaIngreso]);
+  form_ingreso.style.display = "none";
 });
 
 cancelarIngresoBtn.addEventListener("click", (event) => {
