@@ -35,7 +35,6 @@ const form_ingreso = document.querySelector("#ingreso-form")
 const div_ingreso = document.querySelector("#ingreso-div")
 const cancelarIngresoBtn = document.querySelector("#cancelar");
 const mostrarFormBtnIngreso = document.querySelector("#mostrar-form-ingreso"); 
-//const ingreso = new Ingreso;
 
 //Lista gastos
 const div_lista_gastos = document.querySelector("#lista-gastos-div");
@@ -52,7 +51,6 @@ const div_total_gastos = document.querySelector("#totalGastos-div");
 //Total Ingresos
 const div_total_ingresos = document.querySelector("#totalIngresos-div");
 //Total Saldo
-
 const div_saldo = document.querySelector("#saldo-div");
 
 function visibilidadDeFormulario(formElement, divElement) {
@@ -66,6 +64,7 @@ function visibilidadDeFormulario(formElement, divElement) {
     divElement.style.display = "none"; 
   }
 }
+
 mostrarFormBtn.addEventListener("click", () => { 
   visibilidadDeFormulario(form_gasto, div_gastos);
 });
@@ -77,7 +76,6 @@ form_gasto.addEventListener("submit", (event) => {
   const valor_gasto = Number.parseInt(montoGasto.value);
   const fecha_gasto = fechaGasto.value || obtenerFechaActual();
   const nota_gasto = notaGasto.value || "No hay notas disponibles";
-
 
   if (fecha_gasto && !valor_gasto) {
     div_gastos.innerHTML = "<p>MONTO VACIO!!!</p>";
@@ -128,7 +126,6 @@ cat_gastos.addEventListener('click', (event) => {
   event.preventDefault();
   VisibilidadDeImagen(gastosImage, ingresosImage);
 });
-
 
 cat_ingresos.addEventListener('click', (event) => {
   event.preventDefault();
@@ -198,7 +195,6 @@ function actualizarLaListaGastos_ControlFinanciero(gasto){
  // const montoGasto = Number(gasto.monto);
   gestion.registrarGasto(gasto);
   const totalGastos = gestion.verTotalGastitos();
-
 
   div_total_gastos.innerHTML = `<p>Total de gastos: ${Number(totalGastos)}</p>`;
 }
