@@ -49,10 +49,6 @@ describe("Control financiero", () => {
         const ingresito_saldo=new Ingreso;
         const gastito_saldo= new Gasto;
         const controlFinancieroSaldo= new ControlFinanciero;
-        const ingresito_saldo1=new Ingreso;
-        const gastito_saldo1= new Gasto;
-        const ingresito_saldo2=new Ingreso;
-        const gastito_saldo2= new Gasto;
 
         ingresito_saldo.agregarMonto(600);
         controlFinancieroSaldo.registrarGasto(gastito_saldo);
@@ -94,5 +90,29 @@ describe("Control financiero", () => {
 
         expect(controlFinancieroSaldo.verTotalSaldo()).toBe('Total: -150 Ojo te estas endeudando');
     });
-
+    //
+    it("Deberia seleccionar un gasto correctamente segun el indice", () => {
+        const gastito1 = new Gasto();
+        const gastito2 = new Gasto();
+        const controlFinanciero = new ControlFinanciero();
+    
+        gastito1.agregarMonto(150);
+        gastito1.agregarFecha("2024-11-19");
+        gastito1.agregarNota("Compra de libros");
+    
+        gastito2.agregarMonto(300);
+        gastito2.agregarFecha("2024-11-20");
+        gastito2.agregarNota("Cena familiar");
+    
+        controlFinanciero.registrarGasto(gastito1);
+        controlFinanciero.registrarGasto(gastito2);
+    
+        const seleccionado = controlFinanciero.seleccionarGasto(1);
+        expect(seleccionado).toEqual({
+          monto: 300,
+          fecha: "2024-11-20",
+          nota: "Cena familiar",
+        });
+      });
+      
 });
