@@ -8,5 +8,9 @@ class ListaGastos {
     obtenerGastos() {
       return this.gastos;
     }
+    //
+    seleccionarGasto(index) {
+      return this.gastos[index];
+    }
   }
   export default ListaGastos;
