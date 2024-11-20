@@ -99,12 +99,7 @@ form_gasto.addEventListener("submit", (event) => {
 
 cancelarGastoBtn.addEventListener("click", (event) => {
   event.preventDefault(); 
-  form_gasto.reset();
-  div_gastos.innerHTML = ""; 
-  const saldoHeader = document.querySelector("h2"); 
-  saldoHeader.scrollIntoView({ behavior: "smooth", block: "start"});
-  form_gasto.style.display = "none"; 
-  div_gastos.style.display = "none";
+  botonCancelar(form_gasto, div_gastos);
 });
 
 form_presupuesto.addEventListener("submit", (event) => {
@@ -168,12 +163,7 @@ form_ingreso.addEventListener("submit", (event) => {
 
 cancelarIngresoBtn.addEventListener("click", (event) => {
   event.preventDefault(); 
-  form_ingreso.reset();
-  div_ingreso.innerHTML = ""; 
-  const saldoHeader = document.querySelector("h2"); 
-  saldoHeader.scrollIntoView({ behavior: "smooth", block: "start" }); 
-  form_ingreso.style.display = "none"; 
-  div_ingreso.style.display = "none";
+  botonCancelar(form_ingreso, div_ingreso);
 });
 
 mostrarFormBtnIngreso.addEventListener("click", () => { 
@@ -219,7 +209,6 @@ function actualizarLaListaIngresos_ControlFinanciero(ingreso){
  
    div_total_ingresos.innerHTML = `<p>Total de ingresos: ${Number(totalIngresos)}</p>`;
  }
-
  // JavaScript para mostrar/ocultar los botones de categorías
  document.getElementById('ver-categorias-btn').addEventListener('click', () => {
   const categoriasDiv = document.getElementById('categorias');
@@ -249,4 +238,13 @@ function actualizarLaListaIngresos_ControlFinanciero(ingreso){
 // Función genérica para limpiar campos de entrada
 function limpiarCampos(campos) {
   campos.forEach(campo => campo.value = '');
+}
+
+function botonCancelar(formElement, divElement){
+  formElement.reset();
+  divElement.innerHTML = ""; 
+  const saldoHeader = document.querySelector("h2"); 
+  saldoHeader.scrollIntoView({ behavior: "smooth", block: "start" }); 
+  formElement.style.display = "none"; 
+  divElement.style.display = "none";
 }
