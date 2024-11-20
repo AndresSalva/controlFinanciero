@@ -94,9 +94,7 @@ form_gasto.addEventListener("submit", (event) => {
 
   div_gastos.innerHTML = "<p>" + gastito.mostrarMonto() + "<p>" + gastito.mostrarFecha() + "<p>" + gastito.mostrarNota() + "</p>";
 
-  montoGasto.value = '';
-  notaGasto.value = '';
-  fechaGasto.value = '';
+  limpiarCampos([montoGasto, notaGasto, fechaGasto]);
 });
 
 cancelarGastoBtn.addEventListener("click", (event) => {
@@ -165,10 +163,7 @@ form_ingreso.addEventListener("submit", (event) => {
 
   div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>"  + ingreso.mostrarNota() + "</p>";
 
-  montoIngreso.value = '';
-  notaIngreso.value = '';
-  fechaIngreso.value = '';
-
+  limpiarCampos([montoIngreso, notaIngreso, fechaIngreso]);
 });
 
 cancelarIngresoBtn.addEventListener("click", (event) => {
@@ -250,4 +245,8 @@ function actualizarLaListaIngresos_ControlFinanciero(ingreso){
   const month = String(today.getMonth() + 1).padStart(2, '0');
   const year = today.getFullYear();
   return `${year}-${month}-${day}`;
+}
+// Función genérica para limpiar campos de entrada
+function limpiarCampos(campos) {
+  campos.forEach(campo => campo.value = '');
 }
