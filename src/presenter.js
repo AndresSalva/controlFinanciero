@@ -16,11 +16,13 @@ const mostrarFormBtn = document.querySelector("#mostrar-form-btn");
 
 //Presupuesto
 const montoPresupuesto = document.querySelector("#monto-presupuesto");
+const categoria_presupuesto = document.querySelector("#categoria-presupuesto")
+const inputCategoriaPersonalizada = document.getElementById("categoria-gasto-personalizada");
 const form_presupuesto = document.querySelector("#presupuesto-form");
 const div_presupuesto = document.querySelector("#presupuesto-div");
 const div_totales_presupuestos = document.querySelector("#totalPresupuesto-div");
 const mostrarFormPresupuesto = document.querySelector("#mostrar-form-presupuesto");
-const presupuestito = new Presupuesto;
+
 
 //Categorias
 const cat_gastos = document.querySelector('#gastos-btn');
@@ -104,18 +106,38 @@ cancelarGastoBtn.addEventListener("click", (event) => {
 
 form_presupuesto.addEventListener("submit", (event) => {
   event.preventDefault();
-
+  const presupuestito = new Presupuesto;
   const valor_presupuesto = Number.parseInt(montoPresupuesto.value);
+  const valor_categoria_presupuesto = categoria_presupuesto.value;
   presupuestito.agregarMonto(valor_presupuesto);
-  actualizarPresupuestoTotal(presupuestito);
+  presupuestito.agregarCategoria(valor_categoria_presupuesto);
   if (!valor_presupuesto) {
     div_presupuesto.innerHTML = "<p>MONTO VACIO!!!</p>";
     return;
   }
-  div_presupuesto.innerHTML = "<p>" + presupuestito.mostrarMonto() + "</p>";
+  if(valor_categoria_presupuesto === "otros"){
+    const valor_categoria_presupuesto_personalizado = inputCategoriaPersonalizada.value;
+    if (!valor_presupuesto) {
+      div_presupuesto.innerHTML = "<p>CATEGORIA VACIA!!!</p>";
+      return;
+    }
+    presupuestito.agregarCategoria(valor_categoria_presupuesto_personalizado);
+  }
+  actualizarPresupuestoTotal(presupuestito);
+  div_presupuesto.innerHTML = "<p>" + presupuestito.mostrarMonto() + "</p>" + presupuestito.mostrarCategoria() + "</p>";
 });
+
 mostrarFormPresupuesto.addEventListener("click", () => { 
   visibilidadDeFormulario(form_presupuesto, div_presupuesto);
+});
+
+categoria_presupuesto.addEventListener("change", () => {
+  if (categoria_presupuesto.value === "otros") {
+    inputCategoriaPersonalizada.style.display = "block"; // Mostrar campo de texto
+  } else {
+    inputCategoriaPersonalizada.style.display = "none"; // Ocultar campo de texto
+    inputCategoriaPersonalizada.value = ""; // Limpiar el valor
+  }
 });
 
 function VisibilidadDeImagen(imagenAMostrar, imagenAOcultar) {
@@ -264,7 +286,7 @@ function actualizarLaListaIngresos_ControlFinanciero(ingreso){
  }
 
  function actualizarPresupuestoTotal(presupuestito){
-  div_totales_presupuestos.innerHTML = `<p>Total de presupuesto: ${Number(presupuestito.monto)}</p>`;
+  div_totales_presupuestos.innerHTML = "<p>"+"Monto:"+ presupuestito.monto+ ", Categoria: " + presupuestito.categoria +"</p>";
  }
 
  function obtenerFechaActual() {
