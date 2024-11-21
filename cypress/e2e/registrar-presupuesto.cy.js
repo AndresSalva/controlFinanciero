@@ -20,5 +20,13 @@ describe("Registrar presupuesto", () => {
     cy.get("#aniadir-presupuesto").click();
     cy.get("#presupuesto-div").should("contain", "100").and("contain", "alimentacion");
   });
+  it("Muestra monto ingresada y categoria 'ninguno'", () => {
+    cy.visit("/");
+    cy.get("#mostrar-form-presupuesto").click();
+    cy.get("#monto-presupuesto").type(100);
+    cy.get("#categoria-presupuesto").select("ninguno");
+    cy.get("#aniadir-presupuesto").click();
+    cy.get("#presupuesto-div").should("contain", "100").and("contain", "ninguno");
+  });
 
 });
