@@ -28,5 +28,14 @@ describe("Registrar presupuesto", () => {
     cy.get("#aniadir-presupuesto").click();
     cy.get("#presupuesto-div").should("contain", "100").and("contain", "ninguno");
   });
+  it("Muestra monto ingresada y categoria personalizada por seleccionar 'otros'", () => {
+    cy.visit("/");
+    cy.get("#mostrar-form-presupuesto").click();
+    cy.get("#monto-presupuesto").type(100);
+    cy.get("#categoria-presupuesto").select("otros");
+    cy.get("#categoria-gasto-personalizada").type("universidad");
+    cy.get("#aniadir-presupuesto").click();
+    cy.get("#presupuesto-div").should("contain", "100").and("contain", "universidad");
+  });
 
 });
