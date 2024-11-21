@@ -249,12 +249,51 @@ function actualizarListaIngreso(ingreso){
   const ingresos = lista_ingresos.obtenerIngreso();
 
   div_lista_ingresos.innerHTML = "<ul>";  
-  ingresos.forEach((ingresoRegistrado) => {
+  ingresos.forEach((ingresoRegistrado,index) => {
     div_lista_ingresos.innerHTML+= 
-       "<li>"+"Monto: "+ ingresoRegistrado.monto+", Fecha: " + ingresoRegistrado.fecha + ", Nota: " + ingresoRegistrado.nota+"</li>";
+       //"<li>"+"Monto: "+ ingresoRegistrado.monto+", Fecha: " + ingresoRegistrado.fecha + ", Nota: " + ingresoRegistrado.nota+"</li>";
+       `<li>
+        Monto: ${ingresoRegistrado.monto}, Fecha: ${ingresoRegistrado.fecha}, Nota: ${ingresoRegistrado.nota}
+        <button class="select-ingreso-btn" data-index="${index}">:</button>
+      </li>`;
     });
     div_lista_ingresos.innerHTML+= "</ul>";
+
+    
+    const selectButtons = div_lista_ingresos.querySelectorAll(".select-ingreso-btn");
+    selectButtons.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        seleccionarIngreso(index);
+      });
+    });
 }
+
+function seleccionarIngreso(index) {
+  try {
+    const ingresoSeleccionado = lista_ingresos.seleccionarIngreso(index);
+    console.log("Ingreso seleccionado:", ingresoSeleccionado);
+
+    // Mostrar los detalles del ingreso en el formulario (puedes personalizar esto)
+    montoIngreso.value = ingresoSeleccionado.monto;
+    fechaIngreso.value = ingresoSeleccionado.fecha;
+    notaIngreso.value = ingresoSeleccionado.nota;
+
+    // Enfocar el formulario para edición
+    form_ingreso.style.display = "block";
+    //div_ingreso.style.display = "block";
+    div_ingresos.innerHTML = `
+      <p>Ingreso seleccionado:</p>
+      <p>Monto: ${ingresoSeleccionado.monto}</p>
+      <p>Fecha: ${ingresoSeleccionado.fecha}</p>
+      <p>Nota: ${ingresoSeleccionado.nota}</p>
+    `;
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+
 
 function actualizarLaListaGastos_ControlFinanciero(gasto){
  // const montoGasto = Number(gasto.monto);

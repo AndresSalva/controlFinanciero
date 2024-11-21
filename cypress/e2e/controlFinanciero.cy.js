@@ -113,5 +113,39 @@ describe("Gastos, Ingresos - Control", () => {
       // Verificar que el saldo no cambia con la selección
       cy.get("#saldo-div").should("contain", "500");
     });
+
+    it("Selecciona un ingreso y actualiza correctamente el saldo", ()=>{
+      cy.visit("/");
+
+      cy.get("#mostrar-form-ingreso").click();
+      cy.get("#monto-ingreso").type(1000);
+      cy.get("#fecha-ingreso").type("2024-11-01");
+      cy.get("#nota-ingreso").type("Regalos");
+      cy.get("#aniadir-ingreso").click();
+  
+      // Registrar dos gastos
+      cy.get("#mostrar-form-btn").click();
+      cy.get("#monto-gasto").type(200);
+      cy.get("#fecha-gasto").type("2024-11-02");
+      cy.get("#nota-gasto").type("Compra de oficina");
+      cy.get("#aniadir-gasto").click();
+      cy.get("#mostrar-form-btn").click();
+      cy.get("#monto-gasto").type(300);
+      cy.get("#fecha-gasto").type("2024-11-03");
+      cy.get("#nota-gasto").type("Mantenimiento");
+      cy.get("#aniadir-gasto").click();
+      // Verificar saldo inicial
+      cy.get("#saldo-div").should("contain", "500");
+      // Seleccionar el primer gasto y verificar detalles (si hay funcionalidad de selección)
+      cy.get("#lista-ingresos-div button[data-index='0']").click();
+      cy.get("#ingreso-div").should("contain", "1000")
+        .and("contain", "2024-11-01")
+        .and("contain", "Regalos");
+        cy.get("#monto-ingreso").type(1000);
+        cy.get("#fecha-ingreso").type("2024-11-01");
+        cy.get("#nota-ingreso").type("Regalos");
+      // Verificar que el saldo no cambia con la selección
+      cy.get("#saldo-div").should("contain", "500");
+    });
   });
   

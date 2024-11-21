@@ -8,5 +8,8 @@ class ListaIngresos {
     obtenerIngreso() {
       return this.ingresos;
     }
+    seleccionarIngreso(index) {
+      return this.ingresos[index];
+    }
   }
   export default ListaIngresos;
