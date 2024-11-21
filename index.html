@@ -16,16 +16,18 @@
     <img src="./assets/gastosEJEM.jpeg" alt="Gastos" class="image" style="display: none" width="200" height="400" id="imgGastos">
     <img src="./assets/ingresosEJEM.jpeg" alt="Ingresos" class="image" style="display: none" width="200" height="400" id="imgIngresos">
   </div>
-    <h1>Registro presupuesto</h1>
-    <form id="presupuesto-form">
+    <button id="mostrar-form-presupuesto">Registrar presupuesto</button>
+    <form id="presupuesto-form" style="display: none">
+      <h1>Registro presupuesto</h1>
       <label for="monto-presupuesto">Presupuesto:</label>
       <input type="number" id="monto-presupuesto" />
       <input type="submit" value="registrar-gasto" id="aniadir-presupuesto" />
     </form>
-    <div id="presupuesto-div"></div>
+    <div id="presupuesto-div" style="display: none"></div>
+    <br>
     
     <button id="mostrar-form-btn">Registrar gasto</button>
-    <form id="gastos-form" style="display: none;">
+    <form id="gastos-form" style="display: none">
       <h1>Registro gasto</h1>
       <label for="monto-gasto">Monto gasto:</label>
       <input type="number" id="monto-gasto" />

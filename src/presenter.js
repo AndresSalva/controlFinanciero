@@ -18,7 +18,8 @@ const mostrarFormBtn = document.querySelector("#mostrar-form-btn");
 const montoPresupuesto = document.querySelector("#monto-presupuesto");
 const form_presupuesto = document.querySelector("#presupuesto-form");
 const div_presupuesto = document.querySelector("#presupuesto-div");
-const div_totales_presupuestos = document.querySelector("#totalPresupuesto-div")
+const div_totales_presupuestos = document.querySelector("#totalPresupuesto-div");
+const mostrarFormPresupuesto = document.querySelector("#mostrar-form-presupuesto");
 const presupuestito = new Presupuesto;
 
 //Categorias
@@ -112,6 +113,9 @@ form_presupuesto.addEventListener("submit", (event) => {
     return;
   }
   div_presupuesto.innerHTML = "<p>" + presupuestito.mostrarMonto() + "</p>";
+});
+mostrarFormPresupuesto.addEventListener("click", () => { 
+  visibilidadDeFormulario(form_presupuesto, div_presupuesto);
 });
 
 function VisibilidadDeImagen(imagenAMostrar, imagenAOcultar) {
