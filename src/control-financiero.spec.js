@@ -144,4 +144,10 @@ describe("Control financiero", () => {
           nota: "Cena familiar",
         });
       });
+
+      it("Deberia devolver un mensaje si el indice está fuera de rango (negativo)", () => {
+        const controlFinanciero = new ControlFinanciero;
+        const resultado = controlFinanciero.seleccionarIngreso(-1); // Llama directamente a la función
+        expect(resultado).toBe("El ingreso no se pudo eliminar, intentelo de nuevo");
+    });
 });

@@ -282,7 +282,7 @@ function seleccionarIngreso(index) {
     // Enfocar el formulario para edición
     form_ingreso.style.display = "block";
     //div_ingreso.style.display = "block";
-    div_ingresos.innerHTML = `
+    div_ingreso.innerHTML = `
       <p>Ingreso seleccionado:</p>
       <p>Monto: ${ingresoSeleccionado.monto}</p>
       <p>Fecha: ${ingresoSeleccionado.fecha}</p>

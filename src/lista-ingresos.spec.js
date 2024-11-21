@@ -47,4 +47,10 @@ describe("Lista ingreso", () => {
     const lista = new ListaIngresos;
     expect(lista.obtenerIngreso()).toEqual([]); // La lista debería estar vacía
   });
+
+  it("Deberia lanzar un error si el indice está fuera de rango (negativo)", () => {
+    const lista = new ListaIngresos;
+    const resultado = lista.seleccionarIngreso(-1); 
+    expect(resultado).toBe("El ingreso no se pudo eliminar, intentelo de nuevo");
+  });
 });

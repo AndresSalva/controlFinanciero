@@ -9,7 +9,12 @@ class ListaIngresos {
       return this.ingresos;
     }
     seleccionarIngreso(index) {
-      return this.ingresos[index];
+      if (index >= 0 && index < this.ingresos.length) {
+        return this.ingresos[index];
+      } 
+      else {
+        return "El ingreso no se pudo eliminar, intentelo de nuevo";
+      }
     }
   }
   export default ListaIngresos;
