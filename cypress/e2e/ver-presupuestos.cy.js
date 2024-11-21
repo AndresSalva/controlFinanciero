@@ -29,6 +29,5 @@ describe("Ver presupuestos", () => {
       cy.get("#aniadir-presupuesto").click();
       cy.get("#totalPresupuesto-div").should("contain", "100").and("contain", "universidad");
     });
-
     
   });
