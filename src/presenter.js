@@ -16,11 +16,12 @@ const mostrarFormBtn = document.querySelector("#mostrar-form-btn");
 
 //Presupuesto
 const montoPresupuesto = document.querySelector("#monto-presupuesto");
+const categoria_presupuesto = document.querySelector("#categoria-presupuesto")
 const form_presupuesto = document.querySelector("#presupuesto-form");
 const div_presupuesto = document.querySelector("#presupuesto-div");
 const div_totales_presupuestos = document.querySelector("#totalPresupuesto-div");
 const mostrarFormPresupuesto = document.querySelector("#mostrar-form-presupuesto");
-const presupuestito = new Presupuesto;
+
 
 //Categorias
 const cat_gastos = document.querySelector('#gastos-btn');
@@ -104,15 +105,17 @@ cancelarGastoBtn.addEventListener("click", (event) => {
 
 form_presupuesto.addEventListener("submit", (event) => {
   event.preventDefault();
-
+  const presupuestito = new Presupuesto;
   const valor_presupuesto = Number.parseInt(montoPresupuesto.value);
+  const valor_categoria_presupuesto = categoria_presupuesto.value;
   presupuestito.agregarMonto(valor_presupuesto);
+  presupuestito.agregarCategoria(valor_categoria_presupuesto);
   actualizarPresupuestoTotal(presupuestito);
   if (!valor_presupuesto) {
     div_presupuesto.innerHTML = "<p>MONTO VACIO!!!</p>";
     return;
   }
-  div_presupuesto.innerHTML = "<p>" + presupuestito.mostrarMonto() + "</p>";
+  div_presupuesto.innerHTML = "<p>" + presupuestito.mostrarMonto() + "</p>" + presupuestito.mostrarCategoria() + "</p>";
 });
 mostrarFormPresupuesto.addEventListener("click", () => { 
   visibilidadDeFormulario(form_presupuesto, div_presupuesto);
