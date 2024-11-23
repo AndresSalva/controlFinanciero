@@ -37,5 +37,12 @@ describe("Registrar presupuesto", () => {
     cy.get("#aniadir-presupuesto").click();
     cy.get("#presupuesto-div").should("contain", "100").and("contain", "universidad");
   });
-
+  it("Si no se añade categoria personalizada aparece mensaje de 'CATEGORIA VACIA!'", () => {
+    cy.visit("/");
+    cy.get("#mostrar-form-presupuesto").click();
+    cy.get("#monto-presupuesto").type(100);
+    cy.get("#categoria-presupuesto").select("otros");
+    cy.get("#aniadir-presupuesto").click();
+    cy.get("#presupuesto-div").should("contain", "CATEGORIA VACIA!!!");
+  });
 });

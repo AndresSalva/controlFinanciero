@@ -139,7 +139,7 @@ form_presupuesto.addEventListener("submit", (event) => {
   }
   if(valor_categoria_presupuesto === "otros"){
     const valor_categoria_presupuesto_personalizado = inputCategoriaPersonalizada.value;
-    if (!valor_presupuesto) {
+    if (!valor_categoria_presupuesto_personalizado) {
       div_presupuesto.innerHTML = "<p>CATEGORIA VACIA!!!</p>";
       return;
     }
