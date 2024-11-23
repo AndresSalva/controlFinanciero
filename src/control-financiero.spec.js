@@ -129,10 +129,12 @@ describe("Control financiero", () => {
         ingreso1.agregarMonto(150);
         ingreso1.agregarFecha("2024-11-19");
         ingreso1.agregarNota("Compra de bisuteria");
+        ingreso1.agregarCategoria("premios");
     
         ingreso2.agregarMonto(300);
         ingreso2.agregarFecha("2024-11-20");
         ingreso2.agregarNota("Cena familiar");
+        ingreso2.agregarCategoria("inversiones");
     
         controlFinanciero.registrarIngreso(ingreso1);
         controlFinanciero.registrarIngreso(ingreso2);
@@ -142,6 +144,7 @@ describe("Control financiero", () => {
           monto: 300,
           fecha: "2024-11-20",
           nota: "Cena familiar",
+          categoria: "inversiones",
         });
       });
 

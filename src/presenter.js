@@ -38,6 +38,7 @@ const form_ingreso = document.querySelector("#ingreso-form")
 const div_ingreso = document.querySelector("#ingreso-div")
 const cancelarIngresoBtn = document.querySelector("#cancelar");
 const mostrarFormBtnIngreso = document.querySelector("#mostrar-form-ingreso"); 
+const categoria_ingreso = document.querySelector("#categoria-ingreso")
 
 //Lista gastos
 const div_lista_gastos = document.querySelector("#lista-gastos-div");
@@ -166,7 +167,8 @@ form_ingreso.addEventListener("submit", (event) => {
   const valor_ingreso = Number.parseInt(montoIngreso.value);
   const fecha_ingreso = fechaIngreso.value || obtenerFechaActual(); 
   const nota_ingreso = notaIngreso.value || "No hay notas disponibles";
-  
+  const valor_categoria_ingreso= categoria_ingreso.value;
+
   if (fecha_ingreso && !valor_ingreso) {
     div_ingreso.innerHTML = "<p>MONTO VACIO!!!</p>";
     return;
@@ -175,13 +177,15 @@ form_ingreso.addEventListener("submit", (event) => {
   ingreso.agregarMonto(valor_ingreso);
   ingreso.agregarFecha(fecha_ingreso);
   ingreso.agregarNota(nota_ingreso);
+  ingreso.agregarCategoria(valor_categoria_ingreso);
 
   actualizarListaIngreso(ingreso);
   actualizarLaListaIngresos_ControlFinanciero(ingreso);
   actualizarSaldo();
 
-  div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>"  + ingreso.mostrarNota() + "</p>";
+  div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>"  + ingreso.mostrarNota() + "</p>"  + ingreso.mostrarCategoria() + "</p>";
 
+  
   limpiarCampos([montoIngreso, notaIngreso, fechaIngreso]);
   form_ingreso.style.display = "none";
 });
