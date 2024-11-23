@@ -99,10 +99,12 @@ describe("Control financiero", () => {
         gastito1.agregarMonto(150);
         gastito1.agregarFecha("2024-11-19");
         gastito1.agregarNota("Compra de libros");
+        gastito1.agregarCategoria("boda");
     
         gastito2.agregarMonto(300);
         gastito2.agregarFecha("2024-11-20");
         gastito2.agregarNota("Cena familiar");
+        gastito2.agregarCategoria("regalo");
     
         controlFinanciero.registrarGasto(gastito1);
         controlFinanciero.registrarGasto(gastito2);
@@ -112,6 +114,7 @@ describe("Control financiero", () => {
           monto: 300,
           fecha: "2024-11-20",
           nota: "Cena familiar",
+          categoria: "regalo", 
         });
       });
     it("Deberia devolver un mensaje si el indice está fuera de rango (negativo)", () => {

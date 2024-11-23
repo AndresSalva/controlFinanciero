@@ -9,6 +9,8 @@ import ControlFinanciero from "./control-financiero.js";
 const notaGasto = document.querySelector("#nota-gasto");
 const fechaGasto = document.querySelector("#fecha-gasto");
 const montoGasto = document.querySelector("#monto-gasto");
+const categoria_gasto = document.querySelector("#categoria-gasto")
+const inputCategoriaPersonal = document.getElementById("categoria-gastos");
 const form_gasto = document.querySelector("#gastos-form");
 const div_gastos = document.querySelector("#gastos-div");
 const cancelarGastoBtn = document.querySelector("#cancelar-gasto");
@@ -16,7 +18,7 @@ const mostrarFormBtn = document.querySelector("#mostrar-form-btn");
 
 //Presupuesto
 const montoPresupuesto = document.querySelector("#monto-presupuesto");
-const categoria_presupuesto = document.querySelector("#categoria-presupuesto")
+const categoria_presupuesto = document.querySelector("#categoria-presupuesto");
 const inputCategoriaPersonalizada = document.getElementById("categoria-gasto-personalizada");
 const form_presupuesto = document.querySelector("#presupuesto-form");
 const div_presupuesto = document.querySelector("#presupuesto-div");
@@ -79,6 +81,7 @@ form_gasto.addEventListener("submit", (event) => {
   const valor_gasto = Number.parseInt(montoGasto.value);
   const fecha_gasto = fechaGasto.value || obtenerFechaActual();
   const nota_gasto = notaGasto.value || "No hay notas disponibles";
+  const valor_categoria_gasto = categoria_gasto.value;
 
   if (fecha_gasto && !valor_gasto) {
     div_gastos.innerHTML = "<p>MONTO VACIO!!!</p>";
@@ -88,15 +91,34 @@ form_gasto.addEventListener("submit", (event) => {
   gastito.agregarMonto(valor_gasto);
   gastito.agregarFecha(fecha_gasto);
   gastito.agregarNota(nota_gasto);
+  gastito.agregarCategoria(valor_categoria_gasto);
+
+  if(valor_categoria_gasto === "otros"){
+    const valor_categoria_gasto_personalizado = inputCategoriaPersonal.value;
+    if (!valor_gasto) {
+      div_gastos.innerHTML = "<p>CATEGORIA VACIA!!!</p>";
+      return;
+    }
+    gastito.agregarCategoria(valor_categoria_gasto_personalizado);
+  }
 
   actualizarLista(gastito); ///Esto es nuevooooooooooooooooooooooooooooooooooooooooooooooooooooooo
   actualizarLaListaGastos_ControlFinanciero(gastito);
   actualizarSaldo();
 
-  div_gastos.innerHTML = "<p>" + gastito.mostrarMonto() + "<p>" + gastito.mostrarFecha() + "<p>" + gastito.mostrarNota() + "</p>";
+  div_gastos.innerHTML = "<p>" + gastito.mostrarMonto() + "<p>" + gastito.mostrarFecha() + "<p>" + gastito.mostrarNota() +  "<p>" + gastito.mostrarCategoria() + "</p>";
 
   limpiarCampos([montoGasto, notaGasto, fechaGasto]);
   form_gasto.style.display = "none";
+});
+
+categoria_gasto.addEventListener("change", () => {
+  if (categoria_gasto.value === "otros") {
+    inputCategoriaPersonal.style.display = "block"; // Mostrar campo de texto
+  } else {
+    inputCategoriaPersonal.style.display = "none"; // Ocultar campo de texto
+    inputCategoriaPersonal.value = ""; // Limpiar el valor
+  }
 });
 
 cancelarGastoBtn.addEventListener("click", (event) => {
@@ -203,7 +225,7 @@ function actualizarLista(gastito){
   gastos.forEach((gastoRegistrado,index) => {
     div_lista_gastos.innerHTML+= 
       `<li>
-        Monto: ${gastoRegistrado.monto}, Fecha: ${gastoRegistrado.fecha}, Nota: ${gastoRegistrado.nota}
+        Monto: ${gastoRegistrado.monto}, Fecha: ${gastoRegistrado.fecha}, Nota: ${gastoRegistrado.nota}, Categoria: ${gastoRegistrado.categoria}
         <button class="select-gasto-btn" data-index="${index}">:</button>
       </li>`;
       //"<li>"+"Monto: "+ gastoRegistrado.monto+", Fecha: "+gastoRegistrado.fecha+", Nota: "+gastoRegistrado.nota+"</li>";
