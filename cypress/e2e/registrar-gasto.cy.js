@@ -102,4 +102,12 @@ describe("Registrar Gasto", () => {
     cy.get("#aniadir-gasto").click();
     cy.get("#gastos-div").should("contain", "100").and("contain", "universidad");
   });
+  it("Si no se añade categoria personalizada aparece mensaje de 'CATEGORIA VACIA!'", () => {
+    cy.visit("/");
+    cy.get("#mostrar-form-btn").click();
+    cy.get("#monto-gasto").type(100);
+    cy.get("#categoria-gasto").select("otros");
+    cy.get("#aniadir-gasto").click();
+    cy.get("#gastos-div").should("contain", "CATEGORIA VACIA!!!");
+  });
 });

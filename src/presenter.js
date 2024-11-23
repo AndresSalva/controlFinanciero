@@ -95,7 +95,7 @@ form_gasto.addEventListener("submit", (event) => {
 
   if(valor_categoria_gasto === "otros"){
     const valor_categoria_gasto_personalizado = inputCategoriaPersonal.value;
-    if (!valor_gasto) {
+    if (!valor_categoria_gasto_personalizado) {
       div_gastos.innerHTML = "<p>CATEGORIA VACIA!!!</p>";
       return;
     }
