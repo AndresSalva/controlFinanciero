@@ -85,4 +85,12 @@ describe("Registrar Gasto", () => {
     cy.get("#aniadir-gasto").click();
     cy.get("#gastos-div").should("contain", "50").and("contain", "alimentacion");
   });
+  it("Muestra monto ingresada y categoria 'ninguno'", () => {
+    cy.visit("/");
+    cy.get("#mostrar-form-btn").click();
+    cy.get("#monto-gasto").type(100);
+    cy.get("#categoria-gasto").select("ninguno");
+    cy.get("#aniadir-gasto").click();
+    cy.get("#gastos-div").should("contain", "100").and("contain", "ninguno");
+  });
 });
