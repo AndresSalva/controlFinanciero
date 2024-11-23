@@ -3,6 +3,7 @@ class Ingreso {
     this.monto = null;
     this.fecha= null;
     this.nota = null;
+    this.categoria = null;
   }
   agregarMonto(monto) {
     if (monto === null || isNaN(monto)) {
@@ -25,6 +26,11 @@ class Ingreso {
   agregarNota(nota) {
     this.nota= nota;
   }
+
+  agregarCategoria(categoria){
+    this.categoria = categoria;
+  }
+  
   mostrarMonto() {
     let respuesta;
     if(this.monto != null)
@@ -50,6 +56,11 @@ class Ingreso {
       }
     return respuesta;
   }
+
+  mostrarCategoria(){
+    return `Categoria: ${this.categoria}`;
+  }
+  
   reset() {
     this.monto = null;
     this.fecha = null;
