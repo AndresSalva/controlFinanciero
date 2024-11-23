@@ -70,4 +70,12 @@ describe("Gastos", () => {
     expect(gastito.fecha).toBeNull();
     expect(gastito.nota).toBeNull();
   });
+
+  it("Deberia registrar el gasto con su categoria", () => {
+    const gastito = new Gasto
+    gastito.agregarMonto(90)
+    gastito.agregarCategoria("alimentacion")
+    expect(gastito.mostrarMonto()).toEqual('Monto: 90');
+    expect(gastito.mostrarCategoria()).toEqual('Categoria: alimentacion');
+  });
 });
