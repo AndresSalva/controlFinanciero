@@ -77,4 +77,12 @@ describe("Registrar Gasto", () => {
     cy.get("#gastos-div").should("not.be.visible"); 
     cy.get("h2").should("contain", "Saldo").and("be.visible");
   });
+  it("Muestra monto ingresada y categoria seleccionada del gasto", () => {
+    cy.visit("/");
+    cy.get("#mostrar-form-btn").click();
+    cy.get("#monto-gasto").type(50);
+    cy.get("#categoria-gasto").select("alimentacion");
+    cy.get("#aniadir-gasto").click();
+    cy.get("#gastos-div").should("contain", "50").and("contain", "alimentacion");
+  });
 });
