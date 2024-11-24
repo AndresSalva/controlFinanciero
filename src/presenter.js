@@ -3,12 +3,15 @@ import Presupuesto from "./presupuesto.js";
 import Ingreso from "./ingreso.js";
 import ListaGastos from "./lista-gastos.js";
 import ListaIngresos from "./lista-ingresos.js";
+import ListaPresupuestos from "./lista-presupuestos.js";
 import ControlFinanciero from "./control-financiero.js";
 
 //Gasto
 const notaGasto = document.querySelector("#nota-gasto");
 const fechaGasto = document.querySelector("#fecha-gasto");
 const montoGasto = document.querySelector("#monto-gasto");
+const categoria_gasto = document.querySelector("#categoria-gasto")
+const inputCategoriaPersonal = document.getElementById("categoria-gastos");
 const form_gasto = document.querySelector("#gastos-form");
 const div_gastos = document.querySelector("#gastos-div");
 const cancelarGastoBtn = document.querySelector("#cancelar-gasto");
@@ -16,7 +19,7 @@ const mostrarFormBtn = document.querySelector("#mostrar-form-btn");
 
 //Presupuesto
 const montoPresupuesto = document.querySelector("#monto-presupuesto");
-const categoria_presupuesto = document.querySelector("#categoria-presupuesto")
+const categoria_presupuesto = document.querySelector("#categoria-presupuesto");
 const inputCategoriaPersonalizada = document.getElementById("categoria-gasto-personalizada");
 const form_presupuesto = document.querySelector("#presupuesto-form");
 const div_presupuesto = document.querySelector("#presupuesto-div");
@@ -48,6 +51,9 @@ const lista_gastos = new ListaGastos;
 //Lista ingresos
 const div_lista_ingresos = document.querySelector("#lista-ingresos-div");
 const lista_ingresos = new ListaIngresos;
+
+//Lista presupuesto
+const lista_presupuestos = new ListaPresupuestos();
 
 //Control Financiero
 const gestion = new ControlFinanciero;
@@ -81,6 +87,7 @@ form_gasto.addEventListener("submit", (event) => {
   const valor_gasto = Number.parseInt(montoGasto.value);
   const fecha_gasto = fechaGasto.value || obtenerFechaActual();
   const nota_gasto = notaGasto.value || "No hay notas disponibles";
+  const valor_categoria_gasto = categoria_gasto.value;
 
   if (fecha_gasto && !valor_gasto) {
     div_gastos.innerHTML = "<p>MONTO VACIO!!!</p>";
@@ -90,15 +97,34 @@ form_gasto.addEventListener("submit", (event) => {
   gastito.agregarMonto(valor_gasto);
   gastito.agregarFecha(fecha_gasto);
   gastito.agregarNota(nota_gasto);
+  gastito.agregarCategoria(valor_categoria_gasto);
+
+  if(valor_categoria_gasto === "otros"){
+    const valor_categoria_gasto_personalizado = inputCategoriaPersonal.value;
+    if (!valor_categoria_gasto_personalizado) {
+      div_gastos.innerHTML = "<p>CATEGORIA VACIA!!!</p>";
+      return;
+    }
+    gastito.agregarCategoria(valor_categoria_gasto_personalizado);
+  }
 
   actualizarLista(gastito); ///Esto es nuevooooooooooooooooooooooooooooooooooooooooooooooooooooooo
   actualizarLaListaGastos_ControlFinanciero(gastito);
   actualizarSaldo();
 
-  div_gastos.innerHTML = "<p>" + gastito.mostrarMonto() + "<p>" + gastito.mostrarFecha() + "<p>" + gastito.mostrarNota() + "</p>";
+  div_gastos.innerHTML = "<p>" + gastito.mostrarMonto() + "<p>" + gastito.mostrarFecha() + "<p>" + gastito.mostrarNota() +  "<p>" + gastito.mostrarCategoria() + "</p>";
 
   limpiarCampos([montoGasto, notaGasto, fechaGasto]);
   form_gasto.style.display = "none";
+});
+
+categoria_gasto.addEventListener("change", () => {
+  if (categoria_gasto.value === "otros") {
+    inputCategoriaPersonal.style.display = "block"; // Mostrar campo de texto
+  } else {
+    inputCategoriaPersonal.style.display = "none"; // Ocultar campo de texto
+    inputCategoriaPersonal.value = ""; // Limpiar el valor
+  }
 });
 
 cancelarGastoBtn.addEventListener("click", (event) => {
@@ -119,7 +145,7 @@ form_presupuesto.addEventListener("submit", (event) => {
   }
   if(valor_categoria_presupuesto === "otros"){
     const valor_categoria_presupuesto_personalizado = inputCategoriaPersonalizada.value;
-    if (!valor_presupuesto) {
+    if (!valor_categoria_presupuesto_personalizado) {
       div_presupuesto.innerHTML = "<p>CATEGORIA VACIA!!!</p>";
       return;
     }
@@ -127,6 +153,8 @@ form_presupuesto.addEventListener("submit", (event) => {
   }
   actualizarPresupuestoTotal(presupuestito);
   div_presupuesto.innerHTML = "<p>" + presupuestito.mostrarMonto() + "</p>" + presupuestito.mostrarCategoria() + "</p>";
+  form_presupuesto.style.display = "none";
+  limpiarCampos([montoPresupuesto, categoria_presupuesto, inputCategoriaPersonalizada]);
 });
 
 mostrarFormPresupuesto.addEventListener("click", () => { 
@@ -232,7 +260,7 @@ function actualizarLista(gastito){
   gastos.forEach((gastoRegistrado,index) => {
     div_lista_gastos.innerHTML+= 
       `<li>
-        Monto: ${gastoRegistrado.monto}, Fecha: ${gastoRegistrado.fecha}, Nota: ${gastoRegistrado.nota}
+        Monto: ${gastoRegistrado.monto}, Fecha: ${gastoRegistrado.fecha}, Nota: ${gastoRegistrado.nota}, Categoria: ${gastoRegistrado.categoria}
         <button class="select-gasto-btn" data-index="${index}">:</button>
       </li>`;
       //"<li>"+"Monto: "+ gastoRegistrado.monto+", Fecha: "+gastoRegistrado.fecha+", Nota: "+gastoRegistrado.nota+"</li>";
@@ -271,7 +299,6 @@ function seleccionarGasto(index) {
     console.error(error.message);
   }
 }
-
 
 function actualizarListaIngreso(ingreso){
   lista_ingresos.registrarIngreso(ingreso);
@@ -338,6 +365,7 @@ function actualizarLaListaIngresos_ControlFinanciero(ingreso){
  
    div_total_ingresos.innerHTML = `<p>Total de ingresos: ${Number(totalIngresos)}</p>`;
  }
+ 
  // JavaScript para mostrar/ocultar los botones de categorías
  document.getElementById('ver-categorias-btn').addEventListener('click', () => {
   const categoriasDiv = document.getElementById('categorias');
@@ -354,7 +382,18 @@ function actualizarLaListaIngresos_ControlFinanciero(ingreso){
  }
 
  function actualizarPresupuestoTotal(presupuestito){
-  div_totales_presupuestos.innerHTML = "<p>"+"Monto:"+ presupuestito.monto+ ", Categoria: " + presupuestito.categoria +"</p>";
+  //div_totales_presupuestos.innerHTML = "<p>"+"Monto:"+ presupuestito.monto+ ", Categoria: " + presupuestito.categoria +"</p>";
+  lista_presupuestos.registrarPresupuesto(presupuestito);
+  const presupuestos = lista_presupuestos.obtenerPresupuestos();
+
+  div_totales_presupuestos.innerHTML = "<ul>";
+  presupuestos.forEach((presupuestoRegistrado) => {
+    div_totales_presupuestos.innerHTML += `
+      <li>
+        Monto: ${presupuestoRegistrado.monto}, Categoría: ${presupuestoRegistrado.categoria}
+      </li>`;
+  });
+  div_totales_presupuestos.innerHTML += "</ul>";
  }
 
  function obtenerFechaActual() {

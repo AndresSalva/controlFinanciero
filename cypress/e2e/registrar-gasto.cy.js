@@ -77,4 +77,37 @@ describe("Registrar Gasto", () => {
     cy.get("#gastos-div").should("not.be.visible"); 
     cy.get("h2").should("contain", "Saldo").and("be.visible");
   });
+  it("Muestra monto ingresada y categoria seleccionada del gasto", () => {
+    cy.visit("/");
+    cy.get("#mostrar-form-btn").click();
+    cy.get("#monto-gasto").type(50);
+    cy.get("#categoria-gasto").select("alimentacion");
+    cy.get("#aniadir-gasto").click();
+    cy.get("#gastos-div").should("contain", "50").and("contain", "alimentacion");
+  });
+  it("Muestra monto ingresada y categoria 'ninguno'", () => {
+    cy.visit("/");
+    cy.get("#mostrar-form-btn").click();
+    cy.get("#monto-gasto").type(100);
+    cy.get("#categoria-gasto").select("ninguno");
+    cy.get("#aniadir-gasto").click();
+    cy.get("#gastos-div").should("contain", "100").and("contain", "ninguno");
+  });
+  it("Muestra monto ingresada y categoria personalizada por seleccionar 'otros'", () => {
+    cy.visit("/");
+    cy.get("#mostrar-form-btn").click();
+    cy.get("#monto-gasto").type(100);
+    cy.get("#categoria-gasto").select("otros");
+    cy.get("#categoria-gastos").type("universidad");
+    cy.get("#aniadir-gasto").click();
+    cy.get("#gastos-div").should("contain", "100").and("contain", "universidad");
+  });
+  it("Si no se añade categoria personalizada aparece mensaje de 'CATEGORIA VACIA!'", () => {
+    cy.visit("/");
+    cy.get("#mostrar-form-btn").click();
+    cy.get("#monto-gasto").type(100);
+    cy.get("#categoria-gasto").select("otros");
+    cy.get("#aniadir-gasto").click();
+    cy.get("#gastos-div").should("contain", "CATEGORIA VACIA!!!");
+  });
 });
