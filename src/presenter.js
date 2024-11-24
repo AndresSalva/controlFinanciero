@@ -38,7 +38,8 @@ const form_ingreso = document.querySelector("#ingreso-form")
 const div_ingreso = document.querySelector("#ingreso-div")
 const cancelarIngresoBtn = document.querySelector("#cancelar");
 const mostrarFormBtnIngreso = document.querySelector("#mostrar-form-ingreso"); 
-const categoria_ingreso = document.querySelector("#categoria-ingreso")
+const categoria_ingreso = document.querySelector("#categoria-ingreso");
+const inputCategoriaPersonalizadaIngresos=document.getElementById("categoria-ingreso-personalizada");
 
 //Lista gastos
 const div_lista_gastos = document.querySelector("#lista-gastos-div");
@@ -179,6 +180,21 @@ form_ingreso.addEventListener("submit", (event) => {
   ingreso.agregarNota(nota_ingreso);
   ingreso.agregarCategoria(valor_categoria_ingreso);
 
+  if (!valor_ingreso) {
+    div_ingreso.innerHTML = "<p>MONTO VACIO!!!</p>";
+    return;
+  }
+
+  if(valor_categoria_ingreso === "otros"){
+    const valor_categoria_ingreso_personalizado = inputCategoriaPersonalizadaIngresos.value;
+    if (!valor_ingreso) {
+      div_ingreso.innerHTML = "<p>CATEGORIA VACIA!!!</p>";
+      return;
+    }
+    ingreso.agregarCategoria(valor_categoria_ingreso_personalizado);
+  }
+
+
   actualizarListaIngreso(ingreso);
   actualizarLaListaIngresos_ControlFinanciero(ingreso);
   actualizarSaldo();
@@ -188,6 +204,15 @@ form_ingreso.addEventListener("submit", (event) => {
   
   limpiarCampos([montoIngreso, notaIngreso, fechaIngreso]);
   form_ingreso.style.display = "none";
+});
+
+categoria_ingreso.addEventListener("change", () => {
+  if (categoria_ingreso.value === "otros") {
+    inputCategoriaPersonalizadaIngresos.style.display = "block"; // Mostrar campo de texto
+  } else {
+    inputCategoriaPersonalizadaIngresos.style.display = "none"; // Ocultar campo de texto
+    inputCategoriaPersonalizadaIngresos.value = ""; // Limpiar el valor
+  }
 });
 
 cancelarIngresoBtn.addEventListener("click", (event) => {
@@ -257,7 +282,7 @@ function actualizarListaIngreso(ingreso){
     div_lista_ingresos.innerHTML+= 
        //"<li>"+"Monto: "+ ingresoRegistrado.monto+", Fecha: " + ingresoRegistrado.fecha + ", Nota: " + ingresoRegistrado.nota+"</li>";
        `<li>
-        Monto: ${ingresoRegistrado.monto}, Fecha: ${ingresoRegistrado.fecha}, Nota: ${ingresoRegistrado.nota}
+        Monto: ${ingresoRegistrado.monto}, Fecha: ${ingresoRegistrado.fecha}, Nota: ${ingresoRegistrado.nota}, Categoria: ${ingresoRegistrado.categoria}
         <button class="select-ingreso-btn" data-index="${index}">:</button>
       </li>`;
     });

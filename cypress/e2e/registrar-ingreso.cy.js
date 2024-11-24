@@ -84,6 +84,24 @@ describe("Registrar Ingreso", () => {
       cy.get("#ingreso-div").should("contain", "100").and("contain", "salario");
     });
 
+    it("Muestra monto ingresada y categoria 'ninguno'", () => {
+      cy.visit("/");
+      cy.get("#mostrar-form-ingreso").click();
+      cy.get("#monto-ingreso").type(100);
+      cy.get("#categoria-ingreso").select("ninguno");
+      cy.get("#aniadir-ingreso").click();
+      cy.get("#ingreso-div").should("contain", "100").and("contain", "ninguno");
+    });
+    it("Muestra monto ingresada y categoria personalizada por seleccionar 'otros'", () => {
+      cy.visit("/");
+      cy.get("#mostrar-form-ingreso").click();
+      cy.get("#monto-ingreso").type(100);
+      cy.get("#categoria-ingreso").select("otros");
+      cy.get("#categoria-ingreso-personalizada").type("universidad");
+      cy.get("#aniadir-ingreso").click();
+      cy.get("#ingreso-div").should("contain", "100").and("contain", "universidad");
+    });
+
     /*
     it("Si registra un ingreso pero hace click en cancelar Restablece los valores del formulario y desplaza la vista hacia el saldo", () => {
       cy.visit("/");
