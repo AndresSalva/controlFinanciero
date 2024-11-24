@@ -101,7 +101,15 @@ describe("Registrar Ingreso", () => {
       cy.get("#aniadir-ingreso").click();
       cy.get("#ingreso-div").should("contain", "100").and("contain", "universidad");
     });
-
+    
+    it("Si no se añade categoria personalizada aparece mensaje de 'CATEGORIA VACIA!'", () => {
+      cy.visit("/");
+      cy.get("#mostrar-form-ingreso").click();
+      cy.get("#monto-ingreso").type(100);
+      cy.get("#categoria-ingreso").select("otros");
+      cy.get("#aniadir-ingreso").click();
+      cy.get("#ingreso-div").should("contain", "CATEGORIA VACIA!!!");
+    });
     /*
     it("Si registra un ingreso pero hace click en cancelar Restablece los valores del formulario y desplaza la vista hacia el saldo", () => {
       cy.visit("/");

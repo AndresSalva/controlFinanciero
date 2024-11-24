@@ -187,7 +187,7 @@ form_ingreso.addEventListener("submit", (event) => {
 
   if(valor_categoria_ingreso === "otros"){
     const valor_categoria_ingreso_personalizado = inputCategoriaPersonalizadaIngresos.value;
-    if (!valor_ingreso) {
+    if (!valor_categoria_ingreso_personalizado) {
       div_ingreso.innerHTML = "<p>CATEGORIA VACIA!!!</p>";
       return;
     }
