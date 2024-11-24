@@ -24,4 +24,19 @@ describe("Ver presupuestos", () => {
     cy.get("#totalPresupuesto-div").should("contain", "100").and("contain", "universidad");
     cy.get("#totalPresupuesto-div").should("contain", "35").and("contain", "alimentacion");
   });
+  it("Cada presupuesto tiene un botón para poder eliminar un presupuesto", () => {
+    cy.visit("/");
+
+    cy.get("#mostrar-form-presupuesto").click();
+    cy.get("#monto-presupuesto").type(35);
+    cy.get("#categoria-presupuesto").select("alimentacion");
+    cy.get("#aniadir-presupuesto").click();
+
+    cy.get("#totalPresupuesto-div").should("contain", "35").and("contain", "alimentacion");
+
+    cy.get(".eliminar-presupuesto-btn").should('be.visible').click();
+
+    cy.get("#totalPresupuesto-div").should("not.contain", "35");
+    cy.get("#totalPresupuesto-div").should("not.contain", "alimentacion");
+  });
 });
