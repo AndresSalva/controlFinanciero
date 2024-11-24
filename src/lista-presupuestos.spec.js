@@ -14,4 +14,25 @@ describe("Lista presupuestos", () => {
       }];
     expect(lista.obtenerPresupuestos()).toEqual(resultado);
   });
+  it("Deberia registrar dos o mas presupuestos en la lista", () => {
+    const presupuestito1 = new Presupuesto;
+    presupuestito1.agregarMonto(55)
+    presupuestito1.agregarCategoria("alimentacion")
+    const presupuestito2 = new Presupuesto;
+    presupuestito2.agregarMonto(80)
+    presupuestito2.agregarCategoria("ninguno")
+    const lista = new ListaPresupuestos;
+    lista.registrarPresupuesto(presupuestito1);
+    lista.registrarPresupuesto(presupuestito2);
+    const resultado = [{
+        monto: 55,
+        categoria: "alimentacion",
+      },
+      {
+        monto: 80,
+        categoria: "ninguno",
+      }
+    ];
+    expect(lista.obtenerPresupuestos()).toEqual(resultado);
+  });
 });
