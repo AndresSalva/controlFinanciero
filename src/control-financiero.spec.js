@@ -1,6 +1,7 @@
 import ControlFinanciero from './control-financiero.js'
 import Gasto from './gasto.js';
 import Ingreso from './ingreso.js';
+import ListaIngresos from './lista-ingresos.js';
 
 describe("Control financiero", () => {
     it("Registra el gasto en el control financiero", () => {
@@ -123,4 +124,36 @@ describe("Control financiero", () => {
         expect(resultado).toBe("El gasto no se pudo eliminar, intentelo de nuevo");
     });
 
+      it("Deberia seleccionar un ingreso correctamente segun el indice", () => {
+        const ingreso1 = new Ingreso;
+        const ingreso2 = new Ingreso;
+        const controlFinanciero = new ControlFinanciero;
+    
+        ingreso1.agregarMonto(150);
+        ingreso1.agregarFecha("2024-11-19");
+        ingreso1.agregarNota("Compra de bisuteria");
+        ingreso1.agregarCategoria("premios");
+    
+        ingreso2.agregarMonto(300);
+        ingreso2.agregarFecha("2024-11-20");
+        ingreso2.agregarNota("Cena familiar");
+        ingreso2.agregarCategoria("inversiones");
+    
+        controlFinanciero.registrarIngreso(ingreso1);
+        controlFinanciero.registrarIngreso(ingreso2);
+    
+        const seleccionado = controlFinanciero.seleccionarIngreso(1);
+        expect(seleccionado).toEqual({
+          monto: 300,
+          fecha: "2024-11-20",
+          nota: "Cena familiar",
+          categoria: "inversiones",
+        });
+      });
+
+      it("Deberia devolver un mensaje si el indice está fuera de rango (negativo)", () => {
+        const controlFinanciero = new ControlFinanciero;
+        const resultado = controlFinanciero.seleccionarIngreso(-1); // Llama directamente a la función
+        expect(resultado).toBe("El ingreso no se pudo eliminar, intentelo de nuevo");
+    });
 });

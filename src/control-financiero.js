@@ -29,6 +29,11 @@ class ControlFinanciero{
         this.ListaIngresos.registrarIngreso(ingreso);
     }
 
+    seleccionarIngreso(index) {
+        //return this.ListaIngresos.seleccionarIngreso(index);
+        return this.ListaIngresos.seleccionarIngreso(index);
+    }
+
     verTotalIngresitos(){
         const ingresos = this.ListaIngresos.obtenerIngreso();
         let totalIngresos=0;

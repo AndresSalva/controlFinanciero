@@ -66,5 +66,13 @@ describe("Ingresos", () => {
     expect(ingreso.fecha).toBeNull();
     expect(ingreso.nota).toBeNull();
   });
+
+  it("Deberia registrar el ingreso con su categoria", () => {
+    const ingreso = new Ingreso
+    ingreso.agregarMonto(90)
+    ingreso.agregarCategoria("Bisuteria")
+    expect(ingreso.mostrarMonto()).toEqual('Monto: 90');
+    expect(ingreso.mostrarCategoria()).toEqual('Categoria: Bisuteria');
+  });
   
 });

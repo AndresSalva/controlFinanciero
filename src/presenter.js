@@ -41,6 +41,8 @@ const form_ingreso = document.querySelector("#ingreso-form")
 const div_ingreso = document.querySelector("#ingreso-div")
 const cancelarIngresoBtn = document.querySelector("#cancelar");
 const mostrarFormBtnIngreso = document.querySelector("#mostrar-form-ingreso"); 
+const categoria_ingreso = document.querySelector("#categoria-ingreso");
+const inputCategoriaPersonalizadaIngresos=document.getElementById("categoria-ingreso-personalizada");
 
 //Lista gastos
 const div_lista_gastos = document.querySelector("#lista-gastos-div");
@@ -194,7 +196,8 @@ form_ingreso.addEventListener("submit", (event) => {
   const valor_ingreso = Number.parseInt(montoIngreso.value);
   const fecha_ingreso = fechaIngreso.value || obtenerFechaActual(); 
   const nota_ingreso = notaIngreso.value || "No hay notas disponibles";
-  
+  const valor_categoria_ingreso= categoria_ingreso.value;
+
   if (fecha_ingreso && !valor_ingreso) {
     div_ingreso.innerHTML = "<p>MONTO VACIO!!!</p>";
     return;
@@ -203,15 +206,41 @@ form_ingreso.addEventListener("submit", (event) => {
   ingreso.agregarMonto(valor_ingreso);
   ingreso.agregarFecha(fecha_ingreso);
   ingreso.agregarNota(nota_ingreso);
+  ingreso.agregarCategoria(valor_categoria_ingreso);
+
+  if (!valor_ingreso) {
+    div_ingreso.innerHTML = "<p>MONTO VACIO!!!</p>";
+    return;
+  }
+
+  if(valor_categoria_ingreso === "otros"){
+    const valor_categoria_ingreso_personalizado = inputCategoriaPersonalizadaIngresos.value;
+    if (!valor_categoria_ingreso_personalizado) {
+      div_ingreso.innerHTML = "<p>CATEGORIA VACIA!!!</p>";
+      return;
+    }
+    ingreso.agregarCategoria(valor_categoria_ingreso_personalizado);
+  }
+
 
   actualizarListaIngreso(ingreso);
   actualizarLaListaIngresos_ControlFinanciero(ingreso);
   actualizarSaldo();
 
-  div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>"  + ingreso.mostrarNota() + "</p>";
+  div_ingreso.innerHTML = "<p>" + ingreso.mostrarMonto() + "</p>" + ingreso.mostrarFecha() + "</p>"  + ingreso.mostrarNota() + "</p>"  + ingreso.mostrarCategoria() + "</p>";
 
+  
   limpiarCampos([montoIngreso, notaIngreso, fechaIngreso]);
   form_ingreso.style.display = "none";
+});
+
+categoria_ingreso.addEventListener("change", () => {
+  if (categoria_ingreso.value === "otros") {
+    inputCategoriaPersonalizadaIngresos.style.display = "block"; // Mostrar campo de texto
+  } else {
+    inputCategoriaPersonalizadaIngresos.style.display = "none"; // Ocultar campo de texto
+    inputCategoriaPersonalizadaIngresos.value = ""; // Limpiar el valor
+  }
 });
 
 cancelarIngresoBtn.addEventListener("click", (event) => {
@@ -276,12 +305,51 @@ function actualizarListaIngreso(ingreso){
   const ingresos = lista_ingresos.obtenerIngreso();
 
   div_lista_ingresos.innerHTML = "<ul>";  
-  ingresos.forEach((ingresoRegistrado) => {
+  ingresos.forEach((ingresoRegistrado,index) => {
     div_lista_ingresos.innerHTML+= 
-       "<li>"+"Monto: "+ ingresoRegistrado.monto+", Fecha: " + ingresoRegistrado.fecha + ", Nota: " + ingresoRegistrado.nota+"</li>";
+       //"<li>"+"Monto: "+ ingresoRegistrado.monto+", Fecha: " + ingresoRegistrado.fecha + ", Nota: " + ingresoRegistrado.nota+"</li>";
+       `<li>
+        Monto: ${ingresoRegistrado.monto}, Fecha: ${ingresoRegistrado.fecha}, Nota: ${ingresoRegistrado.nota}, Categoria: ${ingresoRegistrado.categoria}
+        <button class="select-ingreso-btn" data-index="${index}">:</button>
+      </li>`;
     });
     div_lista_ingresos.innerHTML+= "</ul>";
+
+    
+    const selectButtons = div_lista_ingresos.querySelectorAll(".select-ingreso-btn");
+    selectButtons.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        seleccionarIngreso(index);
+      });
+    });
 }
+
+function seleccionarIngreso(index) {
+  try {
+    const ingresoSeleccionado = lista_ingresos.seleccionarIngreso(index);
+    console.log("Ingreso seleccionado:", ingresoSeleccionado);
+
+    // Mostrar los detalles del ingreso en el formulario (puedes personalizar esto)
+    montoIngreso.value = ingresoSeleccionado.monto;
+    fechaIngreso.value = ingresoSeleccionado.fecha;
+    notaIngreso.value = ingresoSeleccionado.nota;
+
+    // Enfocar el formulario para edición
+    form_ingreso.style.display = "block";
+    //div_ingreso.style.display = "block";
+    div_ingreso.innerHTML = `
+      <p>Ingreso seleccionado:</p>
+      <p>Monto: ${ingresoSeleccionado.monto}</p>
+      <p>Fecha: ${ingresoSeleccionado.fecha}</p>
+      <p>Nota: ${ingresoSeleccionado.nota}</p>
+    `;
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+
 
 function actualizarLaListaGastos_ControlFinanciero(gasto){
  // const montoGasto = Number(gasto.monto);

@@ -60,6 +60,7 @@
     </form>
     <div id="gastos-div" style="display: none;"></div>
     <br>
+
     <button id="mostrar-form-ingreso">Registrar ingreso</button>
     <form id="ingreso-form" style="display: none;">
       <h1>Registro ingreso</h1>
@@ -69,10 +70,22 @@
       <input type="date" id="fecha-ingreso" />
       <label for="nota-ingreso">Nota:</label>
       <input type="text" id="nota-ingreso" />
+
+      <label for="categoria-ingreso">Categoría:</label>
+      <select id="categoria-ingreso">
+        <option value="ninguno">Ninguno</option>
+        <option value="salario">Salario</option>
+        <option value="inversiones">Inversiones</option>
+        <option value="premios">Premios</option>
+        <option value="otros">Otros</option>
+      </select>
+
+      <input type="text" id="categoria-ingreso-personalizada" placeholder="Escribe tu categoría" style="display: none;" />
       <input type="submit" value="registrar-ingreso" id="aniadir-ingreso" />
       <input type="submit" value="cancelar" id="cancelar" />
     </form>
     <div id="ingreso-div" style="display: none;"></div>
+    <br>
     <h1>Lista gastos</h1>
     <div id="lista-gastos-div">No hay gastos</div>
     <h1>Lista ingresos</h1>
