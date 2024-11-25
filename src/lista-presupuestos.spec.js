@@ -55,4 +55,27 @@ describe("Lista presupuestos", () => {
 
     expect(lista.obtenerPresupuestos()).toEqual([presupuestito1]);
   });
+
+  it("Debería eliminar un presupuesto de la lista después de confirmación", () => {
+    const presupuestito1 = new Presupuesto();
+    presupuestito1.agregarMonto(100);
+    presupuestito1.agregarCategoria("transporte");
+  
+    const presupuestito2 = new Presupuesto();
+    presupuestito2.agregarMonto(60);
+    presupuestito2.agregarCategoria("entretenimiento");
+  
+    const lista = new ListaPresupuestos();
+    lista.registrarPresupuesto(presupuestito1);
+    lista.registrarPresupuesto(presupuestito2);
+  
+    expect(lista.obtenerPresupuestos()).toEqual([presupuestito1, presupuestito2]);
+  
+    const mockConfirm = jest.fn().mockReturnValue(true);
+    global.confirm = mockConfirm;
+  
+    lista.eliminarPresupuesto(1);
+  
+    expect(lista.obtenerPresupuestos()).toEqual([presupuestito1]);
+  });
 });
