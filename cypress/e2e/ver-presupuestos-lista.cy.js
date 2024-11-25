@@ -58,4 +58,23 @@ describe("Ver presupuestos", () => {
     cy.get("#totalPresupuesto-div").should("not.contain", "35");
     cy.get("#totalPresupuesto-div").should("not.contain", "alimentacion");
   });
+  it("No debería eliminar un presupuesto si el usuario no confirma", () => {
+    cy.visit("/");
+  
+    cy.get("#mostrar-form-presupuesto").click();
+    cy.get("#monto-presupuesto").type(55);
+    cy.get("#categoria-presupuesto").select("alimentacion");
+    cy.get("#aniadir-presupuesto").click();
+  
+    cy.get("#totalPresupuesto-div").should("contain", "55").and("contain", "alimentacion");
+  
+    cy.window().then((window) => {
+      cy.stub(window, 'confirm').returns(false);
+    });
+  
+    cy.get(".eliminar-presupuesto-btn").should('be.visible').click();
+  
+    cy.get("#totalPresupuesto-div").should("contain", "55");
+    cy.get("#totalPresupuesto-div").should("contain", "alimentacion");
+  });
 });
