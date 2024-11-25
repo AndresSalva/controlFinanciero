@@ -147,5 +147,35 @@ describe("Gastos, Ingresos - Control", () => {
       // Verificar que el saldo no cambia con la selección
       cy.get("#saldo-div").should("contain", "500");
     });
+    it("Edita un gasto y actualiza correctamente el saldo", () => {
+      cy.visit("/");
+      // Registrar un ingreso inicial
+      cy.get("#mostrar-form-ingreso").click();
+      cy.get("#monto-ingreso").type(1000);
+      cy.get("#fecha-ingreso").type("2024-11-01");
+      cy.get("#nota-ingreso").type("Ingreso inicial");
+      cy.get("#aniadir-ingreso").click();
+          // Registrar dos gastos
+      cy.get("#mostrar-form-btn").click();
+      cy.get("#monto-gasto").type(200);
+      cy.get("#fecha-gasto").type("2024-11-02");
+      cy.get("#nota-gasto").type("Compra de oficina");
+      cy.get("#aniadir-gasto").click();
+  
+      cy.get("#mostrar-form-btn").click();
+      cy.get("#monto-gasto").type(150);
+      cy.get("#fecha-gasto").type("2024-11-03");
+      cy.get("#nota-gasto").type("Mantenimiento");
+      cy.get("#aniadir-gasto").click();
+      cy.get("#saldo-div").should("contain", "650"); 
+  
+      // Seleccionar y editar el primer gasto
+      cy.get("#lista-gastos-div button[data-index='0']").click();
+      cy.get("#monto-gasto").clear().type(150); 
+      cy.get("#fecha-gasto").clear().type("2024-11-05");
+      cy.get("#nota-gasto").clear().type("Compra ajustada");
+      cy.get("#aniadir-gasto").click();
+      cy.get("#saldo-div").should("contain", "700"); 
+    });
   });
   
