@@ -355,6 +355,13 @@ function seleccionarGasto(index) {
   }
 }
 
+function actualizarIngresoTotal(ingreso){
+  if (ingreso) {
+    lista_ingresos.registrarIngreso(ingreso);
+  }
+  actualizarListaIngreso();
+}
+
 function actualizarListaIngreso(ingreso){
   lista_ingresos.registrarIngreso(ingreso);
   const ingresos = lista_ingresos.obtenerIngreso();
@@ -362,22 +369,28 @@ function actualizarListaIngreso(ingreso){
   div_lista_ingresos.innerHTML = "<ul>";  
   ingresos.forEach((ingresoRegistrado,index) => {
     div_lista_ingresos.innerHTML+= 
-       //"<li>"+"Monto: "+ ingresoRegistrado.monto+", Fecha: " + ingresoRegistrado.fecha + ", Nota: " + ingresoRegistrado.nota+"</li>";
        `<li>
         Monto: ${ingresoRegistrado.monto}, Fecha: ${ingresoRegistrado.fecha}, Nota: ${ingresoRegistrado.nota}, Categoria: ${ingresoRegistrado.categoria}
-        <button class="select-ingreso-btn" data-index="${index}">:</button>
+        <button class="eliminar-ingreso-btn" data-index="${index}">Eliminar</button>
       </li>`;
     });
     div_lista_ingresos.innerHTML+= "</ul>";
 
     
-    const selectButtons = div_lista_ingresos.querySelectorAll(".select-ingreso-btn");
+    const selectButtons = div_lista_ingresos.querySelectorAll(".eliminae-ingreso-btn");
     selectButtons.forEach((button) => {
       button.addEventListener("click", (event) => {
         const index = event.target.dataset.index;
         seleccionarIngreso(index);
+        eliminarPresupuesto(index);
       });
     });
+}
+
+function eliminarIngreso(index) {
+  lista_ingresos.eliminarIngreso(index);
+  actualizarListaIngreso(); 
+  div_ingreso.innerHTML = "<p>Ingreso eliminado</p>";
 }
 
 function seleccionarIngreso(index) {
