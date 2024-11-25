@@ -59,7 +59,21 @@ class ControlFinanciero{
         }
         return respuesta;
     }
-    
+    editarGasto(index, nuevosDatos) {
+        try {
+            const gastoOriginal = this.ListaGastos.seleccionarGasto(index);
+            // Restar el monto del gasto original del saldo
+            this.saldo += Number(gastoOriginal.monto);
+            // Editar el gasto con los nuevos datos
+            this.ListaGastos.editarGasto(index, nuevosDatos);
+            // Restar el nuevo gasto del saldo
+            this.saldo -= Number(nuevosDatos.monto);
+            return nuevosDatos;
+        } catch (error) {
+            return "Error al editar el gasto:"
+        
+        }
+    }
 }
 
 export default ControlFinanciero
