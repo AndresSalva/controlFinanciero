@@ -83,4 +83,61 @@ describe("Lista gastos", () => {
     const resultado = lista.seleccionarGasto(-1); 
     expect(resultado).toBe("El gasto no se pudo eliminar, intentelo de nuevo");
   });
+  //
+  it("Debería recalcular los gastos correctamente después de editar un gasto", () => {
+    const lista = new ListaGastos();
+
+    const gastito1 = new Gasto();
+    gastito1.agregarMonto(100);
+    gastito1.agregarFecha("2024-10-12");
+    gastito1.agregarNota("Compra de libros");
+    gastito1.agregarCategoria("Educación");
+
+    const gastito2 = new Gasto();
+    gastito2.agregarMonto(200);
+    gastito2.agregarFecha("2024-10-15");
+    gastito2.agregarNota("Cena con amigos");
+    gastito2.agregarCategoria("Ocio");
+
+    lista.registrarGasto(gastito1);
+    lista.registrarGasto(gastito2);
+
+    // Editar el segundo gasto
+    const nuevosDatos = {
+        monto: 300,
+        fecha: "2024-10-20",
+        nota: "Cena especial",
+        categoria: "Ocio",
+    };
+    lista.editarGasto(1, nuevosDatos);
+
+    // Verificar que el segundo gasto se haya actualizado correctamente
+    const resultadoEsperado = [
+        {
+            monto: 100,
+            fecha: "2024-10-12",
+            nota: "Compra de libros",
+            categoria: "Educación",
+        },
+        {
+            monto: 300,
+            fecha: "2024-10-20",
+            nota: "Cena especial",
+            categoria: "Ocio",
+        },
+    ];
+    expect(lista.obtenerGastos()).toEqual(resultadoEsperado);
+  });
+  it("No edita nada cuando la lista está vacía", () => {
+    const listaGastos = new ListaGastos();
+
+    const resultado = listaGastos.editarGasto(0, {
+        monto: 150,
+        fecha: "2024-11-05",
+        nota: "Intento de edición con lista vacía",
+        categoria: "otro",
+    });
+
+    expect(resultado).toBe("Indice inválido para editar gasto.");
+  });
 });

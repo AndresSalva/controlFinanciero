@@ -15,7 +15,10 @@ const inputCategoriaPersonal = document.getElementById("categoria-gastos");
 const form_gasto = document.querySelector("#gastos-form");
 const div_gastos = document.querySelector("#gastos-div");
 const cancelarGastoBtn = document.querySelector("#cancelar-gasto");
-const mostrarFormBtn = document.querySelector("#mostrar-form-btn"); 
+const mostrarFormBtn = document.querySelector("#mostrar-form-btn");
+
+//variable global
+let indiceGastoSeleccionado = null;
 
 //Presupuesto
 const montoPresupuesto = document.querySelector("#monto-presupuesto");
@@ -92,6 +95,8 @@ form_gasto.addEventListener("submit", (event) => {
     return;
   }
 
+  console.log("Formulario enviado: ", { valor_gasto, fecha_gasto, nota_gasto, valor_categoria_gasto });
+
   gastito.agregarMonto(valor_gasto);
   gastito.agregarFecha(fecha_gasto);
   gastito.agregarNota(nota_gasto);
@@ -106,9 +111,34 @@ form_gasto.addEventListener("submit", (event) => {
     gastito.agregarCategoria(valor_categoria_gasto_personalizado);
   }
 
-  actualizarLista(gastito); ///Esto es nuevooooooooooooooooooooooooooooooooooooooooooooooooooooooo
-  actualizarLaListaGastos_ControlFinanciero(gastito);
-  actualizarSaldo();
+  if (indiceGastoSeleccionado !== null) {
+    //const gastoAntiguo = lista_gastos.gastos[indiceGastoSeleccionado];
+    // Si estamos en modo edición, reemplazar el gasto en la lista
+    const gastoAnterior = lista_gastos.seleccionarGasto(indiceGastoSeleccionado);
+    console.log("Editando gasto:", gastoAnterior);
+    lista_gastos.gastos[indiceGastoSeleccionado] = gastito;
+    //gestion.actualizarSaldo();
+    actualizarLaListaGastos_ControlFinanciero(gastito,true,gastoAnterior);//nuevo (ahora si se actualiza el saldo pero tiene q haber arreglo
+    console.log("Saldo después de editar:", gestion.saldo);
+    //const diferencia = gastito.monto - gastoAntiguo.monto; // Calcular diferencia entre el nuevo y el viejo gasto
+    //gestion.saldo += diferencia; // Ajustar el saldo directamente
+    actualizarLista();
+    actualizarSaldo();
+    // Resetear el índice seleccionado
+    indiceGastoSeleccionado = null;
+  } else {
+    // Si no es edición, agregar el nuevo gasto a la lista
+    lista_gastos.registrarGasto(gastito);
+    actualizarLaListaGastos_ControlFinanciero(gastito);
+    actualizarSaldo();
+    console.log("Nuevo gasto registrado:", gastito);
+        console.log("Saldo después de registrar:", gestion.saldo);
+  }
+  actualizarLista();
+  console.log("Saldo final mostrado en el DOM:", gestion.verTotalSaldo());
+  //actualizarLista(gastito); ///Esto es nuevooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+  //actualizarLaListaGastos_ControlFinanciero(gastito);
+  //actualizarSaldo();
 
   div_gastos.innerHTML = "<p>" + gastito.mostrarMonto() + "<p>" + gastito.mostrarFecha() + "<p>" + gastito.mostrarNota() +  "<p>" + gastito.mostrarCategoria() + "</p>";
 
@@ -222,12 +252,13 @@ cancelarIngresoBtn.addEventListener("click", (event) => {
 mostrarFormBtnIngreso.addEventListener("click", () => { 
   visibilidadDeFormulario(form_ingreso, div_ingreso);
 });
-
-function actualizarLista(gastito){
-  lista_gastos.registrarGasto(gastito);
+//function actualizarLista(gastito){
+function actualizarLista(){
+  //lista_gastos.registrarGasto(gastito);
   const gastos = lista_gastos.obtenerGastos();
 
-  div_lista_gastos.innerHTML = "<ul>";  
+  div_lista_gastos.innerHTML = "";
+  //div_lista_gastos.innerHTML = "<ul>";  
   gastos.forEach((gastoRegistrado,index) => {
     div_lista_gastos.innerHTML+= 
       `<li>
@@ -237,7 +268,7 @@ function actualizarLista(gastito){
       //"<li>"+"Monto: "+ gastoRegistrado.monto+", Fecha: "+gastoRegistrado.fecha+", Nota: "+gastoRegistrado.nota+"</li>";
     });
 
-    div_lista_gastos.innerHTML+= "</ul>";
+    //div_lista_gastos.innerHTML+= "</ul>";
     //
     const selectButtons = div_lista_gastos.querySelectorAll(".select-gasto-btn");
     selectButtons.forEach((button) => {
@@ -250,13 +281,15 @@ function actualizarLista(gastito){
 //
 function seleccionarGasto(index) {
   try {
+    indiceGastoSeleccionado = index;
     const gastoSeleccionado = lista_gastos.seleccionarGasto(index);
-    console.log("Gasto seleccionado:", gastoSeleccionado);
+    //console.log("Gasto seleccionado:", gastoSeleccionado);
 
     // Mostrar los detalles del gasto en el formulario (puedes personalizar esto)
     montoGasto.value = gastoSeleccionado.monto;
     fechaGasto.value = gastoSeleccionado.fecha;
     notaGasto.value = gastoSeleccionado.nota;
+    categoria_gasto.value = gastoSeleccionado.categoria;
 
     // Enfocar el formulario para edición
     form_gasto.style.display = "block";
@@ -265,6 +298,7 @@ function seleccionarGasto(index) {
       <p>Monto: ${gastoSeleccionado.monto}</p>
       <p>Fecha: ${gastoSeleccionado.fecha}</p>
       <p>Nota: ${gastoSeleccionado.nota}</p>
+      <p>Categoria: ${gastoSeleccionado.categoria}</p>
     `;
   } catch (error) {
     console.error(error.message);
@@ -283,9 +317,19 @@ function actualizarListaIngreso(ingreso){
     div_lista_ingresos.innerHTML+= "</ul>";
 }
 
-function actualizarLaListaGastos_ControlFinanciero(gasto){
+function actualizarLaListaGastos_ControlFinanciero(gasto,esEdicion = false, montoAnterior = 0){
  // const montoGasto = Number(gasto.monto);
-  gestion.registrarGasto(gasto);
+ if (esEdicion) {
+    // Si es edición, revertimos el impacto del gasto anterior
+    //lista_ingresos.registrarIngreso(montoAnterior);
+    //lista_gastos.registrarGasto(gasto.monto);
+    gestion.saldo += Number(montoAnterior); // Devuelve el saldo original
+    gestion.saldo -= Number(gasto.monto); // Aplica el nuevo gasto
+  } else {
+    // Si es un nuevo gasto
+    gestion.registrarGasto(gasto);
+  }
+  //gestion.registrarGasto(gasto);
   const totalGastos = gestion.verTotalGastitos();
 
   div_total_gastos.innerHTML = `<p>Total de gastos: ${Number(totalGastos)}</p>`;
@@ -308,9 +352,10 @@ function actualizarLaListaIngresos_ControlFinanciero(ingreso){
   }
 });
 
- function actualizarSaldo(){
+function actualizarSaldo(){
   gestion.actualizarSaldo();
-  div_saldo.innerHTML = "<p>" + gestion.verTotalSaldo() + "</p>";
+  //div_saldo.innerHTML = "<p>" + gestion.verTotalSaldo() + "</p>";
+  div_saldo.innerHTML = `<p>${gestion.verTotalSaldo()}</p>`;
  }
 
  function actualizarPresupuestoTotal(presupuestito){
