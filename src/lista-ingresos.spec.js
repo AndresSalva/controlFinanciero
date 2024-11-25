@@ -75,4 +75,27 @@ describe("Lista ingreso", () => {
     lista.eliminarIngreso(1);
     expect(lista.obtenerIngreso()).toEqual([ingresito1]);
   });
+
+  it("Debería eliminar un presupuesto de la lista después de confirmación", () => {
+    const ingreso_1 = new Ingreso;
+    ingreso_1.agregarMonto(100);
+    ingreso_1.agregarCategoria("inversiones");
+  
+    const ingreso_2 = new Ingreso;
+    ingreso_2.agregarMonto(60);
+    ingreso_2.agregarCategoria("premios");
+  
+    const lista = new ListaIngresos;
+    lista.registrarIngreso(ingreso_1);
+    lista.registrarIngreso(ingreso_2);
+  
+    expect(lista.obtenerIngreso()).toEqual([ingreso_1, ingreso_2]);
+  
+    const mockConfirm = jest.fn().mockReturnValue(true);
+    global.confirm = mockConfirm;
+  
+    lista.eliminarIngreso(1);
+  
+    expect(lista.obtenerIngreso()).toEqual([ingreso_1]);
+  });
 });
