@@ -59,4 +59,20 @@ describe("Lista ingreso", () => {
     const resultado = lista.seleccionarIngreso(-1); 
     expect(resultado).toBe("El ingreso no se pudo eliminar, intentelo de nuevo");
   });
+  it("Deberia eliminar un ingreso de la lista", () => {
+    const ingresito1 = new Ingreso;
+    ingresito1.agregarMonto(55);
+    ingresito1.agregarCategoria("salario");
+
+    const ingresito2 = new Ingreso;
+    ingresito2.agregarMonto(80);
+    ingresito2.agregarCategoria("ninguno");
+
+    const lista = new ListaIngresos;
+    lista.registrarIngreso(ingresito1);
+    lista.registrarIngreso(ingresito2);
+    expect(lista.obtenerIngreso()).toEqual([ingresito1, ingresito2]);
+    lista.eliminarIngreso(1);
+    expect(lista.obtenerIngreso()).toEqual([ingresito1]);
+  });
 });

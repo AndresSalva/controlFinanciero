@@ -16,5 +16,8 @@ class ListaIngresos {
         return "El ingreso no se pudo eliminar, intentelo de nuevo";
       }
     }
+    eliminarIngreso(index){
+      this.ingresos.splice(index,1);
+    }
   }
   export default ListaIngresos;
