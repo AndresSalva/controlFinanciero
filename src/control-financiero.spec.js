@@ -124,7 +124,7 @@ describe("Control financiero", () => {
         expect(resultado).toBe("El gasto no se pudo eliminar, intentelo de nuevo");
     });
 
-      it("Deberia seleccionar un ingreso correctamente segun el indice", () => {
+    it("Deberia seleccionar un ingreso correctamente segun el indice", () => {
         const ingreso1 = new Ingreso;
         const ingreso2 = new Ingreso;
         const controlFinanciero = new ControlFinanciero;
@@ -151,9 +151,94 @@ describe("Control financiero", () => {
         });
       });
 
-      it("Deberia devolver un mensaje si el indice está fuera de rango (negativo)", () => {
+    it("Deberia devolver un mensaje si el indice está fuera de rango (negativo)", () => {
         const controlFinanciero = new ControlFinanciero;
         const resultado = controlFinanciero.seleccionarIngreso(-1); // Llama directamente a la función
         expect(resultado).toBe("El ingreso no se pudo eliminar, intentelo de nuevo");
+    });
+    it("Edita un gasto correctamente", () => {
+        const gastito1 = new Gasto();
+        const gastito2 = new Gasto();
+        const controlFinanciero = new ControlFinanciero();
+        gastito1.agregarMonto(150);
+        gastito1.agregarFecha("2024-11-19");
+        gastito1.agregarNota("Compra de libros");
+        gastito1.agregarCategoria("boda");
+        gastito2.agregarMonto(300);
+        gastito2.agregarFecha("2024-11-20");
+        gastito2.agregarNota("Cena familiar");
+        gastito2.agregarCategoria("regalo");
+        controlFinanciero.registrarGasto(gastito1);
+        controlFinanciero.registrarGasto(gastito2);
+        const nuevosDatos = {
+            monto: 400,
+            fecha: "2024-11-21",
+            nota: "Regalo especial",
+            categoria: "regalos",
+        };
+        const gastoEditado = controlFinanciero.editarGasto(1, nuevosDatos);
+        expect(gastoEditado).toEqual({
+            monto: 400,
+            fecha: "2024-11-21",
+            nota: "Regalo especial",
+            categoria: "regalos",
+        });
+        const listaActualizada = controlFinanciero.ListaGastos.obtenerGastos();
+        expect(listaActualizada[1]).toEqual(gastoEditado);
+    });
+    it("Actualiza correctamente el saldo al editar un gasto", () => {
+        const gastito1 = new Gasto();
+        const gastito2 = new Gasto();
+        const controlFinanciero = new ControlFinanciero();
+    
+        gastito1.agregarMonto(100);
+        gastito2.agregarMonto(200);
+    
+        controlFinanciero.registrarGasto(gastito1);
+        controlFinanciero.registrarGasto(gastito2);
+    
+        const ingresito = new Ingreso();
+        ingresito.agregarMonto(1000);
+        controlFinanciero.registrarIngreso(ingresito);
+    
+        // Actualizar el saldo inicial
+        controlFinanciero.actualizarSaldo();
+        expect(controlFinanciero.saldo).toBe(700); // 1000 - (100 + 200)
+    
+        // Editar el segundo gasto
+        const nuevosDatos = {
+            monto: 150,
+            fecha: "2024-11-25",
+            nota: "Compra ajustada",
+            categoria: "alimentos",
+        };
+    
+        const gastoEditado = controlFinanciero.editarGasto(1, nuevosDatos);
+    
+        // Verificar que el saldo se haya actualizado correctamente
+        controlFinanciero.actualizarSaldo();
+        expect(controlFinanciero.saldo).toBe(750); // 1000 - (100 + 150)
+    
+        // Verificar que los datos del gasto hayan sido actualizados
+        expect(gastoEditado).toEqual(nuevosDatos);
+    
+        const listaActualizada = controlFinanciero.ListaGastos.obtenerGastos();
+        expect(listaActualizada[1]).toEqual(gastoEditado);
+    });
+    it("Devuelve un mensaje de error si ocurre una excepción inesperada", () => {
+        const controlFinanciero = new ControlFinanciero();
+        controlFinanciero.ListaGastos = {
+            seleccionarGasto: () => {
+                throw new Error("Error forzado en seleccionarGasto"); // Forzar error
+            },
+        };
+        const nuevosDatos = {
+            monto: 200,
+            fecha: "2024-11-30",
+            nota: "Edición forzada",
+            categoria: "prueba",
+        };
+        const resultado = controlFinanciero.editarGasto(0, nuevosDatos);
+        expect(resultado).toBe("Error al editar el gasto:");
     });
 });
