@@ -196,6 +196,26 @@ describe("Gastos, Ingresos - Control", () => {
       cy.get("#presupuesto-div").should("contain", "1000")
         .and("contain", "transporte");
     });
+    it("Selecciona un presupuesto con una categoria personalizada y actualiza el formulario para editar", ()=>{
+      cy.visit("/");
+
+      cy.get("#mostrar-form-presupuesto").click();
+      cy.get("#monto-presupuesto").type(1000);
+      cy.get("#categoria-presupuesto").select("otros");
+      cy.get("#categoria-gasto-personalizada").type("Libros");
+      cy.get("#aniadir-presupuesto").click();
+      cy.get("#mostrar-form-presupuesto").click();
+      cy.get("#monto-presupuesto").type(300);
+      cy.get("#categoria-presupuesto").select("alimentacion");
+      cy.get("#aniadir-presupuesto").click();
+
+      cy.get("#totalPresupuesto-div button[data-index='0'].editar-presupuesto-btn").click();
+      cy.get("#monto-presupuesto").should("have.value",1000);
+      cy.get("#categoria-presupuesto").should("have.value","otros");
+      cy.get("#categoria-gasto-personalizada").should("have.value","Libros");
+      cy.get("#presupuesto-div").should("contain", "1000")
+        .and("contain", "Libros");
+    });
 
   });
   

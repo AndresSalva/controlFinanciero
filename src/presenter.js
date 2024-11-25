@@ -230,10 +230,22 @@ function seleccionarPresupuesto(index) {
 
     // Mostrar los detalles del gasto en el formulario (puedes personalizar esto)
     montoPresupuesto.value = presupuestoSeleccionado.monto;
-    categoria_presupuesto.value = presupuestoSeleccionado.categoria;
+    let esCategoria;
+    for (let option of categoria_presupuesto.options) {
+      if (option.value === presupuestoSeleccionado.categoria) {
+        categoria_presupuesto.value = presupuestoSeleccionado.categoria;
+        esCategoria = true;
+      }
+    }
+    if(!esCategoria){
+      categoria_presupuesto.value = "otros";
+      inputCategoriaPersonalizada.value = presupuestoSeleccionado.categoria;
+    }
+    
 
     // Enfocar el formulario para edición
     form_presupuesto.style.display = "block";
+    
     div_presupuesto.innerHTML = `
       <p>Presupuesto seleccionado:</p>
       <p>Monto: ${presupuestoSeleccionado.monto}</p>
