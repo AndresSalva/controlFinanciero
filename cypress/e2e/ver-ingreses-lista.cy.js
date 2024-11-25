@@ -39,5 +39,19 @@ describe("Ver Ingresos", () => {
 
     });
 
+    it("Cada ingreso tiene un botón para poder eliminar un ingreso solo si confirma", () => {
+      cy.visit("/");
+      cy.get("#mostrar-form-ingreso").click();
+      cy.get("#monto-ingreso").type(35);
+      cy.get("#categoria-ingreso").select("inversiones");
+      cy.get("#aniadir-ingreso").click();
+      cy.get("#totalIngresos-div").should("contain", "35");
+      cy.window().then((window) => {
+        cy.stub(window, 'confirm').returns(true);
+      });
+      cy.get(".eliminar-ingreso-btn").should('be.visible').click();
+      cy.get("#totalIngresos-div").should("contain", "Total de ingresos: 35");
+    });
+
   });
   

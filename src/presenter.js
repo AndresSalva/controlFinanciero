@@ -388,9 +388,12 @@ function actualizarListaIngreso(ingreso){
 }
 
 function eliminarIngreso(index) {
-  lista_ingresos.eliminarIngreso(index);
-  actualizarListaIngreso(); 
-  div_ingreso.innerHTML = "<p>Ingreso eliminado</p>";
+  const confirmacion = confirm("¿Estás seguro de que deseas eliminar este ingreso?");
+  if (confirmacion) {
+    lista_ingresos.eliminarIngreso(index);
+    actualizarListaIngreso(); 
+    div_ingreso.innerHTML = "<p>Ingreso eliminado</p>";
+  }
 }
 
 function seleccionarIngreso(index) {
