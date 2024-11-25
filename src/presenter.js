@@ -199,9 +199,12 @@ function actualizarListaPresupuestos() {
 }
 
 function eliminarPresupuesto(index) {
-  lista_presupuestos.eliminarPresupuesto(index);
-  actualizarListaPresupuestos(); 
-  div_presupuesto.innerHTML = "<p>Presupuesto eliminado</p>";
+  const confirmacion = confirm("¿Estás seguro de que deseas eliminar este presupuesto?");
+  if (confirmacion) {
+    lista_presupuestos.eliminarPresupuesto(index);
+    actualizarListaPresupuestos(); 
+    div_presupuesto.innerHTML = "<p>Presupuesto eliminado</p>";
+  }
 }
 
 function VisibilidadDeImagen(imagenAMostrar, imagenAOcultar) {
