@@ -8,5 +8,8 @@ class ListaPresupuestos {
     obtenerPresupuestos() {
       return this.presupuestos;
     }
+    eliminarPresupuesto(index) {
+      this.presupuestos.splice(index, 1);
+    }
   }
   export default ListaPresupuestos;

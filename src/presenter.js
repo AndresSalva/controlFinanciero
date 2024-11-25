@@ -170,6 +170,43 @@ categoria_presupuesto.addEventListener("change", () => {
   }
 });
 
+function actualizarPresupuestoTotal(presupuestito){
+  if (presupuestito) {
+    lista_presupuestos.registrarPresupuesto(presupuestito);
+  }
+  actualizarListaPresupuestos();
+}
+
+function actualizarListaPresupuestos() {
+  const presupuestos = lista_presupuestos.obtenerPresupuestos();
+
+  div_totales_presupuestos.innerHTML = "<ul>";
+  presupuestos.forEach((presupuestoRegistrado, index) => {
+    div_totales_presupuestos.innerHTML += `
+      <li>
+        Monto: ${presupuestoRegistrado.monto}, Categoría: ${presupuestoRegistrado.categoria}
+        <button class="eliminar-presupuesto-btn" data-index="${index}">Eliminar</button>
+      </li>`;
+  });
+  div_totales_presupuestos.innerHTML += "</ul>";
+
+  div_totales_presupuestos.querySelectorAll(".eliminar-presupuesto-btn").forEach(button => {
+    button.addEventListener("click", (event) => {
+      const index = event.target.dataset.index;
+      eliminarPresupuesto(index);
+    });
+  });
+}
+
+function eliminarPresupuesto(index) {
+  const confirmacion = confirm("¿Estás seguro de que deseas eliminar este presupuesto?");
+  if (confirmacion) {
+    lista_presupuestos.eliminarPresupuesto(index);
+    actualizarListaPresupuestos(); 
+    div_presupuesto.innerHTML = "<p>Presupuesto eliminado</p>";
+  }
+}
+
 function VisibilidadDeImagen(imagenAMostrar, imagenAOcultar) {
   if (imagenAMostrar.style.display === 'none') {
     imagenAOcultar.style.display = 'none';
@@ -379,21 +416,6 @@ function actualizarLaListaIngresos_ControlFinanciero(ingreso){
  function actualizarSaldo(){
   gestion.actualizarSaldo();
   div_saldo.innerHTML = "<p>" + gestion.verTotalSaldo() + "</p>";
- }
-
- function actualizarPresupuestoTotal(presupuestito){
-  //div_totales_presupuestos.innerHTML = "<p>"+"Monto:"+ presupuestito.monto+ ", Categoria: " + presupuestito.categoria +"</p>";
-  lista_presupuestos.registrarPresupuesto(presupuestito);
-  const presupuestos = lista_presupuestos.obtenerPresupuestos();
-
-  div_totales_presupuestos.innerHTML = "<ul>";
-  presupuestos.forEach((presupuestoRegistrado) => {
-    div_totales_presupuestos.innerHTML += `
-      <li>
-        Monto: ${presupuestoRegistrado.monto}, Categoría: ${presupuestoRegistrado.categoria}
-      </li>`;
-  });
-  div_totales_presupuestos.innerHTML += "</ul>";
  }
 
  function obtenerFechaActual() {
