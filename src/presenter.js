@@ -112,34 +112,25 @@ form_gasto.addEventListener("submit", (event) => {
   }
 
   if (indiceGastoSeleccionado !== null) {
-    //const gastoAntiguo = lista_gastos.gastos[indiceGastoSeleccionado];
-    // Si estamos en modo edición, reemplazar el gasto en la lista
-    const gastoAnterior = lista_gastos.seleccionarGasto(indiceGastoSeleccionado);
-    console.log("Editando gasto:", gastoAnterior);
-    lista_gastos.gastos[indiceGastoSeleccionado] = gastito;
-    //gestion.actualizarSaldo();
-    actualizarLaListaGastos_ControlFinanciero(gastito,true,gastoAnterior);//nuevo (ahora si se actualiza el saldo pero tiene q haber arreglo
-    console.log("Saldo después de editar:", gestion.saldo);
-    //const diferencia = gastito.monto - gastoAntiguo.monto; // Calcular diferencia entre el nuevo y el viejo gasto
-    //gestion.saldo += diferencia; // Ajustar el saldo directamente
-    actualizarLista();
+    const nuevosDatos = {
+      monto: valor_gasto,
+      fecha: fecha_gasto,
+      nota: nota_gasto,
+      categoria: valor_categoria_gasto,
+    };
+    gestion.editarGasto(indiceGastoSeleccionado, nuevosDatos);
+
     actualizarSaldo();
-    // Resetear el índice seleccionado
+
     indiceGastoSeleccionado = null;
   } else {
-    // Si no es edición, agregar el nuevo gasto a la lista
     lista_gastos.registrarGasto(gastito);
     actualizarLaListaGastos_ControlFinanciero(gastito);
     actualizarSaldo();
-    console.log("Nuevo gasto registrado:", gastito);
-        console.log("Saldo después de registrar:", gestion.saldo);
   }
   actualizarLista();
   console.log("Saldo final mostrado en el DOM:", gestion.verTotalSaldo());
-  //actualizarLista(gastito); ///Esto es nuevooooooooooooooooooooooooooooooooooooooooooooooooooooooo
-  //actualizarLaListaGastos_ControlFinanciero(gastito);
-  //actualizarSaldo();
-
+ 
   div_gastos.innerHTML = "<p>" + gastito.mostrarMonto() + "<p>" + gastito.mostrarFecha() + "<p>" + gastito.mostrarNota() +  "<p>" + gastito.mostrarCategoria() + "</p>";
 
   limpiarCampos([montoGasto, notaGasto, fechaGasto]);
@@ -258,7 +249,6 @@ function actualizarLista(){
   const gastos = lista_gastos.obtenerGastos();
 
   div_lista_gastos.innerHTML = "";
-  //div_lista_gastos.innerHTML = "<ul>";  
   gastos.forEach((gastoRegistrado,index) => {
     div_lista_gastos.innerHTML+= 
       `<li>
@@ -267,9 +257,6 @@ function actualizarLista(){
       </li>`;
       //"<li>"+"Monto: "+ gastoRegistrado.monto+", Fecha: "+gastoRegistrado.fecha+", Nota: "+gastoRegistrado.nota+"</li>";
     });
-
-    //div_lista_gastos.innerHTML+= "</ul>";
-    //
     const selectButtons = div_lista_gastos.querySelectorAll(".select-gasto-btn");
     selectButtons.forEach((button) => {
       button.addEventListener("click", (event) => {
@@ -283,15 +270,12 @@ function seleccionarGasto(index) {
   try {
     indiceGastoSeleccionado = index;
     const gastoSeleccionado = lista_gastos.seleccionarGasto(index);
-    //console.log("Gasto seleccionado:", gastoSeleccionado);
-
-    // Mostrar los detalles del gasto en el formulario (puedes personalizar esto)
+    
     montoGasto.value = gastoSeleccionado.monto;
     fechaGasto.value = gastoSeleccionado.fecha;
     notaGasto.value = gastoSeleccionado.nota;
     categoria_gasto.value = gastoSeleccionado.categoria;
 
-    // Enfocar el formulario para edición
     form_gasto.style.display = "block";
     div_gastos.innerHTML = `
       <p>Gasto seleccionado:</p>
@@ -318,18 +302,15 @@ function actualizarListaIngreso(ingreso){
 }
 
 function actualizarLaListaGastos_ControlFinanciero(gasto,esEdicion = false, montoAnterior = 0){
- // const montoGasto = Number(gasto.monto);
- if (esEdicion) {
-    // Si es edición, revertimos el impacto del gasto anterior
-    //lista_ingresos.registrarIngreso(montoAnterior);
-    //lista_gastos.registrarGasto(gasto.monto);
+
+  if (esEdicion) {
     gestion.saldo += Number(montoAnterior); // Devuelve el saldo original
     gestion.saldo -= Number(gasto.monto); // Aplica el nuevo gasto
   } else {
     // Si es un nuevo gasto
     gestion.registrarGasto(gasto);
   }
-  //gestion.registrarGasto(gasto);
+
   const totalGastos = gestion.verTotalGastitos();
 
   div_total_gastos.innerHTML = `<p>Total de gastos: ${Number(totalGastos)}</p>`;

@@ -60,19 +60,12 @@ class ControlFinanciero{
             // Restar el monto del gasto original del saldo
             this.saldo += Number(gastoOriginal.monto);
             // Editar el gasto con los nuevos datos
-            //const gastoActualizado = this.ListaGastos.editarGasto(index, nuevosDatos);
             this.ListaGastos.editarGasto(index, nuevosDatos);
             // Restar el nuevo gasto del saldo
             this.saldo -= Number(nuevosDatos.monto);
             return nuevosDatos;
-            //return gastoActualizado;
-            //const gastoActualizado = this.ListaGastos.editarGasto(index, nuevosDatos);
-            //this.actualizarSaldo(); // Recalcular el saldo después de la edición
-            //return gastoActualizado; // Retorna el gasto actualizado si necesitas usarlo
         } catch (error) {
             return "Error al editar el gasto:"
-            //console.error("Error al editar el gasto:", error.message);
-            //throw error; // Opcional, si quieres manejar el error fuera
         }
     }
     
