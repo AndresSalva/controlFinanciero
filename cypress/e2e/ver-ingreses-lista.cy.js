@@ -53,5 +53,22 @@ describe("Ver Ingresos", () => {
       cy.get("#totalIngresos-div").should("contain", "Total de ingresos: 35");
     });
 
+    it("No debería eliminar un ingreso si el usuario no confirma", () => {
+      cy.visit("/");
+    
+      cy.get("#mostrar-form-ingreso").click();
+      cy.get("#monto-ingreso").type(55);
+      cy.get("#categoria-ingreso").select("inversiones");
+      cy.get("#aniadir-ingreso").click();
+      cy.get("#totalIngresos-div").should("contain", "55");
+    
+      cy.window().then((window) => {
+        cy.stub(window, 'confirm').returns(false);
+      });
+    
+      cy.get(".eliminar-ingreso-btn").should('be.visible').click();
+      cy.get("#totalIngresos-div").should("contain", "55");
+    });
+
   });
   
