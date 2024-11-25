@@ -17,6 +17,8 @@ const div_gastos = document.querySelector("#gastos-div");
 const cancelarGastoBtn = document.querySelector("#cancelar-gasto");
 const mostrarFormBtn = document.querySelector("#mostrar-form-btn"); 
 
+let indiceGastoSeleccionado = null;
+
 //Presupuesto
 const montoPresupuesto = document.querySelector("#monto-presupuesto");
 const categoria_presupuesto = document.querySelector("#categoria-presupuesto");
@@ -108,9 +110,25 @@ form_gasto.addEventListener("submit", (event) => {
     gastito.agregarCategoria(valor_categoria_gasto_personalizado);
   }
 
-  actualizarLista(gastito); ///Esto es nuevooooooooooooooooooooooooooooooooooooooooooooooooooooooo
-  actualizarLaListaGastos_ControlFinanciero(gastito);
-  actualizarSaldo();
+  if (indiceGastoSeleccionado !== null) {
+    const nuevosDatos = {
+      monto: valor_gasto,
+      fecha: fecha_gasto,
+      nota: nota_gasto,
+      categoria: valor_categoria_gasto,
+    };
+    gestion.editarGasto(indiceGastoSeleccionado, nuevosDatos);
+    actualizarSaldo();
+    // Resetear el índice seleccionado
+    indiceGastoSeleccionado = null;
+  } else {
+    // Si no es edición, agregar el nuevo gasto a la lista
+    lista_gastos.registrarGasto(gastito);
+    actualizarLaListaGastos_ControlFinanciero(gastito);
+    actualizarSaldo();
+    
+  }
+  actualizarLista();
 
   div_gastos.innerHTML = "<p>" + gastito.mostrarMonto() + "<p>" + gastito.mostrarFecha() + "<p>" + gastito.mostrarNota() +  "<p>" + gastito.mostrarCategoria() + "</p>";
 
@@ -289,11 +307,11 @@ mostrarFormBtnIngreso.addEventListener("click", () => {
   visibilidadDeFormulario(form_ingreso, div_ingreso);
 });
 
-function actualizarLista(gastito){
-  lista_gastos.registrarGasto(gastito);
+function actualizarLista(){
+  //lista_gastos.registrarGasto(gastito);
   const gastos = lista_gastos.obtenerGastos();
 
-  div_lista_gastos.innerHTML = "<ul>";  
+  div_lista_gastos.innerHTML = "";
   gastos.forEach((gastoRegistrado,index) => {
     div_lista_gastos.innerHTML+= 
       `<li>
@@ -303,8 +321,6 @@ function actualizarLista(gastito){
       //"<li>"+"Monto: "+ gastoRegistrado.monto+", Fecha: "+gastoRegistrado.fecha+", Nota: "+gastoRegistrado.nota+"</li>";
     });
 
-    div_lista_gastos.innerHTML+= "</ul>";
-    //
     const selectButtons = div_lista_gastos.querySelectorAll(".select-gasto-btn");
     selectButtons.forEach((button) => {
       button.addEventListener("click", (event) => {
@@ -316,13 +332,14 @@ function actualizarLista(gastito){
 //
 function seleccionarGasto(index) {
   try {
+    indiceGastoSeleccionado = index;
     const gastoSeleccionado = lista_gastos.seleccionarGasto(index);
-    console.log("Gasto seleccionado:", gastoSeleccionado);
 
     // Mostrar los detalles del gasto en el formulario (puedes personalizar esto)
     montoGasto.value = gastoSeleccionado.monto;
     fechaGasto.value = gastoSeleccionado.fecha;
     notaGasto.value = gastoSeleccionado.nota;
+    categoria_gasto.value = gastoSeleccionado.categoria;
 
     // Enfocar el formulario para edición
     form_gasto.style.display = "block";
@@ -331,6 +348,7 @@ function seleccionarGasto(index) {
       <p>Monto: ${gastoSeleccionado.monto}</p>
       <p>Fecha: ${gastoSeleccionado.fecha}</p>
       <p>Nota: ${gastoSeleccionado.nota}</p>
+      <p>Categoria: ${gastoSeleccionado.categoria}
     `;
   } catch (error) {
     console.error(error.message);
@@ -386,11 +404,14 @@ function seleccionarIngreso(index) {
   }
 }
 
-
-
-function actualizarLaListaGastos_ControlFinanciero(gasto){
- // const montoGasto = Number(gasto.monto);
-  gestion.registrarGasto(gasto);
+function actualizarLaListaGastos_ControlFinanciero(gasto,esEdicion = false, montoAnterior = 0){
+ if (esEdicion) {
+    gestion.saldo += Number(montoAnterior); // Devuelve el saldo original
+    gestion.saldo -= Number(gasto.monto); // Aplica el nuevo gasto
+  } else {
+    // Si es un nuevo gasto
+    gestion.registrarGasto(gasto);
+  }
   const totalGastos = gestion.verTotalGastitos();
 
   div_total_gastos.innerHTML = `<p>Total de gastos: ${Number(totalGastos)}</p>`;
