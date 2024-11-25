@@ -119,6 +119,11 @@ form_gasto.addEventListener("submit", (event) => {
     };
     gestion.editarGasto(indiceGastoSeleccionado, nuevosDatos);
     actualizarSaldo();
+    const totalGastos = gestion.verTotalGastitos();
+    div_total_gastos.innerHTML = `<p>Total de gastos: ${totalGastos}</p>`;
+
+    // Refrescar la lista visual
+    actualizarLista();
     // Resetear el índice seleccionado
     indiceGastoSeleccionado = null;
   } else {
