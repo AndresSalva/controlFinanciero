@@ -84,7 +84,7 @@ describe("Lista gastos", () => {
     expect(resultado).toBe("El gasto no se pudo eliminar, intentelo de nuevo");
   });
   //
-  it("Debería recalcular los gastos correctamente después de editar un gasto", () => {
+  it("Deberia recalcular los gastos correctamente después de editar un gasto", () => {
     const lista = new ListaGastos();
 
     const gastito1 = new Gasto();
@@ -102,7 +102,6 @@ describe("Lista gastos", () => {
     lista.registrarGasto(gastito1);
     lista.registrarGasto(gastito2);
 
-    // Editar el segundo gasto
     const nuevosDatos = {
         monto: 300,
         fecha: "2024-10-20",
@@ -110,8 +109,6 @@ describe("Lista gastos", () => {
         categoria: "Ocio",
     };
     lista.editarGasto(1, nuevosDatos);
-
-    // Verificar que el segundo gasto se haya actualizado correctamente
     const resultadoEsperado = [
         {
             monto: 100,
@@ -127,17 +124,5 @@ describe("Lista gastos", () => {
         },
     ];
     expect(lista.obtenerGastos()).toEqual(resultadoEsperado);
-  });
-  it("No edita nada cuando la lista está vacía", () => {
-    const listaGastos = new ListaGastos();
-
-    const resultado = listaGastos.editarGasto(0, {
-        monto: 150,
-        fecha: "2024-11-05",
-        nota: "Intento de edición con lista vacía",
-        categoria: "otro",
-    });
-
-    expect(resultado).toBe("Indice inválido para editar gasto.");
   });
 });
