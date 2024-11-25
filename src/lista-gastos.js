@@ -18,12 +18,16 @@ class ListaGastos {
       }
     }
     editarGasto(index, nuevosDatos) {
-      const gasto = this.gastos[index];
-      gasto.agregarMonto(nuevosDatos.monto);
-      gasto.agregarFecha(nuevosDatos.fecha);
-      gasto.agregarNota(nuevosDatos.nota);
-      gasto.agregarCategoria(nuevosDatos.categoria);
-      return gasto; // Devuelve el gasto actualizado
+      if (index >= 0 && index < this.gastos.length) {
+          const gasto = this.gastos[index];
+          gasto.agregarMonto(nuevosDatos.monto);
+          gasto.agregarFecha(nuevosDatos.fecha);
+          gasto.agregarNota(nuevosDatos.nota);
+          gasto.agregarCategoria(nuevosDatos.categoria);
+          return gasto; // Devuelve el gasto actualizado
+      } else {
+          return "Indice invalido para editar gasto.";
+      }
     }
   
   }

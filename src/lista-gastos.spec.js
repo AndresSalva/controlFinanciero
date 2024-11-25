@@ -125,4 +125,15 @@ describe("Lista gastos", () => {
     ];
     expect(lista.obtenerGastos()).toEqual(resultadoEsperado);
   });
+  it("No edita nada cuando la lista está vacia", () => {
+    const listaGastos = new ListaGastos();
+
+    const resultado = listaGastos.editarGasto(0, {
+        monto: 150,
+        fecha: "2024-11-05",
+        nota: "Intento de edicion con lista vacia",
+        categoria: "otro",
+    });
+    expect(resultado).toBe("Indice invalido para editar gasto.");
+  });
 });
