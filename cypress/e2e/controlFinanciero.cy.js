@@ -177,5 +177,25 @@ describe("Gastos, Ingresos - Control", () => {
       cy.get("#aniadir-gasto").click();
       cy.get("#saldo-div").should("contain", "700"); 
     });
+
+    it("Selecciona un presupuesto y actualiza el formulario para editar", ()=>{
+      cy.visit("/");
+
+      cy.get("#mostrar-form-presupuesto").click();
+      cy.get("#monto-presupuesto").type(1000);
+      cy.get("#categoria-presupuesto").select("transporte");
+      cy.get("#aniadir-presupuesto").click();
+      cy.get("#mostrar-form-presupuesto").click();
+      cy.get("#monto-presupuesto").type(300);
+      cy.get("#categoria-presupuesto").select("alimentacion");
+      cy.get("#aniadir-presupuesto").click();
+
+      cy.get("#totalPresupuesto-div button[data-index='0'].editar-presupuesto-btn").click();
+      cy.get("#monto-presupuesto").should("have.value",1000);
+      cy.get("#categoria-presupuesto").should("have.value","transporte");
+      cy.get("#presupuesto-div").should("contain", "1000")
+        .and("contain", "transporte");
+    });
+
   });
   

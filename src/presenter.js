@@ -204,6 +204,7 @@ function actualizarListaPresupuestos() {
       <li>
         Monto: ${presupuestoRegistrado.monto}, Categoría: ${presupuestoRegistrado.categoria}
         <button class="eliminar-presupuesto-btn" data-index="${index}">Eliminar</button>
+        <button class="editar-presupuesto-btn" data-index="${index}">Editar</button>
       </li>`;
   });
   div_totales_presupuestos.innerHTML += "</ul>";
@@ -214,6 +215,34 @@ function actualizarListaPresupuestos() {
       eliminarPresupuesto(index);
     });
   });
+  div_totales_presupuestos.querySelectorAll(".editar-presupuesto-btn").forEach(button => {
+    button.addEventListener("click", (event) => {
+      const index = event.target.dataset.index;
+      seleccionarPresupuesto(index);
+    });
+  });
+}
+
+function seleccionarPresupuesto(index) {
+  try {
+    indicePresupuestoSeleccionado = index;
+    const presupuestoSeleccionado = lista_presupuestos.seleccionarPresupuesto(indicePresupuestoSeleccionado);
+
+    // Mostrar los detalles del gasto en el formulario (puedes personalizar esto)
+    montoPresupuesto.value = presupuestoSeleccionado.monto;
+    categoria_presupuesto.value = presupuestoSeleccionado.categoria;
+
+    // Enfocar el formulario para edición
+    form_presupuesto.style.display = "block";
+    div_presupuesto.innerHTML = `
+      <p>Presupuesto seleccionado:</p>
+      <p>Monto: ${presupuestoSeleccionado.monto}</p>
+      <p>Categoria: ${presupuestoSeleccionado.categoria}</p>
+    `;
+
+  } catch (error) {
+    console.error(error.message);
+  }
 }
 
 function eliminarPresupuesto(index) {

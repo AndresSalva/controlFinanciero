@@ -78,4 +78,27 @@ describe("Lista presupuestos", () => {
   
     expect(lista.obtenerPresupuestos()).toEqual([presupuestito1]);
   });
+  it("Deberia seleccionar un presupuesto correctamente según el indice", () => {
+    const presupuesto1 = new Presupuesto();
+    presupuesto1.agregarMonto(100);
+    presupuesto1.agregarCategoria("Transporte");
+    const presupuesto2 = new Presupuesto();
+    presupuesto2.agregarMonto(90);
+    presupuesto2.agregarCategoria("Alimentacion");
+
+    const lista = new ListaPresupuestos();
+    lista.registrarPresupuesto(presupuesto1);
+    lista.registrarPresupuesto(presupuesto2);
+
+    const seleccionado = lista.seleccionarPresupuesto(1);
+    expect(seleccionado).toEqual({
+      monto: 90,
+      categoria: "Alimentacion"
+    });
+  });
+  it("Deberia lanzar un error si el indice está fuera de rango (negativo)", () => {
+    const lista = new ListaPresupuestos();
+    const resultado = lista.seleccionarPresupuesto(-1); 
+    expect(resultado).toBe("El presupuesto no se pudo editar, intentelo de nuevo");
+  });
 });
