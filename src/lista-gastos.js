@@ -30,5 +30,8 @@ class ListaGastos {
       }
 
     }
+    eliminarGastos(index) { 
+      this.gastos.splice(index, 1);
+    }
   }
   export default ListaGastos;
