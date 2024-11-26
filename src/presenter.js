@@ -5,6 +5,7 @@ import ListaGastos from "./lista-gastos.js";
 import ListaIngresos from "./lista-ingresos.js";
 import ListaPresupuestos from "./lista-presupuestos.js";
 import ControlFinanciero from "./control-financiero.js";
+import informePresupuesto from "./InformePresupuesto.js";
 
 //Gasto
 const notaGasto = document.querySelector("#nota-gasto");
@@ -67,6 +68,11 @@ const div_total_ingresos = document.querySelector("#totalIngresos-div");
 //Total Saldo
 const div_saldo = document.querySelector("#saldo-div");
 
+//Informe Presupuesto
+const informe = new informePresupuesto();
+
+const div_informe_presupuesto = document.querySelector("#informePresupuesto-div");
+
 function visibilidadDeFormulario(formElement, divElement) {
   if (formElement.style.display === "none" || formElement.style.display === "") {
     formElement.style.display = "block";
@@ -110,6 +116,9 @@ form_gasto.addEventListener("submit", (event) => {
       return;
     }
     gastito.agregarCategoria(valor_categoria_gasto_personalizado);
+    registrarCategoria(valor_categoria_gasto_personalizado, 0, valor_gasto);//NUEVO
+  } else {
+    registrarCategoria(valor_categoria_gasto, 0, valor_gasto);//NUEVOOOO
   }
   
   if (indiceGastoSeleccionado !== null) {
@@ -121,6 +130,11 @@ form_gasto.addEventListener("submit", (event) => {
     };
     gestion.editarGasto(indiceGastoSeleccionado, nuevosDatos);
     actualizarSaldo();
+    const totalGastos = gestion.verTotalGastitos();
+    div_total_gastos.innerHTML = `<p>Total de gastos: ${totalGastos}</p>`;
+
+    // Refrescar la lista visual
+    actualizarLista();
     // Resetear el índice seleccionado
     indiceGastoSeleccionado = null;
   } else {
@@ -171,8 +185,10 @@ form_presupuesto.addEventListener("submit", (event) => {
       return;
     }
     presupuestito.agregarCategoria(valor_categoria_presupuesto_personalizado);
+    registrarCategoria(valor_categoria_presupuesto_personalizado, valor_presupuesto, 0);  // Nuevo
+  } else {
+    registrarCategoria(valor_categoria_presupuesto, valor_presupuesto, 0);//NUEVOOOOO
   }
-
   if (indicePresupuestoSeleccionado !== null) {
     const nuevosDatos = {
       monto: presupuestito.monto,
@@ -513,4 +529,24 @@ function botonCancelar(formElement, divElement){
   saldoHeader.scrollIntoView({ behavior: "smooth", block: "start" }); 
   formElement.style.display = "none"; 
   divElement.style.display = "none";
+}
+
+function registrarCategoria(nombre, presupuesto = 0, gasto = 0) {
+
+  informe.agregarOActualizarCategoria(nombre, presupuesto, gasto);
+
+  // Actualiza la vista en la sección de informe
+  actualizarInformePresupuesto();
+}
+
+function actualizarInformePresupuesto() {
+  div_informe_presupuesto.innerHTML = "<ul>";
+  informe.obtenerCategorias().forEach(categoria => {
+    const total = categoria.presupuesto - categoria.gasto;
+      div_informe_presupuesto.innerHTML += `
+          <li>
+              Categoría: ${categoria.nombre}, Presupuesto: ${categoria.presupuesto}, Gasto: ${categoria.gasto}, Total: ${total}
+          </li>`;
+  });
+  div_informe_presupuesto.innerHTML += "</ul>";
 }
