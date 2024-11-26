@@ -382,15 +382,18 @@ function actualizarLista(){
   //lista_gastos.registrarGasto(gastito);
   const gastos = lista_gastos.obtenerGastos();
 
-  div_lista_gastos.innerHTML = "";
+  //div_lista_gastos.innerHTML = "";
+  div_lista_gastos.innerHTML = "<ul>";
   gastos.forEach((gastoRegistrado,index) => {
     div_lista_gastos.innerHTML+= 
       `<li>
         Monto: ${gastoRegistrado.monto}, Fecha: ${gastoRegistrado.fecha}, Nota: ${gastoRegistrado.nota}, Categoria: ${gastoRegistrado.categoria}
         <button class="select-gasto-btn" data-index="${index}">:</button>
+        <button class="eliminar-gasto-btn" data-index="${index}">Eliminar</button>
       </li>`;
       //"<li>"+"Monto: "+ gastoRegistrado.monto+", Fecha: "+gastoRegistrado.fecha+", Nota: "+gastoRegistrado.nota+"</li>";
     });
+    div_lista_gastos.innerHTML += "</ul>";
 
     const selectButtons = div_lista_gastos.querySelectorAll(".select-gasto-btn");
     selectButtons.forEach((button) => {
@@ -398,9 +401,28 @@ function actualizarLista(){
         const index = event.target.dataset.index;
         seleccionarGasto(index);
       });
-    });    
+    });  
+
+    div_lista_gastos.querySelectorAll(".eliminar-gasto-btn").forEach(button => {
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        eliminarGasto(index);
+      });
+    });
+    //  
 }
-//
+
+// Función para eliminar un gasto
+function eliminarGasto(index) {
+  const confirmacion = confirm("¿Estás seguro de que deseas eliminar este gasto?");
+  if (confirmacion) {
+    lista_gastos.eliminarGastos(index);
+    actualizarLista();
+    actualizarSaldo(); // Asegurar que se llama aquí
+    div_gastos.innerHTML = "<p>Gasto eliminado</p>";
+  }
+}
+
 function seleccionarGasto(index) {
   try {
     indiceGastoSeleccionado = index;
@@ -507,6 +529,7 @@ function actualizarLaListaIngresos_ControlFinanciero(ingreso){
 
  function actualizarSaldo(){
   gestion.actualizarSaldo();
+  console.log("Saldo actualizado:", gestion.verTotalSaldo()); 
   div_saldo.innerHTML = "<p>" + gestion.verTotalSaldo() + "</p>";
  }
 

@@ -132,4 +132,34 @@ describe("Lista gastos", () => {
     });
     expect(resultado).toBe("Indice inválido para editar gasto.");
   });
+  it("Debería eliminar un gasto correctamente", () => {
+    const gastito1 = new Gasto();
+    gastito1.agregarMonto(45);
+    gastito1.agregarFecha("2024-10-12");
+    gastito1.agregarNota("compra de libros");
+    gastito1.agregarCategoria("Transporte");
+
+    const gastito2 = new Gasto();
+    gastito2.agregarMonto(90);
+    gastito2.agregarFecha("2024-10-01");
+    gastito2.agregarNota("Social");
+    gastito2.agregarCategoria("regalo");
+
+    const lista = new ListaGastos();
+    lista.registrarGasto(gastito1);
+    lista.registrarGasto(gastito2);
+
+    // Eliminar el primer gasto
+    lista.eliminarGastos(0);
+
+    const resultadoEsperado = [
+      {
+        monto: 90,
+        fecha: "2024-10-01",
+        nota: "Social",
+        categoria: "regalo",
+      },
+    ];
+    expect(lista.obtenerGastos()).toEqual(resultadoEsperado);
+  });
 });
