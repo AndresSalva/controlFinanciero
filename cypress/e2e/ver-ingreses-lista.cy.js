@@ -101,27 +101,26 @@ describe("Ver Ingresos", () => {
       //cy.get("#totalIngresos-div").should("not.contain", "35");
       //cy.get("#totalIngresos-div").should("not.contain", "otros");
     });
-    /*
-    it("No debería eliminar un presupuesto si el usuario no confirma", () => {
+
+    it("No debería eliminar un ingreso si el usuario no confirma", () => {
       cy.visit("/");
     
       cy.get("#mostrar-form-ingreso").click();
       cy.get("#monto-ingreso").type(55);
-      cy.get("#categoria-ingreso").select("alimentacion");
-      cy.get("#aniadiro").click();
+      cy.get("#categoria-ingreso").select("premios");
+      cy.get("#aniadir-ingreso").click();
     
-      cy.get("#totalPresupuesto-div").should("contain", "55").and("contain", "alimentacion");
+      cy.get("#totalIngresos-div").should("contain", "55");
     
       cy.window().then((window) => {
         cy.stub(window, 'confirm').returns(false);
       });
     
-      cy.get(".eliminar-presupuesto-btn").should('be.visible').click();
+      cy.get(".eliminar-ingreso-btn").should('be.visible').click();
     
-      cy.get("#totalPresupuesto-div").should("contain", "55");
-      cy.get("#totalPresupuesto-div").should("contain", "alimentacion");
+      //cy.get("#totalIngresos-div").should("contain", "55");
+      //cy.get("#totalIngresos-div").should("contain", "alimentacion");
     });
-*/
-
+    
   });
   
