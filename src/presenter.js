@@ -19,6 +19,7 @@ const mostrarFormBtn = document.querySelector("#mostrar-form-btn");
 
 let indiceGastoSeleccionado = null;
 
+
 //Presupuesto
 const montoPresupuesto = document.querySelector("#monto-presupuesto");
 const categoria_presupuesto = document.querySelector("#categoria-presupuesto");
@@ -27,7 +28,7 @@ const form_presupuesto = document.querySelector("#presupuesto-form");
 const div_presupuesto = document.querySelector("#presupuesto-div");
 const div_totales_presupuestos = document.querySelector("#totalPresupuesto-div");
 const mostrarFormPresupuesto = document.querySelector("#mostrar-form-presupuesto");
-
+let indicePresupuestoSeleccionado = null;
 
 //Categorias
 const cat_gastos = document.querySelector('#gastos-btn');
@@ -84,6 +85,7 @@ mostrarFormBtn.addEventListener("click", () => {
 
 form_gasto.addEventListener("submit", (event) => {
   event.preventDefault();
+  
 
   const gastito = new Gasto;
   const valor_gasto = Number.parseInt(montoGasto.value);
@@ -109,7 +111,7 @@ form_gasto.addEventListener("submit", (event) => {
     }
     gastito.agregarCategoria(valor_categoria_gasto_personalizado);
   }
-
+  
   if (indiceGastoSeleccionado !== null) {
     const nuevosDatos = {
       monto: valor_gasto,
@@ -155,12 +157,13 @@ form_presupuesto.addEventListener("submit", (event) => {
   const presupuestito = new Presupuesto;
   const valor_presupuesto = Number.parseInt(montoPresupuesto.value);
   const valor_categoria_presupuesto = categoria_presupuesto.value;
-  presupuestito.agregarMonto(valor_presupuesto);
-  presupuestito.agregarCategoria(valor_categoria_presupuesto);
+  
   if (!valor_presupuesto) {
     div_presupuesto.innerHTML = "<p>MONTO VACIO!!!</p>";
     return;
   }
+  presupuestito.agregarMonto(valor_presupuesto);
+  presupuestito.agregarCategoria(valor_categoria_presupuesto);
   if(valor_categoria_presupuesto === "otros"){
     const valor_categoria_presupuesto_personalizado = inputCategoriaPersonalizada.value;
     if (!valor_categoria_presupuesto_personalizado) {
@@ -169,7 +172,19 @@ form_presupuesto.addEventListener("submit", (event) => {
     }
     presupuestito.agregarCategoria(valor_categoria_presupuesto_personalizado);
   }
-  actualizarPresupuestoTotal(presupuestito);
+
+  if (indicePresupuestoSeleccionado !== null) {
+    const nuevosDatos = {
+      monto: presupuestito.monto,
+      categoria: presupuestito.categoria
+    };
+    lista_presupuestos.editarPresupuesto(indicePresupuestoSeleccionado,nuevosDatos);
+    // Resetear el índice seleccionado
+    indicePresupuestoSeleccionado = null;
+  } else {
+    actualizarPresupuestoTotal(presupuestito);
+  }
+  actualizarListaPresupuestos();
   div_presupuesto.innerHTML = "<p>" + presupuestito.mostrarMonto() + "</p>" + presupuestito.mostrarCategoria() + "</p>";
   form_presupuesto.style.display = "none";
   limpiarCampos([montoPresupuesto, categoria_presupuesto, inputCategoriaPersonalizada]);
@@ -227,7 +242,6 @@ function seleccionarPresupuesto(index) {
   try {
     indicePresupuestoSeleccionado = index;
     const presupuestoSeleccionado = lista_presupuestos.seleccionarPresupuesto(indicePresupuestoSeleccionado);
-
     // Mostrar los detalles del gasto en el formulario (puedes personalizar esto)
     montoPresupuesto.value = presupuestoSeleccionado.monto;
     let esCategoria;

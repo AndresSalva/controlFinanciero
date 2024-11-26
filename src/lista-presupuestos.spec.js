@@ -101,4 +101,50 @@ describe("Lista presupuestos", () => {
     const resultado = lista.seleccionarPresupuesto(-1); 
     expect(resultado).toBe("El presupuesto no se pudo editar, intentelo de nuevo");
   });
+  it("Deberia modificarse el presupuesto seleccionado con nuevos datos", () => {
+    const lista = new ListaPresupuestos();
+    const presupuesto1 = new Presupuesto();
+    presupuesto1.agregarMonto(100);
+    presupuesto1.agregarCategoria("alimentacion");
+    const presupuesto2 = new Presupuesto();
+    presupuesto2.agregarMonto(40);
+    presupuesto2.agregarCategoria("social");
+
+    lista.registrarPresupuesto(presupuesto1);
+    lista.registrarPresupuesto(presupuesto2);
+
+    const nuevosDatos = {
+      monto: 300,
+      categoria: "Almohadas",
+    };
+    
+    lista.editarPresupuesto(1,nuevosDatos);
+
+    const resultado = lista.seleccionarPresupuesto(1); 
+    expect(resultado).toEqual({
+      monto: 300,
+      categoria: "Almohadas"
+    });
+  });
+  it("Indice invalido para editar", () => {
+    const lista = new ListaPresupuestos();
+    const presupuesto1 = new Presupuesto();
+    presupuesto1.agregarMonto(100);
+    presupuesto1.agregarCategoria("alimentacion");
+    const presupuesto2 = new Presupuesto();
+    presupuesto2.agregarMonto(40);
+    presupuesto2.agregarCategoria("social");
+
+    lista.registrarPresupuesto(presupuesto1);
+    lista.registrarPresupuesto(presupuesto2);
+
+    const nuevosDatos = {
+      monto: 300,
+      categoria: "Almohadas",
+    };
+    
+    lista.editarPresupuesto(10,nuevosDatos);
+    expect(lista.editarPresupuesto(10,nuevosDatos)).toEqual("Indice inválido para editar presupuesto.");
+    
+  });
 });
