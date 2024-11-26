@@ -366,7 +366,7 @@ function actualizarListaIngreso(ingreso){
   lista_ingresos.registrarIngreso(ingreso);
   const ingresos = lista_ingresos.obtenerIngreso();
 
-  div_lista_ingresos.innerHTML = "<ul>";  
+  div_total_ingresos.innerHTML = "<ul>";  
   ingresos.forEach((ingresoRegistrado,index) => {
     div_lista_ingresos.innerHTML+= 
        `<li>
@@ -374,10 +374,10 @@ function actualizarListaIngreso(ingreso){
         <button class="eliminar-ingreso-btn" data-index="${index}">Eliminar</button>
       </li>`;
     });
-    div_lista_ingresos.innerHTML+= "</ul>";
+    div_total_ingresos.innerHTML+= "</ul>";
 
     
-    const selectButtons = div_lista_ingresos.querySelectorAll(".eliminae-ingreso-btn");
+    const selectButtons = div_total_ingresos.querySelectorAll(".eliminae-ingreso-btn");
     selectButtons.forEach((button) => {
       button.addEventListener("click", (event) => {
         const index = event.target.dataset.index;
