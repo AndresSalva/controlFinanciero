@@ -271,6 +271,25 @@ describe("Gastos, Ingresos - Control", () => {
       cy.get("#presupuesto-div").should("contain", "1000")
         .and("contain", "Libros");
     });
+    it("Selecciona un gasto con una categoria personalizada y actualiza el formulario para editar", ()=>{
+      cy.visit("/");
 
+      cy.get("#mostrar-form-btn").click();
+      cy.get("#monto-gasto").type(1000);
+      cy.get("#categoria-gasto").select("otros");
+      cy.get("#categoria-gastos").type("Libros");
+      cy.get("#aniadir-gasto").click();
+      cy.get("#mostrar-form-btn").click();
+      cy.get("#monto-gasto").type(300);
+      cy.get("#categoria-gasto").select("alimentacion");
+      cy.get("#aniadir-gasto").click();
+      cy.get("#lista-gastos-div button.select-gasto-btn[data-index='0']").click();
+      //cy.get("#totalPresupuesto-div button[data-index='0'].editar-presupuesto-btn").click();
+      cy.get("#monto-gasto").should("have.value",1000);
+      cy.get("#categoria-gasto").should("have.value","otros");
+      cy.get("#categoria-gastos").should("have.value","Libros");
+      cy.get("#gastos-div").should("contain", "1000")
+        .and("contain", "Libros");
+    });
   });
   
