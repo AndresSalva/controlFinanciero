@@ -432,7 +432,17 @@ function seleccionarGasto(index) {
     montoGasto.value = gastoSeleccionado.monto;
     fechaGasto.value = gastoSeleccionado.fecha;
     notaGasto.value = gastoSeleccionado.nota;
-    categoria_gasto.value = gastoSeleccionado.categoria;
+    let esCategoria;
+    for (let option of categoria_gasto.options) {
+      if (option.value === gastoSeleccionado.categoria) {
+        categoria_presupuesto.value = gastoSeleccionado.categoria;
+        esCategoria = true;
+      }
+    }
+    if(!esCategoria){
+      categoria_gasto.value = "otros";
+      inputCategoriaPersonal.value = gastoSeleccionado.categoria;
+    }
 
     // Enfocar el formulario para edición
     form_gasto.style.display = "block";
